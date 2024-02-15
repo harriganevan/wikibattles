@@ -4,7 +4,10 @@ const { Server } = require('socket.io');
 const cors = require('cors');
 
 const app = express();
+app.use(cors());
+
 const server = createServer(app);
+
 const io = new Server(server, {
     cors: {
         origin: 'http://localhost:5173',
@@ -12,11 +15,12 @@ const io = new Server(server, {
     }
 });
 
-app.use(cors());
-
 io.on('connection', (socket) => {
     console.log('a user connected: ', socket.id);
-    
+    socket.on('click', (data) => {
+        console.log(data);
+        io.emit('receive_data', data);
+    });
 });
 
 server.listen(3000, () => {

@@ -1,16 +1,27 @@
-import { useState } from 'react'
+import { useState } from 'react';
+import { useEffect } from 'react';
 import io from 'socket.io-client';
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import reactLogo from './assets/react.svg';
+import viteLogo from '/vite.svg';
+import './App.css';
 
+//maybe can remove connect - io('http://localhost:3000')
 const socket = io.connect('http://localhost:3000');
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [count, setCount] = useState(0);
+
+  useEffect(() => {
+    socket.on('receive_data', (data) => {
+      setCount(data.count);
+      console.log(data)
+    })
+  }, [socket]);
 
   const sendmessage = () => {
-    // socket.emit()
+    socket.emit('click', {
+      count: count+1
+    });
   }
 
   return (
@@ -25,7 +36,7 @@ function App() {
       </div>
       <h1>Vite + React</h1>
       <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
+        <button onClick={() => sendmessage()}>
           count is {count}
         </button>
         <p>
