@@ -1,51 +1,48 @@
 import { useState } from 'react';
 import { useEffect } from 'react';
 import io from 'socket.io-client';
-import reactLogo from './assets/react.svg';
-import viteLogo from '/vite.svg';
 import './App.css';
 
 //maybe can remove connect - io('http://localhost:3000')
 const socket = io.connect('http://localhost:3000');
 
 function App() {
-  const [count, setCount] = useState(0);
+
+  const [links, setLinks] = useState([]);
+
+  const getLinks = async () => {
+    const response = await fetch('http://localhost:3000/links');
+    const newLinks = await response.json();
+    setLinks(newLinks.links);
+    console.log(links)
+  }
 
   useEffect(() => {
-    socket.on('receive_data', (data) => {
-      setCount(data.count);
-      console.log(data)
+
+    getLinks();
+
+    socket.on('receive_titles', (links) => {
+      setLinks(links);
     })
+
   }, [socket]);
 
-  const sendmessage = () => {
-    socket.emit('click', {
-      count: count+1
+  const getNewLinks = async (link) => {
+    const response = await fetch(`http://localhost:3000/links/${link.replaceAll('/', '%2F')}`, {
+      method: 'POST',
     });
+    const newLinks = await response.json();
+    console.log(newLinks)
   }
 
   return (
     <>
+      <h1>WikiBattles</h1>
       <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+        {links.map(link =>
+          <button onClick={() => getNewLinks(link[0])}>{link[1]}</button>
+        )}
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => sendmessage()}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
     </>
   )
 }
