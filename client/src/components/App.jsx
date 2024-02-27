@@ -1,6 +1,6 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
-import Battle from './pages/Battle';
-import Home from './pages/Home';
+import Battle from '../pages/Battle';
+import Home from '../pages/Home';
 
 import './App.css';
 

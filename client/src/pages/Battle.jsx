@@ -12,8 +12,6 @@ const socket = io('http://localhost:3000', {
 function Battle() {
 
     let { gameId } = useParams();
-    //add to return:
-    //if gameId
 
     const [links, setLinks] = useState([]);
     const [search, setSearch] = useState('');
@@ -66,6 +64,9 @@ function Battle() {
 
     return (
         <>
+            {/* <div className='battle-home-container'>
+                render different divs here depending on buttons clicks
+            </div> */}
             <p>{gameId}</p>
             <Link to="/">
                 <h1>WikiBattles</h1>
