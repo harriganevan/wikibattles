@@ -7,4 +7,4 @@ function BattleHome({ setPageState }) {
     )
 }
 
-export default BattleHome;
+export default BattleHome

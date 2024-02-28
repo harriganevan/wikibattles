@@ -67,7 +67,9 @@ io.on('connection', (socket) => {
     socket.on('disconnect', () => {
         console.log('user disconnected');
     });
-    //join room
+    socket.on('challenge-friend-by-link', (data) => {
+        console.log(data.username);
+    })
 });
 
 server.listen(3000, () => {
