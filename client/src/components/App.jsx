@@ -14,7 +14,7 @@ function App() {
 					element={<Home />}
 				/>
 				<Route
-					path='/battle/:gameId?'
+					path='/battle/:gameIdFromLink?'
 					element={<Battle />}
 				/>
 			</Routes>

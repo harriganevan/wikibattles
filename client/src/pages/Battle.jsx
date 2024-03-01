@@ -10,14 +10,16 @@ import socket from '../socket';
 
 function Battle() {
 
-    let { gameId } = useParams();
+    let { gameIdFromLink } = useParams();
 
     const [pageState, setPageState] = useState('home');
 
     useEffect(() => {
 
         //generate random playerID
-        if(gameId){
+        console.log(gameIdFromLink)
+
+        if(gameIdFromLink){
             setPageState('searching');
         }
 
@@ -30,7 +32,7 @@ function Battle() {
             <div className='battle-container'>
                 {pageState === 'home' && <BattleHome setPageState={setPageState} />}
                 {pageState === 'settings' && <ChallengeSettings setPageState={setPageState} />}
-                {pageState === 'searching' && <Searching setPageState={setPageState} />}
+                {pageState === 'searching' && <Searching setPageState={setPageState} gameIdFromLink={gameIdFromLink} />}
                 {pageState === 'board' && <Board setPageState={setPageState} />}
             </div>
         </>
