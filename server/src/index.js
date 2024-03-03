@@ -13,8 +13,12 @@ app.use(cors());
 
 const server = createServer(app);
 
-//holds players waiting for friend
-const waiting = new Map();
+//make a map of rooms to links (any info i dont want on client??? )
+//maybe do the waiting room thing so i can share info between players
+//gameId maps to player with username, challengeParams
+//it needs to store it somewhere
+
+const searching = new Map();
 
 let linksSet = new Set();
 let links = [];
@@ -68,39 +72,42 @@ io.on('connection', (socket) => {
     socket.on('disconnect', () => {
         console.log('user disconnected');
     });
-    // socket.on('challenge-friend-by-link', (data) => {
-    //     console.log(data.username);
-    //     //enter list of waiting players along with gameId
-    //     // maybe a map that maps gameId to starting players data
-    // });
-    // socket.on('accept-challenge-by-link', (data) => {
-    //     //look for gameId in waiting list (map)
-    //     //if its there - emit initiate-game to both players
-    //     //otherwise - error
-    // });
+    socket.on('challenge-friend-by-link', (data) => {
+        data.socketId = socket.id
+        searching.set(data.gameId, data);
+        console.log(searching);
+    })
     socket.on('join-game-room', (data) => {
-        //add check to here to make sure room isnt greater than 1
         socket.join(data.gameId);
-        //check the length of the room.
         console.log(rooms);
-
     });
-    socket.on('join-game-room-from-link', (data) => {
-        //check if room still exists
-        socket.join(data.gameId);
-        console.log(rooms);
-        io.to(data.gameId).emit('initiate-game', { 
-            startingPage: 'starting page',
-            connectedPages: [],
-            gameId: data.gameId,
-            playerTurn: 1,
-            secondsPerTurn: 20
-         });
-        //if someone else tries to join it shouldnt let them
-        //if length == two - broadcast inititate game to room
+    socket.on('accept-challenge-by-link', (data) => {
+        if(searching.has(data.gameId)){
+            io.to(socket.id).to(searching.get(data.gameId).socketId).emit('initiate-game', { 
+                startingPage: '77th British Academy Film Awards',
+                connectedPages: [],
+                gameId: data.gameId,
+                gameTurn: 1,
+                playerTurn: 1,
+                playersData: {
+                    [data.username]: {
+                        playerNumber: 1
+                    },
+                    [searching.get(data.gameId).username]: {
+                        playerNumber: 2
+                    }
+                },
+                secondsPerTurn: 20
+            });
+            searching.delete(data.gameId);
+            console.log(searching)
+        }
+        else {
+            io.to(socket.id).emit('game-not-found');
+        }
     });
     socket.on('leave-game-room', (data) => {
-        socket.leave(data.gameId);
+        searching.delete(data.gameId);
     })
 });
 

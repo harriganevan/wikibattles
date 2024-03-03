@@ -33,7 +33,7 @@ function Battle() {
                 {pageState === 'home' && <BattleHome setPageState={setPageState} />}
                 {pageState === 'settings' && <ChallengeSettings setPageState={setPageState} />}
                 {pageState === 'searching' && <Searching setPageState={setPageState} gameIdFromLink={gameIdFromLink} />}
-                {pageState === 'board' && <Board setPageState={setPageState} />}
+                {/* {pageState === 'board' && <Board setPageState={setPageState} />} */}
             </div>
         </>
     )

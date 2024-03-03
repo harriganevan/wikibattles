@@ -3,7 +3,9 @@ import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import socket from '../socket';
 
-function Board() {
+function Board({ gameStartState }) {
+
+    const [gameState, setGameState] = useState(gameStartState);
 
     const [links, setLinks] = useState([]);
     const [search, setSearch] = useState('');
@@ -19,6 +21,8 @@ function Board() {
     }
 
     useEffect(() => {
+
+        //start turn stuff
 
         socket.on('receive_titles', (data) => {
             setLinks(data.links);
