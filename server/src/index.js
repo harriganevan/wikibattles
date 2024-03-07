@@ -4,6 +4,7 @@ const { Server } = require('socket.io');
 const cors = require('cors');
 const { getLinksFromPage } = require('./getLinksFromPage.js');
 const { router } = require('./routes.js');
+const { encode } = require('node:punycode');
 
 const app = express();
 app.use(cors());
@@ -18,13 +19,16 @@ const server = createServer(app);
 //gameId maps to player with username, challengeParams
 //it needs to store it somewhere
 
-const searching = new Map();
+const games = new Map();
+//make this into game - it keeps game data that will remain on server
+//users - current title/links
+//gameid, {users: [{username, socketid}, {username2, socketid}], currentTitle: "title", linkSet: Set()}
 
 let linksSet = new Set();
 let links = [];
-let currentTitle = '77th British Academy Film Awards';
+let currentTitle = encodeURI('77th British Academy Film Awards');
 
-getLinksFromPage('77th_British_Academy_Film_Awards').then((newLinks) => {
+getLinksFromPage(currentTitle).then((newLinks) => {
     links = newLinks;
     linksSet = new Set(links);
 });
@@ -42,11 +46,10 @@ app.get('/links', (req, res) => {
     res.send({ currentTitle, links });
 });
 
-//maybe include lobby in this
 app.post('/guess/:guess', async (req, res) => {
     const { guess } = req.params;
     if (linksSet.has(encodeURI(guess))) {
-        currentTitle = guess;
+        currentTitle = encodeURI(guess);
         links = await getLinksFromPage(guess);
         linksSet = new Set(links);
         io.emit('receive_titles', { currentTitle, links });
@@ -68,47 +71,97 @@ const io = new Server(server, {
 const rooms = io.of("/").adapter.rooms;
 
 io.on('connection', (socket) => {
+    //connection events
     console.log('a user connected: ', socket.id);
     socket.on('disconnect', () => {
         console.log('user disconnected');
     });
-    socket.on('challenge-friend-by-link', (data) => {
-        data.socketId = socket.id
-        searching.set(data.gameId, data);
-        console.log(searching);
-    })
+    socket.on('challenge-friend-by-link', async (data) => {
+        //get data for linkSet
+        links = await getLinksFromPage(encodeURI('77th British Academy Film Awards'));
+        linksSet = new Set(links);
+        games.set(data.gameId, {
+            users: [{ username: data.username, socketId: socket.id }],
+            currentTitle: "77th British Academy Film Awards",
+            linksSet,
+        });
+        console.log(games);
+    });
     socket.on('join-game-room', (data) => {
         socket.join(data.gameId);
         console.log(rooms);
     });
     socket.on('accept-challenge-by-link', (data) => {
-        if(searching.has(data.gameId)){
-            io.to(socket.id).to(searching.get(data.gameId).socketId).emit('initiate-game', { 
-                startingPage: '77th British Academy Film Awards',
+        if (games.has(data.gameId) && games.get(data.gameId).users.length == 1) {
+            games.get(data.gameId).users.push({ username: data.username, socketId: socket.id });
+            io.to(games.get(data.gameId).users[0].socketId).to(games.get(data.gameId).users[1].socketId).emit('initiate-game', {
+                currentPage: encodeURI('77th British Academy Film Awards'),
                 connectedPages: [],
                 gameId: data.gameId,
                 gameTurn: 1,
                 playerTurn: 1,
                 playersData: {
-                    [data.username]: {
+                    [games.get(data.gameId).users[0].username]: {
                         playerNumber: 1
                     },
-                    [searching.get(data.gameId).username]: {
+                    [games.get(data.gameId).users[1].username]: {
                         playerNumber: 2
                     }
                 },
                 secondsPerTurn: 20
             });
-            searching.delete(data.gameId);
-            console.log(searching)
         }
         else {
             io.to(socket.id).emit('game-not-found');
         }
+        console.log(games);
     });
     socket.on('leave-game-room', (data) => {
-        searching.delete(data.gameId);
-    })
+        games.delete(data.gameId);
+    });
+
+    //game events
+    socket.on('submit-page', async (data) => {
+        console.log(data);
+        const gameState = data.gameState;
+        if (games.get(data.gameState.gameId).linksSet.has(data.guess) && !gameState.connectedPages.includes(data.guess)) {
+
+            gameState.connectedPages.push(gameState.currentPage);
+            gameState.currentPage = data.guess;
+            gameState.gameTurn += 1;
+            gameState.playerTurn == 1 ? gameState.playerTurn = 2 : gameState.playerTurn = 1;
+
+            io.to(data.gameState.gameId).emit('update-game', { gameState });
+
+            //update server game state with new linksSet
+            const links = await getLinksFromPage(data.guess);
+            const linksSet = new Set(links);
+
+            games.get(data.gameState.gameId).currentTitle = data.guess;
+            games.get(data.gameState.gameId).linksSet = linksSet;
+
+            console.log(games);
+        } else {
+            io.to(socket.id).emit('wrong');
+        }
+
+
+
+        /////////////////////////////////////////////////////
+        // const { guess } = req.params;
+        // if (linksSet.has(encodeURI(guess))) {
+        //     currentTitle = guess;
+        //     links = await getLinksFromPage(guess);
+        //     linksSet = new Set(links);
+        //     io.emit('receive_titles', { currentTitle, links });
+        //     res.send({ correct: true });
+        // }
+        // else {
+        //     res.send({ correct: false });
+        // }
+
+    });
+
 });
 
 server.listen(3000, () => {

@@ -53,7 +53,7 @@ function Searching({ setPageState, gameIdFromLink }) {
 
     return (
         <>
-            {gameState ? <Board gameStartState={gameState} /> : (
+            {gameState ? <Board gameStartState={gameState} username={username} /> : (
                 <>
                     <p>searching...</p>
                     <p>copy invite link http://localhost:5173/battle/{gameId}</p>
