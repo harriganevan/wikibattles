@@ -33,32 +33,32 @@ getLinksFromPage(currentTitle).then((newLinks) => {
     linksSet = new Set(links);
 });
 
-//endpoints
-app.post('/links/:title', async (req, res) => {
-    const { title } = req.params;
-    currentTitle = title;
-    links = await getLinksFromPage(title);
-    io.emit('receive_titles', { title, links });
-    res.sendStatus(200);
-});
+//endpoints - not used rn
+// app.post('/links/:title', async (req, res) => {
+//     const { title } = req.params;
+//     currentTitle = title;
+//     links = await getLinksFromPage(title);
+//     io.emit('receive_titles', { title, links });
+//     res.sendStatus(200);
+// });
 
-app.get('/links', (req, res) => {
-    res.send({ currentTitle, links });
-});
+// app.get('/links', (req, res) => {
+//     res.send({ currentTitle, links });
+// });
 
-app.post('/guess/:guess', async (req, res) => {
-    const { guess } = req.params;
-    if (linksSet.has(encodeURI(guess))) {
-        currentTitle = encodeURI(guess);
-        links = await getLinksFromPage(guess);
-        linksSet = new Set(links);
-        io.emit('receive_titles', { currentTitle, links });
-        res.send({ correct: true });
-    }
-    else {
-        res.send({ correct: false });
-    }
-});
+// app.post('/guess/:guess', async (req, res) => {
+//     const { guess } = req.params;
+//     if (linksSet.has(encodeURI(guess))) {
+//         currentTitle = encodeURI(guess);
+//         links = await getLinksFromPage(guess);
+//         linksSet = new Set(links);
+//         io.emit('receive_titles', { currentTitle, links });
+//         res.send({ correct: true });
+//     }
+//     else {
+//         res.send({ correct: false });
+//     }
+// });
 
 //socketio server mounted on nodejs HTTP server
 const io = new Server(server, {
