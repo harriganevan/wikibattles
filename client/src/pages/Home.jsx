@@ -7,7 +7,7 @@ function Home() {
             <Link to="/battle">
                 Battle
             </Link>
-            <br />
+            <br /><br />
             <Link to="/daily">
                 Daily Puzzle
             </Link>

@@ -3,62 +3,11 @@ const { createServer } = require('node:http');
 const { Server } = require('socket.io');
 const cors = require('cors');
 const { getLinksFromPage } = require('./getLinksFromPage.js');
-const { router } = require('./routes.js');
-const { encode } = require('node:punycode');
 
 const app = express();
 app.use(cors());
 
-//need links in router for this
-// app.use('/', router);
-
 const server = createServer(app);
-
-//make a map of rooms to links (any info i dont want on client??? )
-//maybe do the waiting room thing so i can share info between players
-//gameId maps to player with username, challengeParams
-//it needs to store it somewhere
-
-const games = new Map();
-//make this into game - it keeps game data that will remain on server
-//users - current title/links
-//gameid, {users: [{username, socketid}, {username2, socketid}], currentTitle: "title", linkSet: Set()}
-
-let linksSet = new Set();
-let links = [];
-let currentTitle = encodeURI('77th British Academy Film Awards');
-
-getLinksFromPage(currentTitle).then((newLinks) => {
-    links = newLinks;
-    linksSet = new Set(links);
-});
-
-//endpoints - not used rn
-// app.post('/links/:title', async (req, res) => {
-//     const { title } = req.params;
-//     currentTitle = title;
-//     links = await getLinksFromPage(title);
-//     io.emit('receive_titles', { title, links });
-//     res.sendStatus(200);
-// });
-
-// app.get('/links', (req, res) => {
-//     res.send({ currentTitle, links });
-// });
-
-// app.post('/guess/:guess', async (req, res) => {
-//     const { guess } = req.params;
-//     if (linksSet.has(encodeURI(guess))) {
-//         currentTitle = encodeURI(guess);
-//         links = await getLinksFromPage(guess);
-//         linksSet = new Set(links);
-//         io.emit('receive_titles', { currentTitle, links });
-//         res.send({ correct: true });
-//     }
-//     else {
-//         res.send({ correct: false });
-//     }
-// });
 
 //socketio server mounted on nodejs HTTP server
 const io = new Server(server, {
@@ -68,34 +17,35 @@ const io = new Server(server, {
     }
 });
 
+//games holds a game state meant for the backend
+//{gameId: {users, currentPage, timePerTurn, linksSet}}
+const games = new Map();
+
 const rooms = io.of("/").adapter.rooms;
 
 io.on('connection', (socket) => {
-    //connection events
     console.log('a user connected: ', socket.id);
     socket.on('disconnect', () => {
         console.log('user disconnected');
     });
+
+    //lobby events
     socket.on('challenge-friend-by-link', async (data) => {
-        //get data for linkSet
-        links = await getLinksFromPage(encodeURI('77th British Academy Film Awards'));
+        links = await getLinksFromPage(encodeURI(data.settings.startingPage));
         linksSet = new Set(links);
         games.set(data.gameId, {
             users: [{ username: data.username, socketId: socket.id }],
-            currentTitle: "77th British Academy Film Awards",
+            currentPage: data.settings.startingPage,
+            time: data.settings.time,
             linksSet,
         });
         console.log(games);
-    });
-    socket.on('join-game-room', (data) => {
-        socket.join(data.gameId);
-        console.log(rooms);
     });
     socket.on('accept-challenge-by-link', (data) => {
         if (games.has(data.gameId) && games.get(data.gameId).users.length == 1) {
             games.get(data.gameId).users.push({ username: data.username, socketId: socket.id });
             io.to(games.get(data.gameId).users[0].socketId).to(games.get(data.gameId).users[1].socketId).emit('initiate-game', {
-                currentPage: encodeURI('77th British Academy Film Awards'),
+                currentPage: games.get(data.gameId).currentPage,
                 connectedPages: [],
                 gameId: data.gameId,
                 gameTurn: 1,
@@ -108,13 +58,19 @@ io.on('connection', (socket) => {
                         playerNumber: 2
                     }
                 },
-                secondsPerTurn: 20
+                secondsPerTurn: games.get(data.gameId).time
             });
         }
         else {
             io.to(socket.id).emit('game-not-found');
         }
         console.log(games);
+    });
+
+    //join / leave room events
+    socket.on('join-game-room', (data) => {
+        socket.join(data.gameId);
+        console.log(rooms);
     });
     socket.on('leave-game-room', (data) => {
         games.delete(data.gameId);
@@ -137,31 +93,14 @@ io.on('connection', (socket) => {
             const links = await getLinksFromPage(data.guess);
             const linksSet = new Set(links);
 
-            games.get(data.gameState.gameId).currentTitle = data.guess;
+            games.get(data.gameState.gameId).currentPage = data.guess;
             games.get(data.gameState.gameId).linksSet = linksSet;
 
             console.log(games);
         } else {
             io.to(socket.id).emit('wrong');
         }
-
-
-
-        /////////////////////////////////////////////////////
-        // const { guess } = req.params;
-        // if (linksSet.has(encodeURI(guess))) {
-        //     currentTitle = guess;
-        //     links = await getLinksFromPage(guess);
-        //     linksSet = new Set(links);
-        //     io.emit('receive_titles', { currentTitle, links });
-        //     res.send({ correct: true });
-        // }
-        // else {
-        //     res.send({ correct: false });
-        // }
-
     });
-
 });
 
 server.listen(3000, () => {

@@ -2,13 +2,15 @@ import { useEffect, useState } from 'react';
 import Board from './Board';
 import socket from '../socket';
 
-function Searching({ setPageState, gameIdFromLink }) {
+function Searching({ setPageState, gameIdFromLink, settings }) {
 
     const [gameId, setGameId] = useState(Math.floor(Math.random() * 999999).toString()); //need to check if gameId is in use?
     const [username, setUsername] = useState('player' + Math.floor(Math.random() * 999999).toString());
     const [gameState, setGameState] = useState(null);
 
     useEffect(() => {
+
+        console.log(settings);
 
         function onInitiateGame(data) {
             socket.emit('join-game-room', { gameId: data.gameId })
@@ -31,7 +33,7 @@ function Searching({ setPageState, gameIdFromLink }) {
             setGameId(gameIdFromLink);
             socket.emit('accept-challenge-by-link', { username, gameId: gameIdFromLink });
         } else {
-            socket.emit('challenge-friend-by-link', { username, gameId });
+            socket.emit('challenge-friend-by-link', { username, gameId, settings });
         }
 
         socket.on('initiate-game', onInitiateGame);

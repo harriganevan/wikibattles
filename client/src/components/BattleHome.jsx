@@ -1,4 +1,5 @@
 function BattleHome({ setPageState }) {
+    
     return (
         <>
             <button>FIND GAME</button>

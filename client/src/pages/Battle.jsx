@@ -13,11 +13,9 @@ function Battle() {
     let { gameIdFromLink } = useParams();
 
     const [pageState, setPageState] = useState('home');
+    const [settings, setSettings] = useState({});
 
     useEffect(() => {
-
-        //generate random playerID
-        console.log(gameIdFromLink)
 
         if(gameIdFromLink){
             setPageState('searching');
@@ -31,9 +29,8 @@ function Battle() {
         <>
             <div className='battle-container'>
                 {pageState === 'home' && <BattleHome setPageState={setPageState} />}
-                {pageState === 'settings' && <ChallengeSettings setPageState={setPageState} />}
-                {pageState === 'searching' && <Searching setPageState={setPageState} gameIdFromLink={gameIdFromLink} />}
-                {/* {pageState === 'board' && <Board setPageState={setPageState} />} */}
+                {pageState === 'settings' && <ChallengeSettings setPageState={setPageState} setSettings={setSettings} />}
+                {pageState === 'searching' && <Searching setPageState={setPageState} gameIdFromLink={gameIdFromLink} settings={settings} />}
             </div>
         </>
     )
