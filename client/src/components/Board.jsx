@@ -65,6 +65,7 @@ function Board({ gameStartState, username }) {
                 <h1>WikiBattles</h1>
             </Link>
             <h2>current page: {decodeURI(currentPage)}</h2>
+            
             {gameState.playerTurn == gameState.playersData[playerName].playerNumber ? (
                 <>
                     <input onChange={handleChange} value={search} />

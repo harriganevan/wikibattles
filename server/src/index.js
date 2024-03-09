@@ -38,6 +38,7 @@ io.on('connection', (socket) => {
             currentPage: data.settings.startingPage,
             time: data.settings.time,
             linksSet,
+            timerId: null,
         });
         console.log(games);
     });
@@ -81,6 +82,13 @@ io.on('connection', (socket) => {
         console.log(data);
         const gameState = data.gameState;
         if (games.get(data.gameState.gameId).linksSet.has(data.guess) && !gameState.connectedPages.includes(data.guess)) {
+
+            //can we store timerId in backend gameState?
+
+            //clear timer
+            clearTimeout(games.get(data.gameState.gameId).timerId);
+            //set timer with gameId
+            games.get(data.gameState.gameId).timerId = setTimeout(() => io.to(data.gameState.gameId).emit('game-over'), 10000);
 
             gameState.connectedPages.push(gameState.currentPage);
             gameState.currentPage = data.guess;

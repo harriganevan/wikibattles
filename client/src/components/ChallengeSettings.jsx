@@ -1,4 +1,5 @@
 import { useState } from "react"
+import defaultPhoto from '../assets/default.svg'
 
 function ChallengeSettings({ setPageState, setSettings }) {
 
@@ -48,6 +49,7 @@ function ChallengeSettings({ setPageState, setSettings }) {
             <br /><br />
 
             {searchResults.length !== 0 ? (
+
                 <div className="search-menu">
                     <ul role="listbox" className="search-result-container">
                         {searchResults.map(result =>
@@ -56,7 +58,9 @@ function ChallengeSettings({ setPageState, setSettings }) {
                                     {result.thumbnail !== null ?
                                         <span className="search-result-img" style={{ backgroundImage: 'url(' + result.thumbnail.url + ')' }} />
                                         :
-                                        <span className="search-result-img" style={{ backgroundImage: 'url(' + './default.PNG' + ')' }} />
+                                        <span className="search-result-img-placeholder">
+                                            <span className="search-result-img-default" style={{ backgroundImage: 'url(' + defaultPhoto + ')' }} />
+                                        </span>
                                     }
                                     <span className="search-result-text">
                                         <span className="search-result-title">{result.title}</span>

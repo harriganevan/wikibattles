@@ -57,7 +57,7 @@ function Searching({ setPageState, gameIdFromLink, settings }) {
         <>
             {gameState ? <Board gameStartState={gameState} username={username} /> : (
                 <>
-                    <p>searching...</p>
+                    <p>waiting...</p>
                     <p>copy invite link http://localhost:5173/battle/{gameId}</p>
                     <button onClick={handleClickBack}>back</button>
                 </>
