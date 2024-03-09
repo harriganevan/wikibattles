@@ -5,34 +5,6 @@
   text-align: center;
 }
 
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
-}
-
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  }
-}
-
 .card {
   padding: 2em;
 }
@@ -43,4 +15,84 @@
 
 .buttons {
   margin-top: 100px
+}
+
+ul {
+  padding-inline-start: 0;
+  margin-block-start: 0;
+  margin-block-end: 0;
+}
+
+.search-menu {
+  text-align: left;
+  background-color: #fff;
+  display: flex;
+  flex-direction: column;
+  left: 0;
+  z-index: 50;
+  box-sizing: border-box;
+  border: 1px solid #a2a9b1;
+  border-radius: 2px;
+  box-shadow: 0 2px 2px rgba(0, 0, 0, .2);
+}
+
+.search-result-contianer {
+  margin: 0;
+  padding: 0;
+  overflow-y: auto;
+}
+
+.search-result-item {
+  cursor: pointer;
+  list-style: none;
+  position: relative;
+  padding: 8px 12px;
+  line-height: 1.6;
+  transition-property: background-color, color, border-color, box-shadow;
+  transition-duration: .1s;
+}
+
+.search-result-item:hover {
+  background-color: rgb(219, 219, 219);
+}
+
+.search-result-content {
+  display: flex;
+  align-items: center;
+  line-height: 1.4285714;
+  word-wrap: break-word;
+  hyphens: auto;
+}
+
+.search-result-img {
+  display: inline-flex;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  flex-shrink: 0;
+  box-sizing: border-box;
+  min-width: 40px;
+  min-height: 40px;
+  width: 2.8571429em;
+  height: 2.8571429em;
+  border: 1px solid #c8ccd1;
+  border-radius: 2px;
+}
+
+.search-result-text {
+  max-width: 500px;
+  padding-left: 1rem;
+}
+
+.search-result-title {
+  display: inline-block;
+  max-width: 100%;
+  font-weight: 700;
+}
+
+.search-result-description {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  display: block;
 }

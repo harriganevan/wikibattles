@@ -36,9 +36,9 @@ function Board({ gameStartState, username }) {
 
     }, []);
 
-    const makeGuess = async (link) => {
+    const makeGuess = async (title) => {
         socket.emit('submit-page', {
-            guess: encodeURI(link),
+            guess: encodeURI(title),
             gameState,
             username,
         })
@@ -64,18 +64,40 @@ function Board({ gameStartState, username }) {
             <Link to="/">
                 <h1>WikiBattles</h1>
             </Link>
-            <p>current turn: {gameState.playerTurn}</p>
-            <p>you are: {gameState.playersData[playerName].playerNumber}</p>
             <h2>current page: {decodeURI(currentPage)}</h2>
             {gameState.playerTurn == gameState.playersData[playerName].playerNumber ? (
                 <>
                     <input onChange={handleChange} value={search} />
-                    <div>
-                        {searchResults.map(result =>
-                            <button onClick={() => makeGuess(result.title)} key={result.key}>{result.title}</button>
-                        )}
-                    </div>
-                </> ) : <p>not your turn</p>}
+
+                    {searchResults.length !== 0 ? (
+                        <div className="search-menu">
+                            <ul role="listbox" className="search-result-container">
+                                {searchResults.map(result =>
+                                    <li role="option" className="search-result-item" onClick={() => makeGuess(result.title)} key={result.key}>
+                                        <div className="search-result-content">
+                                            {result.thumbnail !== null ?
+                                                <span className="search-result-img" style={{ backgroundImage: 'url(' + result.thumbnail.url + ')' }} />
+                                                :
+                                                <span className="search-result-img" style={{ backgroundImage: 'url(' + './default.PNG' + ')' }} />
+                                            }
+                                            <span className="search-result-text">
+                                                <span className="search-result-title">{result.title}</span>
+                                                {result.description !== null ?
+                                                    <span className="search-result-description">{result.description}</span>
+                                                    : null}
+                                            </span>
+                                        </div>
+                                    </li>
+                                )}
+                            </ul>
+                        </div>
+                    )
+                        :
+                        null}
+                </>
+            )
+                :
+                <p>not your turn</p>}
         </>
     )
 }
