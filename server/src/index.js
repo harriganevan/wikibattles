@@ -18,7 +18,7 @@ const io = new Server(server, {
 });
 
 //games holds a game state meant for the backend
-//{gameId: {users, currentPage, timePerTurn, linksSet}}
+//{gameId: {users, currentPage, timePerTurn, linksSet, timerId}}
 const games = new Map();
 
 const rooms = io.of("/").adapter.rooms;
@@ -36,7 +36,7 @@ io.on('connection', (socket) => {
         games.set(data.gameId, {
             users: [{ username: data.username, socketId: socket.id }],
             currentPage: data.settings.startingPage,
-            time: data.settings.time,
+            timePerTurn: data.settings.timePerTurn,
             linksSet,
             timerId: null,
         });
@@ -59,13 +59,16 @@ io.on('connection', (socket) => {
                         playerNumber: 2
                     }
                 },
-                secondsPerTurn: games.get(data.gameId).time
+                secondsPerTurn: games.get(data.gameId).timePerTurn
             });
         }
         else {
             io.to(socket.id).emit('game-not-found');
         }
         console.log(games);
+
+        games.get(data.gameId).timerId = setTimeout(() => io.to(data.gameId).emit('game-over'), games.get(data.gameId).timePerTurn * 1000);
+
     });
 
     //join / leave room events
@@ -83,12 +86,12 @@ io.on('connection', (socket) => {
         const gameState = data.gameState;
         if (games.get(data.gameState.gameId).linksSet.has(data.guess) && !gameState.connectedPages.includes(data.guess)) {
 
-            //can we store timerId in backend gameState?
-
             //clear timer
             clearTimeout(games.get(data.gameState.gameId).timerId);
             //set timer with gameId
-            games.get(data.gameState.gameId).timerId = setTimeout(() => io.to(data.gameState.gameId).emit('game-over'), 10000);
+            games.get(data.gameState.gameId).timerId = setTimeout(() => io.to(data.gameState.gameId).emit('game-over'), games.get(data.gameState.gameId).timePerTurn * 1000);
+            //^^^ send back copy of gamestate for displaying winner? they already have a copy?
+            //have functin do something to backend game state - set it to over
 
             gameState.connectedPages.push(gameState.currentPage);
             gameState.currentPage = data.guess;

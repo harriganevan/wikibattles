@@ -7,7 +7,7 @@ function ChallengeSettings({ setPageState, setSettings }) {
     const [timerId, setTimerId] = useState('');
     const [searchResults, setSearchResults] = useState([]);
 
-    const [timePerTurn, setTimePerTurn] = useState(23);
+    const [timePerTurn, setTimePerTurn] = useState(20);
     const [startingPage, setStartingPage] = useState('77th British Academy Film Awards');
 
     //function to check if starting page exists
@@ -33,7 +33,7 @@ function ChallengeSettings({ setPageState, setSettings }) {
     }
 
     function onContinueClick() {
-        setSettings({ time: timePerTurn, startingPage: startingPage });
+        setSettings({ timePerTurn: timePerTurn, startingPage: startingPage });
         setPageState('searching');
     }
 
