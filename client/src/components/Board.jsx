@@ -132,7 +132,14 @@ function Board({ gameStartState, username }) {
                         </>
                         : <p>not your turn</p>}
                 </> 
-                : <h1>GAME OVER</h1>}
+                : //when game is over
+                <>
+                    <h1>GAME OVER</h1>
+                    <h2>{gameState.playersData[playerName].playerNumber === gameState.playerTurn ? 'you lose' : 'you win'}</h2>
+                    {gameState.connectedPages.map(page => 
+                        <p key={page}>{decodeURI(page)}</p>
+                    )}
+                </>}
         </>
     )
 }

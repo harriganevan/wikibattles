@@ -17,6 +17,10 @@ const io = new Server(server, {
     }
 });
 
+//queue for people searching for games
+//should only have 1 player in it at most at any time
+const queue = [];
+
 //games holds a game state meant for the backend
 //{gameId: {users, currentPage, timePerTurn, linksSet, timerId}}
 const games = new Map();
@@ -30,6 +34,14 @@ io.on('connection', (socket) => {
     });
 
     //lobby events
+
+    //event that puts player in queue
+    socket.on('find-game', () => {
+        //check if player is in queue
+        //if not add this player to queue
+        //
+    });
+
     socket.on('challenge-friend-by-link', async (data) => {
         links = await getLinksFromPage(encodeURI(data.settings.startingPage));
         linksSet = new Set(links);
@@ -47,16 +59,18 @@ io.on('connection', (socket) => {
             games.get(data.gameId).users.push({ username: data.username, socketId: socket.id });
             io.to(games.get(data.gameId).users[0].socketId).to(games.get(data.gameId).users[1].socketId).emit('initiate-game', {
                 currentPage: games.get(data.gameId).currentPage,
-                connectedPages: [],
+                connectedPages: [games.get(data.gameId).currentPage],
                 gameId: data.gameId,
                 gameTurn: 1,
                 playerTurn: 1,
                 playersData: {
                     [games.get(data.gameId).users[0].username]: {
-                        playerNumber: 1
+                        playerNumber: 1,
+                        username: games.get(data.gameId).users[0].username,
                     },
                     [games.get(data.gameId).users[1].username]: {
-                        playerNumber: 2
+                        playerNumber: 2,
+                        username: games.get(data.gameId).users[1].username,
                     }
                 },
                 secondsPerTurn: games.get(data.gameId).timePerTurn
@@ -82,7 +96,6 @@ io.on('connection', (socket) => {
 
     //game events
     socket.on('submit-page', async (data) => {
-        console.log(data);
         const gameState = data.gameState;
         if (games.get(data.gameState.gameId).linksSet.has(data.guess) && !gameState.connectedPages.includes(data.guess)) {
 
@@ -90,10 +103,10 @@ io.on('connection', (socket) => {
             clearTimeout(games.get(data.gameState.gameId).timerId);
             //set timer with gameId
             games.get(data.gameState.gameId).timerId = setTimeout(() => io.to(data.gameState.gameId).emit('game-over'), games.get(data.gameState.gameId).timePerTurn * 1000);
-            //^^^ send back copy of gamestate for displaying winner? they already have a copy?
+            //^^^ send back copy of gamestate for displaying winner? they already have a copy? should still send one back to be sure
             //have functin do something to backend game state - set it to over
 
-            gameState.connectedPages.push(gameState.currentPage);
+            gameState.connectedPages.push(data.guess);
             gameState.currentPage = data.guess;
             gameState.gameTurn += 1;
             gameState.playerTurn == 1 ? gameState.playerTurn = 2 : gameState.playerTurn = 1;

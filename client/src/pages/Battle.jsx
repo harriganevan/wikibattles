@@ -26,13 +26,13 @@ function Battle() {
     }, []);
 
     return (
-        <>
+        <div className='page'>
             <div className='battle-container'>
                 {pageState === 'home' && <BattleHome setPageState={setPageState} />}
                 {pageState === 'settings' && <ChallengeSettings setPageState={setPageState} setSettings={setSettings} />}
                 {pageState === 'searching' && <Searching setPageState={setPageState} gameIdFromLink={gameIdFromLink} settings={settings} />}
             </div>
-        </>
+        </div>
     )
 }
 

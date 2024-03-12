@@ -1,7 +1,8 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import Header from './Header';
 import Battle from '../pages/Battle';
 import Home from '../pages/Home';
-import Daily from './Daily';
+import Daily from '../pages/Daily';
 
 import '../App.css';
 
@@ -9,6 +10,7 @@ function App() {
 
 	return (
 		<BrowserRouter>
+			<Header />
 			<Routes>
 				<Route
 					path='/'
