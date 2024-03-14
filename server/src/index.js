@@ -19,7 +19,7 @@ const io = new Server(server, {
 
 //queue for people searching for games
 //should only have 1 player in it at most at any time
-const queue = [];
+const waiting = [];
 
 //games holds a game state meant for the backend
 //{gameId: {users, currentPage, timePerTurn, linksSet, timerId}}
@@ -36,10 +36,12 @@ io.on('connection', (socket) => {
     //lobby events
 
     //event that puts player in queue
-    socket.on('find-game', () => {
-        //check if player is in queue
-        //if not add this player to queue
+    socket.on('find-game', (data) => {
+        //check if player is in waiting
+        //if not add this player to queue and emit a waiting event 
         //
+        //if there is a player in waiting
+        //pop that player out and then add to games? and emit initiate game to both
     });
 
     socket.on('challenge-friend-by-link', async (data) => {
@@ -53,6 +55,8 @@ io.on('connection', (socket) => {
             timerId: null,
         });
         console.log(games);
+
+        //have timer that deltes lobby after 5min?
     });
     socket.on('accept-challenge-by-link', (data) => {
         if (games.has(data.gameId) && games.get(data.gameId).users.length == 1) {
@@ -81,6 +85,8 @@ io.on('connection', (socket) => {
         }
         console.log(games);
 
+        //delete game from games
+        //instead of setTimeout do a date thing?
         games.get(data.gameId).timerId = setTimeout(() => io.to(data.gameId).emit('game-over'), games.get(data.gameId).timePerTurn * 1000);
 
     });
@@ -105,6 +111,7 @@ io.on('connection', (socket) => {
             games.get(data.gameState.gameId).timerId = setTimeout(() => io.to(data.gameState.gameId).emit('game-over'), games.get(data.gameState.gameId).timePerTurn * 1000);
             //^^^ send back copy of gamestate for displaying winner? they already have a copy? should still send one back to be sure
             //have functin do something to backend game state - set it to over
+            //delete game from games
 
             gameState.connectedPages.push(data.guess);
             gameState.currentPage = data.guess;

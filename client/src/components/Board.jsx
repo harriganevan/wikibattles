@@ -58,7 +58,10 @@ function Board({ gameStartState, username }) {
 
         if (countdown > 0) {
             const interval = setInterval(() => {
-                const tempTime = Math.floor((startedTime - Date.now()) / 1000);
+                let tempTime = Math.floor((startedTime - Date.now()) / 1000);
+                if(tempTime < 0){
+                    tempTime = 0;
+                }
                 setCountdown(tempTime);
             }, 500);
 

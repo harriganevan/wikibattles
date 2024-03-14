@@ -10,9 +10,6 @@ function ChallengeSettings({ setPageState, setSettings }) {
     const [timePerTurn, setTimePerTurn] = useState(20);
     const [startingPage, setStartingPage] = useState('77th British Academy Film Awards');
 
-    //function to check if starting page exists
-    //or force user to click search result box  ! yes
-
     const delayedFunction = async (value) => {
         if (value) {
             console.log('delayed search:', value);
@@ -34,19 +31,21 @@ function ChallengeSettings({ setPageState, setSettings }) {
 
     function onContinueClick() {
         setSettings({ timePerTurn: timePerTurn, startingPage: startingPage });
-        setPageState('searching');
+        setPageState('searchingWithLink');
     }
 
     return (
         <>
-            <h2>challenge settings</h2>
-            <input type="range" min="5" max="90" value={timePerTurn} onChange={handleSliderChange} />
-            <p>Time per turn: {timePerTurn}s</p>
+            <h2>BATTLE SETTINGS</h2>
+
+            <div className="time-per-turn">
+                <input type="range" min="5" max="90" value={timePerTurn} onChange={handleSliderChange} />
+                <p className="time-per-turn-text">Time per turn: {timePerTurn} seconds</p>
+            </div>
+
             <p>Starting page: {startingPage}</p>
 
-            <input onChange={handleSearchChange} value={search} />
-
-            <br /><br />
+            <input onChange={handleSearchChange} value={search} placeholder="search for page" />
 
             {searchResults.length !== 0 ? (
 
@@ -76,10 +75,10 @@ function ChallengeSettings({ setPageState, setSettings }) {
             )
                 :
                 null}
-
-            <br />
-            <button onClick={onContinueClick}>CONTINUE</button>
-            <button onClick={() => setPageState('home')}>back</button>
+            <div className="button-group">
+                <button onClick={onContinueClick}>CONTINUE</button>
+                <button onClick={() => setPageState('home')}>back</button>
+            </div>
         </>
     )
 }
