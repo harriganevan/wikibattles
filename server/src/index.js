@@ -19,7 +19,9 @@ const io = new Server(server, {
 
 //queue for people searching for games
 //should only have 1 player in it at most at any time
-const waiting = [];
+
+//make it a map? socketId -> username
+const waiting = new Map();
 
 //games holds a game state meant for the backend
 //{gameId: {users, currentPage, timePerTurn, linksSet, timerId}}
@@ -27,9 +29,18 @@ const games = new Map();
 
 const rooms = io.of("/").adapter.rooms;
 
+io.of("/").adapter.on('leave-room', (room, id) => {
+    //can keep a map of socketId -> player username
+    io.to(room).emit('player-left', { id });
+});
+
+
 io.on('connection', (socket) => {
     console.log('a user connected: ', socket.id);
     socket.on('disconnect', () => {
+        //do something?
+        //leave waiting?
+        waiting.delete(socket.id);
         console.log('user disconnected');
     });
 
@@ -39,7 +50,18 @@ io.on('connection', (socket) => {
     socket.on('find-game', (data) => {
         //check if player is in waiting
         //if not add this player to queue and emit a waiting event 
-        //
+        if (waiting.size === 0) {
+            waiting.set(socket.id, { username: data.username, socketId: socket.id });
+            io.to(socket.id).emit('waiting');
+        } else {
+            const waitingPlayer = waiting.keys().next().value;
+            const secondPlayer = waiting.get(waitingPlayer);
+            waiting.delete(waitingPlayer);
+            //create backend game state here?
+            io.to(socket.id).to(secondPlayer.socketId).emit('initiate-game');
+        }
+
+        console.log(waiting);
         //if there is a player in waiting
         //pop that player out and then add to games? and emit initiate game to both
     });
@@ -56,7 +78,6 @@ io.on('connection', (socket) => {
         });
         console.log(games);
 
-        //have timer that deltes lobby after 5min?
     });
     socket.on('accept-challenge-by-link', (data) => {
         if (games.has(data.gameId) && games.get(data.gameId).users.length == 1) {
@@ -79,15 +100,19 @@ io.on('connection', (socket) => {
                 },
                 secondsPerTurn: games.get(data.gameId).timePerTurn
             });
+
+            //delete game from games
+            //instead of setTimeout do a date thing?
+            games.get(data.gameId).timerId = setTimeout(() => {
+                io.to(data.gameId).emit('game-over');
+                games.delete(data.gameId);
+                //leave rooms?
+            }, games.get(data.gameId).timePerTurn * 1000);
         }
         else {
             io.to(socket.id).emit('game-not-found');
         }
         console.log(games);
-
-        //delete game from games
-        //instead of setTimeout do a date thing?
-        games.get(data.gameId).timerId = setTimeout(() => io.to(data.gameId).emit('game-over'), games.get(data.gameId).timePerTurn * 1000);
 
     });
 
@@ -108,10 +133,11 @@ io.on('connection', (socket) => {
             //clear timer
             clearTimeout(games.get(data.gameState.gameId).timerId);
             //set timer with gameId
-            games.get(data.gameState.gameId).timerId = setTimeout(() => io.to(data.gameState.gameId).emit('game-over'), games.get(data.gameState.gameId).timePerTurn * 1000);
-            //^^^ send back copy of gamestate for displaying winner? they already have a copy? should still send one back to be sure
-            //have functin do something to backend game state - set it to over
-            //delete game from games
+            games.get(data.gameState.gameId).timerId = setTimeout(() => {
+                io.to(data.gameState.gameId).emit('game-over');
+                games.delete(data.gameState.gameId);
+                //leave rooms?
+            }, games.get(data.gameState.gameId).timePerTurn * 1000);
 
             gameState.connectedPages.push(data.guess);
             gameState.currentPage = data.guess;

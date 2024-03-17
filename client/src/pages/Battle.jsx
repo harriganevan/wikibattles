@@ -18,6 +18,8 @@ function Battle() {
 
     useEffect(() => {
 
+        socket.disconnect();
+
         if(gameIdFromLink){
             setPageState('searchingWithLink');
         }

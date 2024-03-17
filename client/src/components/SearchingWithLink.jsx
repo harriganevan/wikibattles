@@ -38,7 +38,7 @@ function SearchingWithLink({ setPageState, gameIdFromLink, settings }) {
 
         socket.on('initiate-game', onInitiateGame);
         socket.on('game-not-found', onGameNotFound);
-        socket.on('game-full', onGameFull)
+        socket.on('game-full', onGameFull);
 
         return () => {
             socket.off('initiate-game', onInitiateGame);

@@ -1,6 +1,13 @@
 import { Link } from "react-router-dom"
+import socket from "../socket"
+import { useEffect } from "react"
 
 function Daily() {
+
+    useEffect(() => {
+        socket.disconnect();
+    }, []);
+
     return (
         <div className="page">
             <Link to="/">
