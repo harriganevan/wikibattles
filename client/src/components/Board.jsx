@@ -38,17 +38,26 @@ function Board({ gameStartState, username }) {
 
         function onGameOver() {
             setGameOver(true);
+            //send winner over
             console.log('game over');
+        }
+
+        function onPlayerLeft() {
+            //need to figure out winner
+            //just default say ur winner
+            console.log('player left');
         }
 
         socket.on('receive_titles', onReceiveTitles);
         socket.on('update-game', onUpdateGame);
         socket.on('game-over', onGameOver);
+        socket.on('player-left', onPlayerLeft);
 
         return () => {
             socket.off('receive_titles', onReceiveTitles);
             socket.off('update-game', onUpdateGame);
             socket.off('game-over', onGameOver);
+            socket.off('player-left', onPlayerLeft);
         };
 
     }, []);

@@ -12,24 +12,41 @@ function Searching({ setPageState }) {
 
         socket.emit('find-game', {username, gameId});
 
-        function onGameFound() {
-            //setGameState
-
+        function onInitiateGame(data) {
+            socket.emit('join-game-room', { gameId: data.gameId });
+            console.log('game ready');
+            console.log(data);
+            setGameState(data);
+            
         }
 
-        socket.on('game-found', onGameFound);
+        socket.on('initiate-game', onInitiateGame);
 
         return () => {
-            socket.off('game-found', onGameFound);
+            socket.off('initiate-game', onInitiateGame);
         };
 
     }, []);
 
+    const handleClickBack = () => {
+        socket.emit('stop-search', { socketId: socket.id });
+        setPageState('home');
+    }
 
     return (
         // render board if theres a gameState
         <>
-            <p>searching...</p>
+            {gameState ? <Board gameStartState={gameState} username={username} /> : (
+                <>
+                    <div className='waiting'>
+                        <p className='waiting-text'>searching...</p>
+                        <div className="spinner-border text-info" role="status">
+                            <span className="visually-hidden">Loading...</span>
+                        </div>
+                    </div>
+                    <button onClick={handleClickBack}>back</button>
+                </>
+            )}
         </>
     )
 }

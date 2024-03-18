@@ -13,7 +13,7 @@ function SearchingWithLink({ setPageState, gameIdFromLink, settings }) {
         console.log(settings);
 
         function onInitiateGame(data) {
-            socket.emit('join-game-room', { gameId: data.gameId })
+            socket.emit('join-game-room', { gameId: data.gameId });
             console.log('game ready');
             console.log(data);
             setGameState(data);
