@@ -21,7 +21,7 @@ function App() {
 					element={<Battle />}
 				/>
 				<Route
-					path='/daily'
+					path='/daily/:wikiPage?'
 					element={<Daily />}
 				/>
 			</Routes>

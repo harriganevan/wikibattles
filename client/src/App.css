@@ -75,7 +75,6 @@
   background-repeat: no-repeat;
   background-size: cover;
   flex-shrink: 0;
-  box-sizing: border-box;
   min-width: 40px;
   min-height: 40px;
   width: 2.8571429em;
@@ -130,4 +129,8 @@
 
 .waiting-text {
   padding-right: .5rem;
+}
+
+.battle-button {
+  width: 210px;
 }

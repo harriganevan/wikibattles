@@ -41,7 +41,6 @@ io.of("/").adapter.on('leave-room', (room, id) => {
     
 });
 
-
 io.on('connection', (socket) => {
     console.log('a user connected: ', socket.id);
     socket.on('disconnect', () => {
@@ -98,7 +97,6 @@ io.on('connection', (socket) => {
             games.get(gameId).timerId = setTimeout(() => {
                 io.to(gameId).emit('game-over');
                 games.delete(gameId);
-                //leave rooms?
             }, games.get(gameId).timePerTurn * 1000);
         }
     });
@@ -144,7 +142,6 @@ io.on('connection', (socket) => {
             games.get(data.gameId).timerId = setTimeout(() => {
                 io.to(data.gameId).emit('game-over');
                 games.delete(data.gameId);
-                //leave rooms?
             }, games.get(data.gameId).timePerTurn * 1000);
         }
         else {
@@ -180,7 +177,6 @@ io.on('connection', (socket) => {
             games.get(data.gameState.gameId).timerId = setTimeout(() => {
                 io.to(data.gameState.gameId).emit('game-over');
                 games.delete(data.gameState.gameId);
-                //leave rooms?
             }, games.get(data.gameState.gameId).timePerTurn * 1000);
 
             gameState.connectedPages.push(data.guess);

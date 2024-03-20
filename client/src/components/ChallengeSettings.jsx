@@ -76,8 +76,8 @@ function ChallengeSettings({ setPageState, setSettings }) {
                 :
                 null}
             <div className="button-group">
-                <button onClick={onContinueClick}>CONTINUE</button>
-                <button onClick={() => setPageState('home')}>back</button>
+                <button onClick={onContinueClick} className="battle-button">CONTINUE</button>
+                <button onClick={() => setPageState('home')} className="battle-button">back</button>
             </div>
         </>
     )
