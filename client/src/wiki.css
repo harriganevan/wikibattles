@@ -406,6 +406,52 @@ sup.reference {
     display: none !important;
 }
 
+.wiki-wrapper .content .reflist {
+    grid-column-gap: 2em;
+    -webkit-column-gap: 2em;
+    -moz-column-gap: 2em;
+    column-gap: 2em;
+}
+
+.wiki-wrapper .mw-references-columns {
+    -webkit-column-width: 25em;
+    -moz-column-width: 25em;
+    column-width: 25em;
+}
+
+.wiki-wrapper .mw-parser-output .mw-references-columns .references {
+    margin-top: 0;
+}
+
+.mw-parser-output .reflist .references {
+    font-size: 100%;
+    margin-bottom: 0;
+    list-style-type: inherit;
+}
+
+.wiki-wrapper .content ol {
+    padding-left: 2.25em;
+}
+
+.wiki-wrapper ol.references {
+    counter-reset: mw-ref-extends-parent mw-references list-item;
+}
+
+.wiki-wrapper ol.references>li {
+    counter-increment: mw-ref-extends-parent mw-references;
+    counter-reset: mw-ref-extends-child;
+}
+
+.wiki-wrapper .content li {
+    margin-bottom: 10px;
+}
+
+.wiki-wrapper .mw-references-columns li {
+    -webkit-column-break-inside: avoid;
+    page-break-inside: avoid;
+    break-inside: avoid-column;
+}
+
 @media screen and (min-width: 720px) {
 
     .wiki-wrapper #mw-content-text>form,
