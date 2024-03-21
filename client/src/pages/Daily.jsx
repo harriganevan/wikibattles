@@ -2,17 +2,24 @@ import { Link } from "react-router-dom"
 import socket from "../socket"
 import { useEffect } from "react"
 import { useState } from "react"
+import '../wiki.css';
+// import '../testwiki.css';
 
 function Daily() {
 
-    const [pageTitle, setPageTitle] = useState('Home_Secretary');
+    const [pageTitle, setPageTitle] = useState('United Kingdom');
     const [pageContent, setPageContent] = useState('');
     const [count, setCount] = useState(0);
+
+    const [route, setRoute] = useState([]);
 
     const getPage = async (page) => {
         const response = await fetch(`https://en.wikipedia.org/w/api.php?action=parse&prop=text&page=${page}&format=json&disableeditsection=1&redirects=true&useskin=minerva&origin=*`);
         const searchResults = await response.json();
-        setPageContent(searchResults.parse.text['*']);
+        if (searchResults.parse && searchResults.parse.text) {
+            setPageContent(searchResults.parse.text['*']);
+        }
+
     }
 
     useEffect(() => {
@@ -25,14 +32,18 @@ function Daily() {
 
     useEffect(() => {
         const links = document.querySelectorAll(".mw-parser-output a");
-        
+
         links.forEach((link) => {
             link.addEventListener('click', (e) => {
-                e.preventDefault();
-                if(e.target.title){
+
+                if(e.target.href && !e.target.href.startsWith('#')){
+                    e.preventDefault();
+                }
+                
+                if (e.target.title) {
                     console.log(e.target.title);
                     setPageTitle(e.target.title);
-                    setCount(count+1);
+                    setCount(count + 1);
                 }
             });
         });
@@ -45,8 +56,15 @@ function Daily() {
                 <h1>WikiBattles</h1>
             </Link>
             <h1>Daily puzzle</h1>
-            <h1>{count}</h1>
-            <div dangerouslySetInnerHTML={ {__html: pageContent }} />
+            <h1>{count} clicks</h1>
+            <div className="wiki-wrapper">
+                <div className="pre-content heading-holder">
+                    <div className="page-heading"><h1>{pageTitle}</h1></div>
+                </div>
+                <div className="content">
+                    <div dangerouslySetInnerHTML={{ __html: pageContent }} />
+                </div>
+            </div>
         </div>
     )
 }

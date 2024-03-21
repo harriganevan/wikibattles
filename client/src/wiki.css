@@ -1,0 +1,481 @@
+.wiki-wrapper {
+    width: 100%;
+    font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
+    white-space: normal;
+    padding-bottom: 50px;
+    text-align: left;
+}
+
+.wiki-wrapper a,
+.wiki-wrapper abbr,
+.wiki-wrapper acronym,
+.wiki-wrapper address,
+.wiki-wrapper audio,
+.wiki-wrapper b,
+.wiki-wrapper big,
+.wiki-wrapper blockquote,
+.wiki-wrapper button,
+.wiki-wrapper center,
+.wiki-wrapper cite,
+.wiki-wrapper code,
+.wiki-wrapper dd,
+.wiki-wrapper del,
+.wiki-wrapper div,
+.wiki-wrapper dl,
+.wiki-wrapper dt,
+.wiki-wrapper em,
+.wiki-wrapper fieldset,
+.wiki-wrapper figure,
+.wiki-wrapper form,
+.wiki-wrapper h1,
+.wiki-wrapper h2,
+.wiki-wrapper h3,
+.wiki-wrapper h4,
+.wiki-wrapper h5,
+.wiki-wrapper h6,
+.wiki-wrapper i,
+.wiki-wrapper img,
+.wiki-wrapper input,
+.wiki-wrapper ins,
+.wiki-wrapper label,
+.wiki-wrapper legend,
+.wiki-wrapper li,
+.wiki-wrapper ol,
+.wiki-wrapper p,
+.wiki-wrapper picture,
+.wiki-wrapper pre,
+.wiki-wrapper select,
+.wiki-wrapper small,
+.wiki-wrapper span,
+.wiki-wrapper strike,
+.wiki-wrapper strong,
+.wiki-wrapper sub,
+.wiki-wrapper sup,
+.wiki-wrapper tt,
+.wiki-wrapper u,
+.wiki-wrapper ul,
+.wiki-wrapper video {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    font: inherit;
+    font-size: 100%;
+    vertical-align: baseline;
+    background: none;
+}
+
+.wiki-wrapper #mw-content-text>form>.oo-ui-fieldLayout>.oo-ui-fieldLayout-body,
+.wiki-wrapper #mw-content-text>form>.oo-ui-widget,
+.wiki-wrapper .content,
+.wiki-wrapper .image-list,
+.wiki-wrapper .minerva-anon-talk-message,
+.wiki-wrapper .post-content,
+.wiki-wrapper .pre-content {
+    margin: 0 16px;
+}
+
+.wiki-wrapper .content .mw-heading1,
+.wiki-wrapper .content .mw-heading2,
+.wiki-wrapper .content h1,
+.wiki-wrapper .content h2,
+.wiki-wrapper .mw-heading3,
+.wiki-wrapper .mw-heading4,
+.wiki-wrapper .mw-heading5,
+.wiki-wrapper .mw-heading6,
+.wiki-wrapper .pre-content h1,
+.wiki-wrapper h3,
+.wiki-wrapper h4,
+.wiki-wrapper h5,
+.wiki-wrapper h6 {
+    line-height: 1.375;
+    word-wrap: break-word;
+    word-break: break-word;
+}
+
+.wiki-wrapper .content .mw-heading1,
+.wiki-wrapper .content .mw-heading2,
+.wiki-wrapper .content h1,
+.wiki-wrapper .content h2,
+.wiki-wrapper .pre-content h1 {
+    font-family: Linux Libertine, Georgia, Times, "Source Serif Pro", serif;
+}
+
+.wiki-wrapper .pre-content h1 {
+    letter-spacing: normal;
+}
+
+.wiki-wrapper .mw-heading1,
+.wiki-wrapper h1 {
+    font-size: 1.7em;
+}
+
+.wiki-wrapper .heading-holder {
+    padding: 20px 0 0;
+    position: relative;
+}
+
+.wiki-wrapper .page-heading {
+    margin-bottom: 12px;
+}
+
+.wiki-wrapper .content {
+    line-height: 1.65;
+    word-wrap: break-word;
+}
+
+.wiki-wrapper .content {
+    position: relative;
+    z-index: 0;
+}
+
+
+/* infobox */
+
+.wiki-wrapper .content .infobox {
+    font-size: 90%;
+    position: relative;
+    border: 1px solid #eaecf0;
+    margin-bottom: 2em;
+    background-color: #f8f9fa;
+    display: -moz-box;
+    display: flex;
+    -moz-box-flex: 1;
+    flex: 1 1 100%;
+    -moz-box-orient: vertical;
+    -moz-box-direction: normal;
+    flex-flow: column nowrap;
+    width: 100% !important;
+    max-width: 100% !important;
+}
+
+.wiki-wrapper .content .infobox,
+.wiki-wrapper .content table {
+    float: none !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+}
+
+.wiki-wrapper .content table {
+    margin: 1em 0;
+    overflow: auto;
+    overflow-y: hidden;
+    overflow-x: auto;
+}
+
+.wiki-wrapper table {
+    border-collapse: collapse;
+}
+
+.wiki-wrapper .content .infobox>caption,
+.wiki-wrapper .content .infobox>tbody {
+    display: -moz-box;
+    display: flex;
+    -moz-box-orient: vertical;
+    -moz-box-direction: normal;
+    flex-flow: column nowrap;
+}
+
+.wiki-wrapper caption,
+.wiki-wrapper table,
+.wiki-wrapper tbody,
+.wiki-wrapper td,
+.wiki-wrapper tfoot,
+.wiki-wrapper th,
+.wiki-wrapper thead,
+.wiki-wrapper tr {
+    font-size: 100%;
+}
+
+.wiki-wrapper .content .infobox>tbody>tr {
+    min-width: 100%;
+    display: -moz-box;
+    display: flex;
+    -moz-box-orient: horizontal;
+    -moz-box-direction: normal;
+    flex-flow: row nowrap;
+}
+
+.wiki-wrapper .content .infobox td:only-child,
+.wiki-wrapper .content .infobox th:only-child {
+    width: 100%;
+}
+
+.wiki-wrapper .content .infobox tbody>tr>td,
+.wiki-wrapper .content .infobox tbody>tr>th {
+    -moz-box-flex: 1;
+    flex: 1 0;
+}
+
+.wiki-wrapper .content .infobox td,
+.wiki-wrapper .content .infobox th {
+    vertical-align: top;
+    border: 0;
+    border-bottom: 1px solid #eaecf0;
+    padding: 7px 10px;
+}
+
+.wiki-wrapper .content .mw-content-ltr .infobox {
+    text-align: left;
+}
+
+/* text */
+.wiki-wrapper .content p {
+    margin: 0.5em 0 1em;
+}
+
+.wiki-wrapper b,
+.wiki-wrapper strong {
+    font-weight: 700;
+}
+
+.wiki-wrapper .hatnote {
+    display: none;
+}
+
+sup.reference {
+    display: none;
+}
+
+.wiki-wrapper .content .mw-parser-output>.mw-heading2,
+.wiki-wrapper .content .mw-parser-output>h2,
+.wiki-wrapper .content .section-heading {
+    border-bottom: 1px solid #eaecf0;
+    margin-bottom: 0.5em;
+}
+
+.wiki-wrapper .mw-heading3,
+.wiki-wrapper h3 {
+    font-size: 1.2em;
+    font-weight: 700;
+}
+
+/* toc */
+.wiki-wrapper .toc {
+    display: none;
+    position: relative;
+    margin: 1em 0;
+    padding: 0 1em 1em;
+    background-color: #f8f9fa;
+    border: 1px solid #eaecf0;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+.wiki-wrapper .toc {
+    display: table !important;
+}
+
+.wiki-wrapper input {
+    line-height: normal;
+}
+
+.wiki-wrapper .toctitle {
+    font-weight: 700;
+    display: -moz-box;
+    display: flex;
+    -moz-box-align: center;
+    align-items: center;
+    min-height: 44px;
+}
+
+.wiki-wrapper .toctitle.toctitle h2 {
+    display: inline-block;
+    font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Inter, Helvetica, Arial, sans-serif;
+    font-size: 1.125em;
+    vertical-align: middle;
+    -moz-box-flex: 1;
+    flex-grow: 1;
+    margin-left: 44px;
+    margin-right: 44px;
+}
+
+.wiki-wrapper .content .mw-parser-output .mw-headline,
+.wiki-wrapper .content .mw-parser-output h1,
+.wiki-wrapper .content .mw-parser-output h2,
+.wiki-wrapper .content .mw-parser-output h3,
+.wiki-wrapper .content .mw-parser-output h4,
+.wiki-wrapper .content .mw-parser-output h5,
+.wiki-wrapper .content .mw-parser-output h6 {
+    -moz-box-flex: 1;
+    flex-grow: 1;
+    flex-basis: 0;
+    margin-left: 0;
+}
+
+.wiki-wrapper .content .mw-parser-output .mw-heading,
+.wiki-wrapper .content .mw-parser-output h1,
+.wiki-wrapper .content .mw-parser-output h2,
+.wiki-wrapper .content .mw-parser-output h3,
+.wiki-wrapper .content .mw-parser-output h4,
+.wiki-wrapper .content .mw-parser-output h5,
+.wiki-wrapper .content .mw-parser-output h6 {
+    display: -moz-box;
+    display: flex;
+}
+
+.wiki-wrapper .content .mw-heading2,
+.wiki-wrapper .content .mw-heading3,
+.wiki-wrapper .content .mw-heading4,
+.wiki-wrapper .content .mw-heading5,
+.wiki-wrapper .content .mw-heading6,
+.wiki-wrapper .content h2,
+.wiki-wrapper .content h3,
+.wiki-wrapper .content h4,
+.wiki-wrapper .content h5,
+.wiki-wrapper .content h6 {
+    padding: 0.5em 0;
+}
+
+.wiki-wrapper .content .mw-heading2,
+.wiki-wrapper .content h2 {
+    clear: left;
+}
+
+.wiki-wrapper .mw-heading2,
+.wiki-wrapper h2 {
+    font-size: 1.5em;
+}
+
+.wiki-wrapper .toctogglelabel {
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    height: 44px;
+    z-index: 1;
+}
+
+.wiki-wrapper .toc.toc ul {
+    list-style: none;
+    word-break: break-word;
+}
+
+.wiki-wrapper .toc.toc>ul {
+    font-size: .875rem;
+    padding-left: 0;
+}
+
+.wiki-wrapper .content ul {
+    list-style-type: disc;
+    padding-left: 1em;
+}
+
+.wiki-wrapper ul {
+    list-style: none;
+}
+
+.wiki-wrapper .content li {
+    margin-bottom: 10px;
+}
+
+.wiki-wrapper .content figure[typeof~="mw:File/Frame"],
+.wiki-wrapper .content figure[typeof~="mw:File/Thumb"] {
+    margin: 0.6em auto;
+    display: table;
+    border-collapse: collapse;
+}
+
+.wiki-wrapper .content a>img,
+.wiki-wrapper .content noscript>img {
+    max-width: 100% !important;
+    height: auto !important;
+}
+
+.wiki-wrapper .content img {
+    vertical-align: middle;
+}
+
+.wiki-wrapper .content figure[typeof~="mw:File/Frame"]>figcaption,
+.wiki-wrapper .content figure[typeof~="mw:File/Thumb"]>figcaption {
+    display: table-caption;
+    caption-side: bottom;
+}
+
+.wiki-wrapper .content .thumbcaption,
+.wiki-wrapper .content figure[typeof~="mw:File/Frame"]>figcaption,
+.wiki-wrapper .content figure[typeof~="mw:File/Thumb"]>figcaption {
+    margin: 0.5em 0 0;
+    font-size: .8125rem;
+    line-height: 1.5;
+    padding: 0 !important;
+    color: #54595d;
+}
+
+.wiki-wrapper .nomobile {
+    display: none !important;
+}
+
+@media screen and (min-width: 720px) {
+
+    .wiki-wrapper #mw-content-text>form,
+    .wiki-wrapper .banner-container,
+    .wiki-wrapper .content,
+    .wiki-wrapper .content-unstyled,
+    .wiki-wrapper .minerva-anon-talk-message,
+    .wiki-wrapper .minerva-header,
+    .wiki-wrapper .overlay-content,
+    .wiki-wrapper .overlay-header,
+    .wiki-wrapper .page-header-bar,
+    .wiki-wrapper .post-content,
+    .wiki-wrapper .pre-content {
+        max-width: 993.3px;
+        margin: 0 3.35em;
+    }
+
+    .wiki-wrapper .content .infobox {
+        margin: 0.5em 0 1em 35px !important;
+        max-width: 320px !important;
+        width: auto !important;
+        float: right !important;
+        clear: right !important;
+    }
+
+    .wiki-wrapper .content table tbody {
+        display: table-row-group;
+    }
+
+    .wiki-wrapper .toc {
+        display: table;
+    }
+
+    .wiki-wrapper .toc .toctitle {
+        visibility: visible;
+    }
+
+    .wiki-wrapper .content .thumb,
+    .wiki-wrapper .content figure[typeof~="mw:File/Frame"],
+    .wiki-wrapper .content figure[typeof~="mw:File/Thumb"] {
+        max-width: 704px;
+    }
+
+    .wiki-wrapper .mw-content-ltr figure[typeof~="mw:File/Frame"],
+    .wiki-wrapper .mw-content-ltr figure[typeof~="mw:File/Thumb"],
+    .wiki-wrapper figure[typeof~="mw:File/Frame"],
+    .wiki-wrapper figure[typeof~="mw:File/Thumb"] {
+        clear: right;
+        float: right;
+        margin-left: 1.4em;
+        margin-right: 0;
+    }
+}
+
+@media screen and (min-width: 1000px) {
+
+    .wiki-wrapper #mw-content-text>form,
+    .wiki-wrapper .banner-container,
+    .wiki-wrapper .content,
+    .wiki-wrapper .content-unstyled,
+    .wiki-wrapper .minerva-anon-talk-message,
+    .wiki-wrapper .minerva-header,
+    .wiki-wrapper .overlay-content,
+    .wiki-wrapper .overlay-header,
+    .wiki-wrapper .page-header-bar,
+    .wiki-wrapper .post-content,
+    .wiki-wrapper .pre-content {
+        margin-left: auto;
+        margin-right: auto;
+        width: 90%;
+        max-width: 993.3px;
+    }
+}
