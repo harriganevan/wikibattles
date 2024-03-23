@@ -148,6 +148,9 @@
 .route {
   display: flex;
   flex-wrap: wrap;
+  justify-content: center;
+  gap: .3rem;
+  width: 80%;
 }
 
 .daily-help {
@@ -164,4 +167,8 @@
   font-weight: 500;
   color: #646cff;
   text-decoration: inherit;
+}
+
+.route-text {
+  text-decoration: underline;
 }

@@ -22,17 +22,25 @@ function Daily() {
         const searchResults = await response.json();
         if (searchResults.parse && searchResults.parse.text) {
             setPageContent(searchResults.parse.text['*']);
+            setPageTitle(page);
+            setCount(count + 1);
+            setRoute([...route, page]);
         }
+    }
 
+    const getBackPage = async (page) => {
+        const response = await fetch(`https://en.wikipedia.org/w/api.php?action=parse&prop=text&page=${page}&format=json&disableeditsection=1&redirects=true&useskin=minerva&origin=*`);
+        const searchResults = await response.json();
+        if (searchResults.parse && searchResults.parse.text) {
+            setPageContent(searchResults.parse.text['*']);
+            setPageTitle(page);
+        }
     }
 
     useEffect(() => {
         socket.disconnect();
+        getBackPage(pageTitle); //also gets first page
     }, []);
-
-    useEffect(() => {
-        getPage(pageTitle);
-    }, [pageTitle]);
 
     useEffect(() => {
         const links = document.querySelectorAll(".mw-parser-output a");
@@ -51,13 +59,13 @@ function Daily() {
 
 
                 if (e.target.title) {
-                    console.log(e.target.title)
-                    setCount(count + 1);
-                    setRoute([...route, e.target.title]);
+                    console.log(e.target.title);
                     if (e.target.title == endPage) {
+                        setCount(count + 1);
+                        setRoute([...route, e.target.title]);
                         setGameOver(true);
                     } else {
-                        setPageTitle(e.target.title);
+                        getPage(e.target.title);
                     }
                     window.scrollTo({
                         top: 0,
@@ -71,18 +79,26 @@ function Daily() {
 
     }, [pageContent]);
 
+    function handleBackClick() {
+        if (route.length > 1) {
+            const previous = route.pop();
+            console.log(previous);
+            getBackPage(route[route.length - 1]);
+        }
+    }
+
     return (
         <div className="page-daily">
             <h1>Daily Puzzle</h1>
-            <h2>{startPage} -&gt; {endPage}</h2>
+            <h2>{startPage} &rarr; {endPage}</h2>
             <div className="route">
                 <p>Route:&nbsp;</p>
                 {route.map((page, i) =>
-                    <p key={page + i}>{page} {i != route.length - 1 && '->'}</p>
+                    <p key={page + i}>{page} {i != route.length - 1 && <>&rarr;</>}</p>
                 )}
             </div>
-            {/* <button>back</button> */}
-            <h2>{count} clicks</h2>
+            {!gameOver ? <button onClick={handleBackClick}>go back a page</button> : null}
+            <h2>{count >= 0 && count} clicks</h2>
             {!gameOver ?
                 <div className="wiki-wrapper">
                     <div className="pre-content heading-holder">
@@ -95,10 +111,8 @@ function Daily() {
                 :
                 <>
                     <p>you win!</p>
-
                 </>}
 
-            {/* help stuff */}
             <button type="button" className="btn btn-primary daily-help" data-bs-toggle="modal" data-bs-target="#exampleModal">
                 How To Play
             </button>
