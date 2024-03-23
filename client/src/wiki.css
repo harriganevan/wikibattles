@@ -452,6 +452,43 @@ sup.reference {
     break-inside: avoid-column;
 }
 
+.wiki-wrapper .mw-heading4,
+.wiki-wrapper h4 {
+    font-weight: 700;
+}
+
+.wiki-wrapper .content .thumb {
+    margin: 0.6em 0;
+}
+
+.wiki-wrapper .content .thumb .thumbinner {
+    margin: 0 auto;
+    max-width: 100% !important;
+}
+
+.mw-parser-output .tmulti .trow {
+    display: flex;
+    flex-direction: row;
+    clear: left;
+    flex-wrap: wrap;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.mw-parser-output .tmulti .thumbcaption {
+    background-color: transparent;
+}
+
+.wiki-wrapper .content .thumbcaption,
+.wiki-wrapper .content figure[typeof~="mw:File/Frame"]>figcaption,
+.wiki-wrapper .content figure[typeof~="mw:File/Thumb"]>figcaption {
+    margin: 0.5em 0 0;
+    font-size: .8125rem;
+    line-height: 1.5;
+    padding: 0 !important;
+    color: #54595d;
+}
+
 @media screen and (min-width: 720px) {
 
     .wiki-wrapper #mw-content-text>form,
@@ -503,6 +540,24 @@ sup.reference {
         float: right;
         margin-left: 1.4em;
         margin-right: 0;
+    }
+
+    .wiki-wrapper .content .thumb.mw-halign-right,
+    .wiki-wrapper .content .thumb.tright,
+    .wiki-wrapper .content figure[typeof~="mw:File/Frame"].mw-halign-right,
+    .wiki-wrapper .content figure[typeof~="mw:File/Frame"].tright,
+    .wiki-wrapper .content figure[typeof~="mw:File/Thumb"].mw-halign-right,
+    .wiki-wrapper .content figure[typeof~="mw:File/Thumb"].tright {
+        float: right;
+        clear: right;
+        margin-left: 1.4em;
+        margin-right: 0;
+    }
+
+    .wiki-wrapper .content .thumb,
+    .wiki-wrapper .content figure[typeof~="mw:File/Frame"],
+    .wiki-wrapper .content figure[typeof~="mw:File/Thumb"] {
+        max-width: 704px;
     }
 }
 
