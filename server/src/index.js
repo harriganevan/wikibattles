@@ -3,11 +3,32 @@ const { createServer } = require('node:http');
 const { Server } = require('socket.io');
 const cors = require('cors');
 const { getLinksFromPage } = require('./getLinksFromPage.js');
+const { CronJob } = require('cron');
 
 const app = express();
 app.use(cors());
 
 const server = createServer(app);
+
+let startPage = 'Baseball';
+let endPage = 'United Kingdom';
+
+//CronJob for executing funtion at midnight
+const job = new CronJob(
+	'0 0 0 * * *', // every day at midnight
+	function () {
+		console.log('You will see this message at midnight');
+        //get new start and stop pages for daily puzzle
+
+	}, // onTick
+	null, // onComplete
+	true, // start
+	'America/New_York' // timeZone
+);
+
+//endpoints for daily puzzle
+
+
 
 //socketio server mounted on nodejs HTTP server
 const io = new Server(server, {
@@ -38,14 +59,14 @@ const rooms = io.of("/").adapter.rooms;
 io.of("/").adapter.on('leave-room', (room, id) => {
     io.to(room).emit('player-left', { id });
     //can delete game here?
-    
+
 });
 
 io.on('connection', (socket) => {
     console.log('a user connected: ', socket.id);
     socket.on('disconnect', () => {
         //if that disconnected user was waiting for linked player join
-        if(games.get(playersGame.get(socket.id)) && games.get(playersGame.get(socket.id)).users.length === 1){
+        if (games.get(playersGame.get(socket.id)) && games.get(playersGame.get(socket.id)).users.length === 1) {
             games.delete(playersGame.get(socket.id));
         }
         //if that disconnected user was searching for a game

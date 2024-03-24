@@ -15,9 +15,12 @@ function Daily() {
     const [endPage, setEndPage] = useState('Paris');
     const [route, setRoute] = useState(['United Kingdom']);
 
+    const [loading, setLoading] = useState(false); //used for placeholders
+
     const [gameOver, setGameOver] = useState(false);
 
     const getPage = async (page) => {
+        setLoading(true);
         const response = await fetch(`https://en.wikipedia.org/w/api.php?action=parse&prop=text&page=${page}&format=json&disableeditsection=1&redirects=true&useskin=minerva&origin=*`);
         const searchResults = await response.json();
         if (searchResults.parse && searchResults.parse.text) {
@@ -26,15 +29,18 @@ function Daily() {
             setCount(count + 1);
             setRoute([...route, page]);
         }
+        setLoading(false);
     }
 
     const getBackPage = async (page) => {
+        setLoading(true);
         const response = await fetch(`https://en.wikipedia.org/w/api.php?action=parse&prop=text&page=${page}&format=json&disableeditsection=1&redirects=true&useskin=minerva&origin=*`);
         const searchResults = await response.json();
         if (searchResults.parse && searchResults.parse.text) {
             setPageContent(searchResults.parse.text['*']);
             setPageTitle(page);
         }
+        setLoading(false);
     }
 
     useEffect(() => {
@@ -57,9 +63,7 @@ function Daily() {
                     element.scrollIntoView()
                 }
 
-
                 if (e.target.title) {
-                    console.log(e.target.title);
                     if (e.target.title == endPage) {
                         setCount(count + 1);
                         setRoute([...route, e.target.title]);
@@ -82,7 +86,6 @@ function Daily() {
     function handleBackClick() {
         if (route.length > 1) {
             const previous = route.pop();
-            console.log(previous);
             getBackPage(route[route.length - 1]);
         }
     }
@@ -99,17 +102,26 @@ function Daily() {
             </div>
             {!gameOver ? <button onClick={handleBackClick}>go back a page</button> : null}
             <h2>{count >= 0 && count} clicks</h2>
-            {!gameOver ?
-                <div className="wiki-wrapper">
-                    <div className="pre-content heading-holder">
-                        <div className="page-heading"><h1>{pageContent != '' && pageTitle}</h1></div>
+            {!gameOver ? (
+                !loading ?
+                    <div className="wiki-wrapper">
+                        <div className="pre-content heading-holder">
+                            <div className="page-heading"><h1>{pageContent != '' && pageTitle}</h1></div>
+                        </div>
+                        <div className="content">
+                            <div dangerouslySetInnerHTML={{ __html: pageContent }} />
+                        </div>
                     </div>
-                    <div className="content">
-                        <div dangerouslySetInnerHTML={{ __html: pageContent }} />
-                    </div>
-                </div>
+                    :
+                    <>
+                        <div className="spinner-border text-info" role="status">
+                            <span className="visually-hidden">Loading...</span>
+                        </div>
+                    </>
+            )
                 :
                 <>
+                    {/* maybe a new component */}
                     <p>you win!</p>
                 </>}
 
