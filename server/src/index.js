@@ -10,24 +10,38 @@ app.use(cors());
 
 const server = createServer(app);
 
-let startPage = 'Baseball';
-let endPage = 'United Kingdom';
+let dailys = {startPage: 'Baseball', endPage: 'United Kingdom'};
+
+const weeklyPages = [
+    {startPage: 'Baseball', endPage: 'United Kingdom'},
+    {startPage: 'Baseball', endPage: 'United Kingdom'},
+    {startPage: 'Baseball', endPage: 'United Kingdom'},
+    {startPage: 'Baseball', endPage: 'United Kingdom'},
+    {startPage: 'Baseball', endPage: 'United Kingdom'},
+    {startPage: 'Maxwell M. Kalman', endPage: 'Great Depression'},
+    {startPage: 'Ignaz Semmelweis', endPage: 'Mathematics'},
+]
 
 //CronJob for executing funtion at midnight
 const job = new CronJob(
-	'0 0 0 * * *', // every day at midnight
-	function () {
-		console.log('You will see this message at midnight');
-        //get new start and stop pages for daily puzzle
-
-	}, // onTick
-	null, // onComplete
-	true, // start
-	'America/New_York' // timeZone
+    '0 0 0 * * *', // tick every day at midnight
+    async function () {
+        console.log('You will see this message at midnight');
+        if(weeklyPages.length > 0){
+            const newDailys = weeklyPages.pop();
+            dailys = newDailys;
+        }
+        console.log(weeklyPages)
+    }, // onTick
+    null, // onComplete
+    true, // start
+    'America/New_York' // timeZone
 );
 
 //endpoints for daily puzzle
-
+app.get('/getDailyPages', (req, res) => {
+    res.json(dailys);
+})
 
 
 //socketio server mounted on nodejs HTTP server
@@ -58,8 +72,6 @@ const rooms = io.of("/").adapter.rooms;
 //if a player in a room disconnects
 io.of("/").adapter.on('leave-room', (room, id) => {
     io.to(room).emit('player-left', { id });
-    //can delete game here?
-
 });
 
 io.on('connection', (socket) => {
@@ -159,7 +171,6 @@ io.on('connection', (socket) => {
                 secondsPerTurn: games.get(data.gameId).timePerTurn
             });
 
-            //instead of setTimeout do a date thing - epoch time? 
             games.get(data.gameId).timerId = setTimeout(() => {
                 io.to(data.gameId).emit('game-over');
                 games.delete(data.gameId);
@@ -178,7 +189,7 @@ io.on('connection', (socket) => {
         console.log(rooms);
     });
 
-    //make this on disconnect
+    //make this on disconnect?
     socket.on('leave-game-room', (data) => {
         games.delete(data.gameId);
     });

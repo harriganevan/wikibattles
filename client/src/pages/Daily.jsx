@@ -2,18 +2,22 @@ import { Link } from "react-router-dom"
 import socket from "../socket"
 import { useEffect } from "react"
 import { useState } from "react"
+import { Button } from '@mui/material';
 import '../wiki.css';
 
 function Daily() {
 
+    // ADD A TIMER
 
-    const [pageTitle, setPageTitle] = useState('United Kingdom');
+    const [pageTitle, setPageTitle] = useState('');
     const [pageContent, setPageContent] = useState('');
     const [count, setCount] = useState(0);
 
-    const [startPage, setStartPage] = useState('United Kingdom');
-    const [endPage, setEndPage] = useState('Paris');
-    const [route, setRoute] = useState(['United Kingdom']);
+    const [startPage, setStartPage] = useState('');
+    const [endPage, setEndPage] = useState('');
+
+    const [timer, setTimer] = useState(0);
+    const [route, setRoute] = useState([]);
 
     const [loading, setLoading] = useState(false); //used for placeholders
 
@@ -43,43 +47,67 @@ function Daily() {
         setLoading(false);
     }
 
+    const getPages = async () => {
+        const response = await fetch(`http://localhost:3000/getDailyPages`);
+        const json = await response.json();
+        if (response.ok) {
+            setStartPage(json.startPage);
+            setEndPage(json.endPage);
+
+            setPageTitle(json.startPage);
+
+            setRoute([json.startPage]);
+
+            getBackPage(json.startPage); //gets content for first page
+        }
+    }
+
     useEffect(() => {
         socket.disconnect();
-        getBackPage(pageTitle); //also gets first page
+        getPages();
     }, []);
 
     useEffect(() => {
         const links = document.querySelectorAll(".mw-parser-output a");
 
-        links.forEach((link) => {
-            link.addEventListener('click', (e) => {
+        //this conditional is used to keep first load state true
+        //otherwise loading would be set false before api call for first page finishes
+        if (links.length > 0) {
 
-                e.preventDefault();
+            setLoading(true);
 
-                if (e.currentTarget.href.startsWith('http://localhost:5173/daily#')) {
-                    const indexOfHash = e.currentTarget.href.indexOf('#');
-                    const newHref = e.currentTarget.href.substring(indexOfHash);
-                    const element = document.querySelector(newHref);
-                    element.scrollIntoView()
-                }
+            links.forEach((link) => {
+                link.addEventListener('click', (e) => {
 
-                if (e.target.title) {
-                    if (e.target.title == endPage) {
-                        setCount(count + 1);
-                        setRoute([...route, e.target.title]);
-                        setGameOver(true);
-                    } else {
-                        getPage(e.target.title);
+                    e.preventDefault();
+
+                    if (e.currentTarget.href.startsWith('http://localhost:5173/daily#')) {
+                        const indexOfHash = e.currentTarget.href.indexOf('#');
+                        const newHref = e.currentTarget.href.substring(indexOfHash);
+                        const element = document.querySelector(newHref);
+                        element.scrollIntoView()
                     }
-                    window.scrollTo({
-                        top: 0,
-                        left: 0,
-                        behavior: 'instant',
-                    });
-                }
 
+                    if (e.currentTarget.title) {
+                        if (e.currentTarget.title == endPage) {
+                            setCount(count + 1);
+                            setRoute([...route, e.currentTarget.title]);
+                            setGameOver(true);
+                        } else {
+                            getPage(e.currentTarget.title);
+                        }
+                        window.scrollTo({
+                            top: 0,
+                            left: 0,
+                            behavior: 'instant',
+                        });
+                    }
+
+                });
             });
-        });
+
+            setLoading(false);
+        }
 
     }, [pageContent]);
 
@@ -100,7 +128,7 @@ function Daily() {
                     <p key={page + i}>{page} {i != route.length - 1 && <>&rarr;</>}</p>
                 )}
             </div>
-            {!gameOver ? <button onClick={handleBackClick}>go back a page</button> : null}
+            {!gameOver ? <button onClick={handleBackClick} type="button" className="btn btn-dark">&larr; go back a page</button> : null}
             <h2>{count >= 0 && count} clicks</h2>
             {!gameOver ? (
                 !loading ?
@@ -125,7 +153,7 @@ function Daily() {
                     <p>you win!</p>
                 </>}
 
-            <button type="button" className="btn btn-primary daily-help" data-bs-toggle="modal" data-bs-target="#exampleModal">
+            <button type="button" className="btn btn-dark daily-help" data-bs-toggle="modal" data-bs-target="#exampleModal">
                 How To Play
             </button>
 
@@ -145,7 +173,7 @@ function Daily() {
                             </p>
                         </div>
                         <div className="modal-footer">
-                            <button type="button" className="btn btn-primary" data-bs-dismiss="modal">Close</button>
+                            <button type="button" className="btn btn-dark" data-bs-dismiss="modal">Close</button>
                         </div>
                     </div>
                 </div>
