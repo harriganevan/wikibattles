@@ -10,28 +10,25 @@ app.use(cors());
 
 const server = createServer(app);
 
-let dailys = {startPage: 'Baseball', endPage: 'United Kingdom'};
-
 const weeklyPages = [
-    {startPage: 'Baseball', endPage: 'United Kingdom'},
-    {startPage: 'Baseball', endPage: 'United Kingdom'},
-    {startPage: 'Baseball', endPage: 'United Kingdom'},
-    {startPage: 'Baseball', endPage: 'United Kingdom'},
-    {startPage: 'Baseball', endPage: 'United Kingdom'},
-    {startPage: 'Maxwell M. Kalman', endPage: 'Great Depression'},
-    {startPage: 'Ignaz Semmelweis', endPage: 'Mathematics'},
+    { startPage: 'Heavy_industry', endPage: 'Air pollution' }, //sunday
+    { startPage: 'Biological agent', endPage: 'DNA' }, //monday
+    { startPage: 'Molecule', endPage: 'Sigma bond' }, //tuesday
+    { startPage: 'International Science Council', endPage: 'New Zealand' }, //wednesday
+    { startPage: 'French Polynesia', endPage: 'France' }, //thursday
+    { startPage: 'Maxwell M. Kalman', endPage: 'Great Depression' }, //friday
+    { startPage: 'Ignaz Semmelweis', endPage: 'Mathematics' }, //saturday
 ]
+
+//set day of week (0 = sunday, ..., 6 = saturday) when server starts/restarts
+let dayOfWeek = new Date().getDay().toLocaleString("en-US", { timeZone: 'America/New_York' });
 
 //CronJob for executing funtion at midnight
 const job = new CronJob(
     '0 0 0 * * *', // tick every day at midnight
     async function () {
-        console.log('You will see this message at midnight');
-        if(weeklyPages.length > 0){
-            const newDailys = weeklyPages.pop();
-            dailys = newDailys;
-        }
-        console.log(weeklyPages)
+        dayOfWeek++;
+        dayOfWeek = (dayOfWeek % 7);
     }, // onTick
     null, // onComplete
     true, // start
@@ -40,9 +37,8 @@ const job = new CronJob(
 
 //endpoints for daily puzzle
 app.get('/getDailyPages', (req, res) => {
-    res.json(dailys);
+    res.json(weeklyPages[dayOfWeek]);
 })
-
 
 //socketio server mounted on nodejs HTTP server
 const io = new Server(server, {

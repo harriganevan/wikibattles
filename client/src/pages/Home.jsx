@@ -10,13 +10,16 @@ function Home() {
 
     return (
         <div className='page'>
-            <h1>WikiBattles</h1>
-            <Link to="/battle">
-                Battle
-            </Link>
-            <Link to="/daily">
-                Daily Puzzle
-            </Link>
+
+            <h1 className='home-title'>WikiBattles</h1>
+            <div className='home-buttons'>
+                <Link to="/battle">
+                    <button type="button" className="btn btn-dark home-button">Battle</button>
+                </Link>
+                <Link to="/daily">
+                    <button type="button" className="btn btn-dark home-button">Daily Puzzle</button>
+                </Link>
+            </div>
         </div>
     )
 

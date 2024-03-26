@@ -172,3 +172,23 @@
 .route-text {
   text-decoration: underline;
 }
+
+.home-title {
+  position: absolute;
+  top: 0;
+}
+
+.home-buttons {
+  display: flex;
+  gap: 2rem;
+}
+
+.home-button {
+  width: 200px;
+}
+
+@media screen and (max-width: 720px) {
+  .home-buttons {
+    flex-direction: column;
+  }
+}

@@ -17,6 +17,8 @@ function Daily() {
     const [endPage, setEndPage] = useState('');
 
     const [timer, setTimer] = useState(0);
+    const [timerStart, setTimerStart] = useState(Date.now());
+
     const [route, setRoute] = useState([]);
 
     const [loading, setLoading] = useState(false); //used for placeholders
@@ -66,6 +68,21 @@ function Daily() {
         socket.disconnect();
         getPages();
     }, []);
+
+    //for countup timer
+    useEffect(() => {
+
+        if (!gameOver) {
+
+            const interval = setInterval(() => {
+                let tempTime = Math.floor((Date.now() - timerStart) / 1000);
+                setTimer(tempTime);
+            }, 500);
+
+            return () => clearInterval(interval);
+        }
+
+    }, [timer]);
 
     useEffect(() => {
         const links = document.querySelectorAll(".mw-parser-output a");
@@ -130,6 +147,7 @@ function Daily() {
             </div>
             {!gameOver ? <button onClick={handleBackClick} type="button" className="btn btn-dark">&larr; go back a page</button> : null}
             <h2>{count >= 0 && count} clicks</h2>
+            <h2>{timer} seconds</h2>
             {!gameOver ? (
                 !loading ?
                     <div className="wiki-wrapper">

@@ -19,6 +19,16 @@ function Header() {
                                     <button className='btn navbar-text nav-link active'>Home</button>
                                 </Link>
                             </li>
+                            <li className="nav-item">
+                                <Link to="/daily" style={{ textDecoration: "none" }}>
+                                    <button className='btn navbar-text nav-link active'>Daily</button>
+                                </Link>
+                            </li>
+                            <li className="nav-item">
+                                <Link to="/battle" style={{ textDecoration: "none" }}>
+                                    <button className='btn navbar-text nav-link active'>Battle</button>
+                                </Link>
+                            </li>
                         </ul>
                     </div>
 
