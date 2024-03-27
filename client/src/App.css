@@ -185,6 +185,22 @@
 
 .home-button {
   width: 200px;
+  height: 50px;
+  /* position: absolute; */
+}
+
+.battle-svg {
+  height: 5em;
+  /* position: absolute; */
+}
+
+.puzzle-svg {
+  height: 5em;
+  /* position: absolute; */
+}
+
+.battle-button-container{
+  position: relative;
 }
 
 @media screen and (max-width: 720px) {
