@@ -3,6 +3,7 @@ import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import socket from '../socket';
 import defaultPhoto from '../assets/default.svg';
+import SearchResultBoard from './SearchResultBoard';
 
 function Board({ gameStartState, username }) {
 
@@ -124,23 +125,7 @@ function Board({ gameStartState, username }) {
                                 <div className="search-menu">
                                     <ul role="listbox" className="search-result-container">
                                         {searchResults.map(result =>
-                                            <li role="option" className="search-result-item" onClick={() => makeGuess(result.title)} key={result.key}>
-                                                <div className="search-result-content">
-                                                    {result.thumbnail !== null ?
-                                                        <span className="search-result-img" style={{ backgroundImage: 'url(' + result.thumbnail.url + ')' }} />
-                                                        :
-                                                        <span className="search-result-img-placeholder">
-                                                            <span className="search-result-img-default" style={{ backgroundImage: 'url(' + defaultPhoto + ')' }} />
-                                                        </span>
-                                                    }
-                                                    <span className="search-result-text">
-                                                        <span className="search-result-title">{result.title}</span>
-                                                        {result.description !== null ?
-                                                            <span className="search-result-description">{result.description}</span>
-                                                            : null}
-                                                    </span>
-                                                </div>
-                                            </li>
+                                            <SearchResultBoard makeGuess={makeGuess} result={result} key={result.key} />
                                         )}
                                     </ul>
                                 </div>

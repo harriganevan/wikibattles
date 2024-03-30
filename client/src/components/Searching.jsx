@@ -36,7 +36,6 @@ function Searching({ setPageState }) {
         // render board if theres a gameState
         <>
             {gameState ? <Board gameStartState={gameState} username={username} /> : (
-
                 <div className='searching-container'>
                     <div className='waiting'>
                         <p className='waiting-text'>searching...</p>
@@ -46,7 +45,6 @@ function Searching({ setPageState }) {
                     </div>
                     <button onClick={handleClickBack} type="button" className="btn btn-dark home-button">back</button>
                 </div>
-
             )}
         </>
     )
