@@ -68,7 +68,7 @@ function Board({ gameStartState, username }) {
         if (countdown > 0) {
             const interval = setInterval(() => {
                 let tempTime = Math.floor((startedTime - Date.now()) / 1000);
-                if(tempTime < 0){
+                if (tempTime < 0) {
                     tempTime = 0;
                 }
                 setCountdown(tempTime);
@@ -99,16 +99,20 @@ function Board({ gameStartState, username }) {
     const handleChange = (e) => {
         clearTimeout(searchTimerId);
         setSearch(e.target.value);
-        setSearchTimerId(setTimeout(() => delayedFunction(e.target.value), 500));
+        setSearchTimerId(setTimeout(() => delayedFunction(e.target.value), 200));
     }
 
     return (
         <>
-            <Link to="/">
-                <h1>WikiBattles</h1>
-            </Link>
+            <div className='board-header'>
+                <p>{Object.keys(gameState.playersData)[0]}</p>
+                <h2>{countdown}</h2>
+                <p>{Object.keys(gameState.playersData)[1]}</p>
+            </div>
 
-            <h2>{countdown}</h2>
+            <div className='board-state'>
+                {/* whos turn / game over message */}
+            </div>
 
             {!gameOver ?
                 <>
@@ -116,7 +120,7 @@ function Board({ gameStartState, username }) {
                     {gameState.playerTurn == gameState.playersData[playerName].playerNumber ?
                         <>
                             <input onChange={handleChange} value={search} />
-                            {searchResults.length !== 0 ? 
+                            {searchResults.length !== 0 ?
                                 <div className="search-menu">
                                     <ul role="listbox" className="search-result-container">
                                         {searchResults.map(result =>
@@ -143,12 +147,12 @@ function Board({ gameStartState, username }) {
                                 : null}
                         </>
                         : <p>not your turn</p>}
-                </> 
+                </>
                 : //when game is over
                 <>
                     <h1>GAME OVER</h1>
                     <h2>{gameState.playersData[playerName].playerNumber === gameState.playerTurn ? 'you lose' : 'you win'}</h2>
-                    {gameState.connectedPages.map(page => 
+                    {gameState.connectedPages.map(page =>
                         <p key={page}>{decodeURI(page)}</p>
                     )}
                 </>}

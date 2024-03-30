@@ -57,7 +57,7 @@ function SearchingWithLink({ setPageState, gameIdFromLink, settings }) {
         //render challengesettings first then this stuff below
         <>
             {gameState ? <Board gameStartState={gameState} username={username} /> : (
-                <>
+                <div className='searching-container'>
                     <div className='waiting'>
                         <p className='waiting-text'>waiting...</p>
                         <div className="spinner-border text-info" role="status">
@@ -65,8 +65,8 @@ function SearchingWithLink({ setPageState, gameIdFromLink, settings }) {
                         </div>
                     </div>
                     <p>copy invite link http://localhost:5173/battle/{gameId}</p>
-                    <button onClick={handleClickBack}>back</button>
-                </>
+                    <button onClick={handleClickBack} type="button" className="btn btn-dark battle-button">back</button>
+                </div>
             )}
         </>
     )

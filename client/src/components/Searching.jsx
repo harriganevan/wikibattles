@@ -10,14 +10,13 @@ function Searching({ setPageState }) {
 
     useEffect(() => {
 
-        socket.emit('find-game', {username, gameId});
+        socket.emit('find-game', { username, gameId });
 
         function onInitiateGame(data) {
             socket.emit('join-game-room', { gameId: data.gameId });
             console.log('game ready');
             console.log(data);
             setGameState(data);
-            
         }
 
         socket.on('initiate-game', onInitiateGame);
@@ -37,15 +36,17 @@ function Searching({ setPageState }) {
         // render board if theres a gameState
         <>
             {gameState ? <Board gameStartState={gameState} username={username} /> : (
-                <>
+
+                <div className='searching-container'>
                     <div className='waiting'>
                         <p className='waiting-text'>searching...</p>
                         <div className="spinner-border text-info" role="status">
                             <span className="visually-hidden">Loading...</span>
                         </div>
                     </div>
-                    <button onClick={handleClickBack}>back</button>
-                </>
+                    <button onClick={handleClickBack} type="button" className="btn btn-dark home-button">back</button>
+                </div>
+
             )}
         </>
     )

@@ -1,11 +1,12 @@
 function BattleHome({ setPageState }) {
-    
+
     return (
         <>
-            <button onClick={() => setPageState('searching')} className="battle-button">FIND GAME</button>
-            <button onClick={() => setPageState('settings')} className="battle-button">CHALLENGE A FRIEND</button>
-
-
+            <h1 className='home-title'>Battle</h1>
+            <div className="battle-home-buttons">
+                <button onClick={() => setPageState('searching')} type="button" className="btn btn-dark home-button">FIND GAME</button>
+                <button onClick={() => setPageState('settings')} type="button" className="btn btn-dark home-button">CHALLENGE A FRIEND</button>
+            </div>
             {/* help stuff */}
             <button type="button" className="btn btn-primary daily-help" data-bs-toggle="modal" data-bs-target="#exampleModal">
                 How To Play
@@ -19,7 +20,14 @@ function BattleHome({ setPageState }) {
                             <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div className="modal-body">
-                            Battle an opponent
+                            <p>Given a starting page, take turns attempting to find a <span className="blue">link</span> in a Wikipedia page.
+                                A link is any Wikipedia page that can be travelled to from the current page. If a link is found,
+                                that will become the new current page.</p>
+                            <p>The game ends when one player cannot find a link within the time limit.</p>
+                            <p>Find a random opponent by clicing "FIND GAME" or challenge a friend by clicking "CHALLENGE A FRIEND"</p>
+                            <p>Playing against a random opponent will give you a random starting page and 20 seconds per turn.
+                                If you challenge a friend you can customize the starting page and time per turn.
+                            </p>
                         </div>
                         <div className="modal-footer">
                             <button type="button" className="btn btn-primary" data-bs-dismiss="modal">Close</button>

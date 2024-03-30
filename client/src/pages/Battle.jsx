@@ -30,10 +30,9 @@ function Battle() {
 
     return (
         <div className='page'>
-            <div className='battle-container'>
+            <div className='battle-container flex-fill'>
                 {pageState === 'home' && <BattleHome setPageState={setPageState} />}
                 {pageState === 'searching' && <Searching setPageState={setPageState} gameIdFromLink={gameIdFromLink} />}
-                {/* i want to get rid of having challengeSettings and searcingWithLink both here - one or the other - remove settings from this file */}
                 {pageState === 'settings' && <ChallengeSettings setPageState={setPageState} setSettings={setSettings} />}
                 {pageState === 'searchingWithLink' && <SearchingWithLink setPageState={setPageState} gameIdFromLink={gameIdFromLink} settings={settings} />}
             </div>

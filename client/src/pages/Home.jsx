@@ -3,6 +3,7 @@ import { useEffect } from 'react';
 import socket from '../socket';
 import battleSVG from '../assets/battle.svg';
 import puzzleSVG from '../assets/puzzle.svg';
+import genesis from '../assets/genesis.jpg';
 
 function Home() {
 
@@ -11,19 +12,19 @@ function Home() {
     }, []);
 
     return (
-        <div className='page'>
+        <div className='page-home'>
             <h1 className='home-title'>WikiBattles</h1>
             <div className='home-buttons'>
                 <Link to="/battle">
                     <div className='battle-button-container'>
+                        <img src={battleSVG} className='home-svg' />
                         <button type="button" className="btn btn-dark home-button">Battle</button>
-                        <img src={battleSVG} className='battle-svg' />
                     </div>
                 </Link>
                 <Link to="/daily">
                     <div className='battle-button-container'>
+                        <img src={puzzleSVG} className='home-svg' />
                         <button type="button" className="btn btn-dark home-button">Daily Puzzle</button>
-                        <img src={puzzleSVG} className='puzzle-svg' />
                     </div>
                 </Link>
             </div>

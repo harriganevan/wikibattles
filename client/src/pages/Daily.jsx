@@ -84,6 +84,7 @@ function Daily() {
 
     }, [timer]);
 
+    //look into useLayourEffect
     useEffect(() => {
         const links = document.querySelectorAll(".mw-parser-output a");
 
@@ -137,17 +138,21 @@ function Daily() {
 
     return (
         <div className="page-daily">
-            <h1>Daily Puzzle</h1>
+            <h1 className="daily-title">Daily Puzzle</h1>
             <h2>{startPage} &rarr; {endPage}</h2>
+            <div className="daily-stats">
+                {/* <h2>{count >= 0 && count} clicks</h2> */}
+                <h2>{timer} seconds</h2>
+            </div>
+
             <div className="route">
                 <p>Route:&nbsp;</p>
                 {route.map((page, i) =>
                     <p key={page + i}>{page} {i != route.length - 1 && <>&rarr;</>}</p>
                 )}
             </div>
-            {!gameOver ? <button onClick={handleBackClick} type="button" className="btn btn-dark">&larr; go back a page</button> : null}
-            <h2>{count >= 0 && count} clicks</h2>
-            <h2>{timer} seconds</h2>
+            {!gameOver ? <button onClick={handleBackClick} type="button" className="btn btn-dark daily-back-btn">&larr; go back a page</button> : null}
+
             {!gameOver ? (
                 !loading ?
                     <div className="wiki-wrapper">
@@ -171,7 +176,7 @@ function Daily() {
                     <p>you win!</p>
                 </>}
 
-            <button type="button" className="btn btn-dark daily-help" data-bs-toggle="modal" data-bs-target="#exampleModal">
+            <button type="button" className="btn btn-primary daily-help" data-bs-toggle="modal" data-bs-target="#exampleModal">
                 How To Play
             </button>
 
@@ -191,7 +196,7 @@ function Daily() {
                             </p>
                         </div>
                         <div className="modal-footer">
-                            <button type="button" className="btn btn-dark" data-bs-dismiss="modal">Close</button>
+                            <button type="button" className="btn btn-primary" data-bs-dismiss="modal">Close</button>
                         </div>
                     </div>
                 </div>
