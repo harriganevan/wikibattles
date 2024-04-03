@@ -30,11 +30,33 @@ function Header() {
                                 </Link>
                             </li>
                         </ul>
+                        <span>
+                            <button className="header-help" type="button" data-bs-toggle="modal" data-bs-target="#headerModal">
+                                ?
+                            </button>
+                        </span>
                     </div>
-
-
                 </div>
             </nav>
+
+            <div className="modal fade" id="headerModal" tabIndex="-1" aria-labelledby="headerModalLabel" aria-hidden="true">
+                <div className="modal-dialog">
+                    <div className="modal-content">
+                        <div className="modal-header">
+                            <h1 className="modal-title fs-5" id="headerModalLabel">WikiBattles</h1>
+                            <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div className="modal-body">
+                            <p>WikiBattles is a site.</p>
+                            <p>more features coming.</p>
+                            <p>questions or comments, email at email@email.com</p>
+                        </div>
+                        <div className="modal-footer">
+                            <button type="button" className="btn btn-primary" data-bs-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </>
     )
 

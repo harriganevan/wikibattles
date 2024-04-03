@@ -39,13 +39,10 @@ function Board({ gameStartState, username }) {
 
         function onGameOver() {
             setGameOver(true);
-            //send winner over
             console.log('game over');
         }
 
         function onPlayerLeft() {
-            //need to figure out winner
-            //just default say ur winner
             console.log('player left');
         }
 
@@ -81,6 +78,7 @@ function Board({ gameStartState, username }) {
     }, [countdown]);
 
     const makeGuess = async (title) => {
+        //send entire result object so i can include title, descr, img 
         socket.emit('submit-page', {
             guess: encodeURI(title),
             gameState,
@@ -106,21 +104,32 @@ function Board({ gameStartState, username }) {
     return (
         <>
             <div className='board-header'>
-                <p>{Object.keys(gameState.playersData)[0]}</p>
+                <p className={'player-name-left' + (gameState.playerTurn == 1 ? ' bold' : '')}>
+                    {Object.values(gameState.playersData).find(obj => obj.playerNumber == 1).username}
+                    {gameState.playersData[playerName].playerNumber == 1 && ' (you)'}
+                </p>
                 <h2>{countdown}</h2>
-                <p>{Object.keys(gameState.playersData)[1]}</p>
+                <p className={'player-name-right' + (gameState.playerTurn == 2 ? ' bold' : '')}>
+                    {Object.values(gameState.playersData).find(obj => obj.playerNumber == 2).username}
+                    {gameState.playersData[playerName].playerNumber == 2 && ' (you)'}
+                </p>
             </div>
 
             <div className='board-state'>
-                {/* whos turn / game over message */}
+                {gameOver ? <h2>GAME OVER</h2> :
+                    gameState.playersData[playerName].playerNumber == gameState.playerTurn
+                        ? <h2>YOUR TURN</h2>
+                        : <h2>OPONENETS TURN</h2>
+                }
             </div>
 
             {!gameOver ?
                 <>
-                    <h2>current page: {decodeURI(currentPage)}</h2>
+                    <h2>current page:</h2>
+                    <h2>{decodeURI(currentPage)}</h2>
                     {gameState.playerTurn == gameState.playersData[playerName].playerNumber ?
                         <>
-                            <input onChange={handleChange} value={search} />
+                            <input onChange={handleChange} value={search} placeholder="search for page" />
                             {searchResults.length !== 0 ?
                                 <div className="search-menu">
                                     <ul role="listbox" className="search-result-container">
@@ -131,15 +140,18 @@ function Board({ gameStartState, username }) {
                                 </div>
                                 : null}
                         </>
-                        : <p>not your turn</p>}
+                        : null}
                 </>
                 : //when game is over
                 <>
-                    <h1>GAME OVER</h1>
-                    <h2>{gameState.playersData[playerName].playerNumber === gameState.playerTurn ? 'you lose' : 'you win'}</h2>
-                    {gameState.connectedPages.map(page =>
-                        <p key={page}>{decodeURI(page)}</p>
-                    )}
+                    <h2>{gameState.playersData[playerName].playerNumber === gameState.playerTurn ? 'YOU LOSE' : 'YOU WIN'}</h2>
+                    <p>pages:</p>
+                    <div className='board-pages'>
+                        {gameState.connectedPages.map(page =>
+                            <p key={page}>{decodeURI(page)}</p>
+                        )}
+                    </div>
+
                 </>}
         </>
     )

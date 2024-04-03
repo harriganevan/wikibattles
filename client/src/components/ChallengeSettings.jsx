@@ -52,7 +52,7 @@ function ChallengeSettings({ setPageState, setSettings }) {
                 <div className="search-menu">
                     <ul role="listbox" className="search-result-container">
                         {searchResults.map(result =>
-                            <SearchResultSettings setStartingPage={setStartingPage} result={result}  key={result.key}/>
+                            <SearchResultSettings setStartingPage={setStartingPage} result={result} key={result.key} />
                         )}
                     </ul>
                 </div>
@@ -62,30 +62,6 @@ function ChallengeSettings({ setPageState, setSettings }) {
             <div className="button-group">
                 <button onClick={() => setPageState('home')} type="button" className="btn btn-dark battle-button">BACK</button>
                 <button onClick={onContinueClick} type="button" className="btn btn-dark battle-button">CONTINUE</button>
-            </div>
-
-            <button type="button" className="btn btn-primary daily-help" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                ?
-            </button>
-
-            <div className="modal fade" id="exampleModal" tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                <div className="modal-dialog">
-                    <div className="modal-content">
-                        <div className="modal-header">
-                            <h1 className="modal-title fs-5" id="exampleModalLabel">Battle Settings</h1>
-                            <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <div className="modal-body">
-                            <p>change settings.</p>
-                            <p>set time per turn</p>
-                            <p>set starting page</p>
-            
-                        </div>
-                        <div className="modal-footer">
-                            <button type="button" className="btn btn-primary" data-bs-dismiss="modal">Close</button>
-                        </div>
-                    </div>
-                </div>
             </div>
         </div>
     )

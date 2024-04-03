@@ -1,11 +1,16 @@
 import { useEffect, useState } from 'react';
 import Board from './Board';
 import socket from '../socket';
+import { uniqueNamesGenerator, adjectives, animals } from 'unique-names-generator';
 
 function SearchingWithLink({ setPageState, gameIdFromLink, settings }) {
 
     const [gameId, setGameId] = useState(Math.floor(Math.random() * 999999).toString());
-    const [username, setUsername] = useState('player' + Math.floor(Math.random() * 999999).toString());
+    const [username, setUsername] = useState(uniqueNamesGenerator({
+        dictionaries: [adjectives, animals],
+        separator: '',
+        style: 'capital',
+    }));
     const [gameState, setGameState] = useState(null);
 
     useEffect(() => {

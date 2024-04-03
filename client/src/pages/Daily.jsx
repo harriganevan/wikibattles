@@ -3,6 +3,7 @@ import socket from "../socket"
 import { useEffect } from "react"
 import { useState } from "react"
 import { Button } from '@mui/material';
+import DailyWinBlock from "../components/DailyWinBlock";
 import '../wiki.css';
 
 function Daily() {
@@ -141,12 +142,12 @@ function Daily() {
             <h1 className="daily-title">Daily Puzzle</h1>
             <h2>{startPage} &rarr; {endPage}</h2>
             <div className="daily-stats">
-                {/* <h2>{count >= 0 && count} clicks</h2> */}
+                {/* <h2>{count >= 0 && count} clicks</h2> display this at the end for count of pages - just use routes.length */}
                 <h2>{timer} seconds</h2>
             </div>
 
+            <p className="route-text">Route:&nbsp;</p>
             <div className="route">
-                <p>Route:&nbsp;</p>
                 {route.map((page, i) =>
                     <p key={page + i}>{page} {i != route.length - 1 && <>&rarr;</>}</p>
                 )}
@@ -172,8 +173,8 @@ function Daily() {
             )
                 :
                 <>
-                    {/* maybe a new component */}
-                    <p>you win!</p>
+                    <p>you win</p>
+                    {/* <DailyWinBlock route={route} timer={timer} /> */}
                 </>}
 
             <button type="button" className="btn btn-primary daily-help" data-bs-toggle="modal" data-bs-target="#exampleModal">

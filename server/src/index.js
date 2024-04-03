@@ -10,6 +10,8 @@ app.use(cors());
 
 const server = createServer(app);
 
+//need battle weekly pages for random games
+
 const weeklyPages = [
     { startPage: 'Heavy_industry', endPage: 'Air pollution' }, //sunday
     { startPage: 'Biological agent', endPage: 'DNA' }, //monday
@@ -105,17 +107,18 @@ io.on('connection', (socket) => {
                 timerId: null,
             });
             io.to(socket.id).to(secondPlayer.socketId).emit('initiate-game', {
+                //if i want imgs and descr  i need to include those here
                 currentPage: '77th British Academy Film Awards',
                 connectedPages: ['77th%20British%20Academy%20Film%20Awards'],
                 gameId: gameId,
                 gameTurn: 1,
                 playerTurn: 1,
                 playersData: {
-                    [data.username]: {
+                    [secondPlayer.username]: {
                         playerNumber: 1,
                         username: data.username,
                     },
-                    [secondPlayer.username]: {
+                    [data.username]: {
                         playerNumber: 2,
                         username: secondPlayer.username,
                     }
@@ -192,7 +195,7 @@ io.on('connection', (socket) => {
 
     socket.on('stop-search', (data) => {
         waiting.delete(data.socketId);
-    })
+    });
 
     //game events *******************************************************************
     socket.on('submit-page', async (data) => {
