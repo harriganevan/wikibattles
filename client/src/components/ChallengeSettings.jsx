@@ -37,7 +37,7 @@ function ChallengeSettings({ setPageState, setSettings }) {
     }
 
     return (
-        <div className="settings-container">
+        <>
             <h2 className="settings-title">BATTLE SETTINGS <img src={settingsGear} className="battle-settings-svg" /></h2>
 
             <div className="time-per-turn">
@@ -49,22 +49,22 @@ function ChallengeSettings({ setPageState, setSettings }) {
 
             <input onChange={handleSearchChange} value={search} placeholder="search for page" />
 
-            {searchResults.length !== 0 ? (
-                <div className="search-menu">
+            <div className="search-menu flex-fill">
+                {searchResults.length !== 0 ? (
                     <ul role="listbox" className="search-result-container">
                         {searchResults.map(result =>
                             <SearchResultSettings setStartingPage={setStartingPage} result={result} key={result.key} />
                         )}
                     </ul>
+                )
+                    :
+                    null}
+                <div className="button-group">
+                    <button onClick={() => setPageState('home')} type="button" className="btn btn-dark battle-button">&larr; BACK</button>
+                    <button onClick={onContinueClick} type="button" className="btn btn-dark battle-button">CONTINUE &rarr;</button>
                 </div>
-            )
-                :
-                null}
-            <div className="button-group">
-                <button onClick={() => setPageState('home')} type="button" className="btn btn-dark battle-button">&larr; BACK</button>
-                <button onClick={onContinueClick} type="button" className="btn btn-dark battle-button">CONTINUE &rarr;</button>
             </div>
-        </div>
+        </>
     )
 }
 

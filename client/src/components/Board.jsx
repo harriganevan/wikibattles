@@ -125,13 +125,15 @@ function Board({ gameStartState, username }) {
 
             {!gameOver ?
                 <>
-                    <h2>current page:</h2>
-                    <h2>{decodeURI(currentPage)}</h2>
+                    <div>
+                        <h2>current page:</h2>
+                        <h2>{decodeURI(currentPage)}</h2>
+                    </div>
                     {gameState.playerTurn == gameState.playersData[playerName].playerNumber ?
                         <>
                             <input onChange={handleChange} value={search} placeholder="search for page" />
                             {searchResults.length !== 0 ?
-                                <div className="search-menu">
+                                <div className="search-menu flex-fill">
                                     <ul role="listbox" className="search-result-container">
                                         {searchResults.map(result =>
                                             <SearchResultBoard makeGuess={makeGuess} result={result} key={result.key} />
@@ -144,12 +146,14 @@ function Board({ gameStartState, username }) {
                 </>
                 : //when game is over
                 <>
-                    <h2>{gameState.playersData[playerName].playerNumber === gameState.playerTurn ? 'YOU LOSE' : 'YOU WIN'}</h2>
-                    <p>pages:</p>
-                    <div className='board-pages'>
-                        {gameState.connectedPages.map(page =>
-                            <p key={page}>{decodeURI(page)}</p>
-                        )}
+                    <h2 className='win-lose-msg'>{gameState.playersData[playerName].playerNumber === gameState.playerTurn ? 'YOU LOSE' : 'YOU WIN'}</h2>
+                    <div className='flex-fill'>
+                        <p>pages:</p>
+                        <div className='board-pages'>
+                            {gameState.connectedPages.map(page =>
+                                <p key={page}>{decodeURI(page)}</p>
+                            )}
+                        </div>
                     </div>
 
                 </>}
