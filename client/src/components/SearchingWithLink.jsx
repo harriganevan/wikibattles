@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import Board from './Board';
 import socket from '../socket';
 import { uniqueNamesGenerator, adjectives, animals } from 'unique-names-generator';
@@ -13,6 +13,8 @@ function SearchingWithLink({ setPageState, gameIdFromLink, settings }) {
         style: 'capital',
     }));
     const [gameState, setGameState] = useState(null);
+
+    const [copied, setCopied] = useState(false);
 
     useEffect(() => {
 
@@ -61,6 +63,7 @@ function SearchingWithLink({ setPageState, gameIdFromLink, settings }) {
 
     const handleCopyClick = () => {
         navigator.clipboard.writeText(`http://localhost:5173/battle/${gameId}`);
+        setCopied(true);
     }
 
     return (
@@ -74,9 +77,11 @@ function SearchingWithLink({ setPageState, gameIdFromLink, settings }) {
                             <span className="visually-hidden">Loading...</span>
                         </div>
                     </div>
-                    {/* <p>copy invite link http://localhost:5173/battle/{gameId}</p> */}
-                    <button onClick={handleCopyClick} type="button" className="btn btn-dark">COPY INVITE LINK</button>
-                    <button onClick={handleClickBack} type="button" className="btn btn-dark">&larr; BACK</button>
+                    <div className='searching-w-link-buttons'>
+                        {copied && <p className='copied'>copied to clipboard</p>}
+                        <button onClick={handleCopyClick} type="button" className="btn btn-dark">COPY INVITE LINK</button>
+                        <button onClick={handleClickBack} type="button" className="btn btn-dark">&larr; BACK</button>
+                    </div>
                 </div>
             )}
         </>

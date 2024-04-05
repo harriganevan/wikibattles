@@ -93,8 +93,6 @@ function Daily() {
         //otherwise loading would be set false before api call for first page finishes
         if (links.length > 0) {
 
-            setLoading(true);
-
             links.forEach((link) => {
                 link.addEventListener('click', (e) => {
 
@@ -124,7 +122,7 @@ function Daily() {
 
                 });
             });
-            setLoading(false);
+
         }
 
     }, [loading]);
