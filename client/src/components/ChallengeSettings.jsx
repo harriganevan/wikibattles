@@ -1,6 +1,7 @@
 import { useState } from "react"
 import SearchResultSettings from "./SearchResultSettings";
-import defaultPhoto from '../assets/default.svg'
+import defaultPhoto from '../assets/default.svg';
+import settingsGear from '../assets/settings-gears.svg';
 
 function ChallengeSettings({ setPageState, setSettings }) {
 
@@ -37,7 +38,7 @@ function ChallengeSettings({ setPageState, setSettings }) {
 
     return (
         <div className="settings-container">
-            <h2>BATTLE SETTINGS</h2>
+            <h2 className="settings-title">BATTLE SETTINGS <img src={settingsGear} className="battle-settings-svg" /></h2>
 
             <div className="time-per-turn">
                 <p className="time-per-turn-text">Time per turn: {timePerTurn} seconds</p>
@@ -60,8 +61,8 @@ function ChallengeSettings({ setPageState, setSettings }) {
                 :
                 null}
             <div className="button-group">
-                <button onClick={() => setPageState('home')} type="button" className="btn btn-dark battle-button">BACK</button>
-                <button onClick={onContinueClick} type="button" className="btn btn-dark battle-button">CONTINUE</button>
+                <button onClick={() => setPageState('home')} type="button" className="btn btn-dark battle-button">&larr; BACK</button>
+                <button onClick={onContinueClick} type="button" className="btn btn-dark battle-button">CONTINUE &rarr;</button>
             </div>
         </div>
     )

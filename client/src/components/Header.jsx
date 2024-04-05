@@ -49,7 +49,7 @@ function Header() {
                         <div className="modal-body">
                             <p>WikiBattles is a site.</p>
                             <p>more features coming.</p>
-                            <p>questions or comments, email at email@email.com</p>
+                            <p>questions, comments, bug reports?, email at email@email.com</p>
                         </div>
                         <div className="modal-footer">
                             <button type="button" className="btn btn-primary" data-bs-dismiss="modal">Close</button>

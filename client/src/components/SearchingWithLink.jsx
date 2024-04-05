@@ -2,10 +2,11 @@ import { useEffect, useState } from 'react';
 import Board from './Board';
 import socket from '../socket';
 import { uniqueNamesGenerator, adjectives, animals } from 'unique-names-generator';
+import { v4 as uuidv4 } from 'uuid';
 
 function SearchingWithLink({ setPageState, gameIdFromLink, settings }) {
 
-    const [gameId, setGameId] = useState(Math.floor(Math.random() * 999999).toString());
+    const [gameId, setGameId] = useState(uuidv4());
     const [username, setUsername] = useState(uniqueNamesGenerator({
         dictionaries: [adjectives, animals],
         separator: '',
@@ -58,6 +59,10 @@ function SearchingWithLink({ setPageState, gameIdFromLink, settings }) {
         setPageState('home');
     }
 
+    const handleCopyClick = () => {
+        navigator.clipboard.writeText(`http://localhost:5173/battle/${gameId}`);
+    }
+
     return (
         //render challengesettings first then this stuff below
         <>
@@ -69,8 +74,9 @@ function SearchingWithLink({ setPageState, gameIdFromLink, settings }) {
                             <span className="visually-hidden">Loading...</span>
                         </div>
                     </div>
-                    <p>copy invite link http://localhost:5173/battle/{gameId}</p>
-                    <button onClick={handleClickBack} type="button" className="btn btn-dark battle-button">back</button>
+                    {/* <p>copy invite link http://localhost:5173/battle/{gameId}</p> */}
+                    <button onClick={handleCopyClick} type="button" className="btn btn-dark">COPY INVITE LINK</button>
+                    <button onClick={handleClickBack} type="button" className="btn btn-dark">&larr; BACK</button>
                 </div>
             )}
         </>

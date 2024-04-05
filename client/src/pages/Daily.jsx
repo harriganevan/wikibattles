@@ -124,11 +124,10 @@ function Daily() {
 
                 });
             });
-
             setLoading(false);
         }
 
-    }, [pageContent]);
+    }, [loading]);
 
     function handleBackClick() {
         if (route.length > 1) {

@@ -5,7 +5,6 @@ import { uniqueNamesGenerator, adjectives, animals } from 'unique-names-generato
 
 function Searching({ setPageState }) {
 
-    const [gameId, setGameId] = useState(Math.floor(Math.random() * 999999).toString());
     const [username, setUsername] = useState(uniqueNamesGenerator({
         dictionaries: [adjectives, animals],
         separator: '',
@@ -15,7 +14,7 @@ function Searching({ setPageState }) {
 
     useEffect(() => {
 
-        socket.emit('find-game', { username, gameId });
+        socket.emit('find-game', { username });
 
         function onInitiateGame(data) {
             socket.emit('join-game-room', { gameId: data.gameId });

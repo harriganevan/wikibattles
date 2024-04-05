@@ -4,6 +4,7 @@ const { Server } = require('socket.io');
 const cors = require('cors');
 const { getLinksFromPage } = require('./getLinksFromPage.js');
 const { CronJob } = require('cron');
+const { v4: uuidv4 } = require('uuid');
 
 const app = express();
 app.use(cors());
@@ -96,7 +97,7 @@ io.on('connection', (socket) => {
             const waitingPlayer = waiting.keys().next().value;
             const secondPlayer = waiting.get(waitingPlayer);
             waiting.delete(waitingPlayer);
-            const gameId = Math.floor(Math.random() * 999999).toString();
+            const gameId = uuidv4();
             links = await getLinksFromPage(encodeURI('77th British Academy Film Awards'));
             linksSet = new Set(links);
             games.set(gameId, {
