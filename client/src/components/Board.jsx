@@ -126,7 +126,7 @@ function Board({ gameStartState, username }) {
             {!gameOver ?
                 <>
                     <div>
-                        <h2>current page:</h2>
+                        <h2>Current Page:</h2>
                         <h2>{decodeURI(currentPage)}</h2>
                     </div>
                     {gameState.playerTurn == gameState.playersData[playerName].playerNumber ?

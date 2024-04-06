@@ -47,7 +47,7 @@ function Searching({ setPageState }) {
                             <span className="visually-hidden">Loading...</span>
                         </div>
                     </div>
-                    <button onClick={handleClickBack} type="button" className="btn btn-dark home-button">back</button>
+                    <button onClick={handleClickBack} type="button" className="btn btn-dark home-button">BACK</button>
                 </div>
             )}
         </>

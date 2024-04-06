@@ -3,6 +3,7 @@ const { createServer } = require('node:http');
 const { Server } = require('socket.io');
 const cors = require('cors');
 const { getLinksFromPage } = require('./getLinksFromPage.js');
+const { randomPages } = require('./randomPages.js');
 const { CronJob } = require('cron');
 const { v4: uuidv4 } = require('uuid');
 
@@ -11,10 +12,8 @@ app.use(cors());
 
 const server = createServer(app);
 
-//need battle weekly pages for random games
-
 const weeklyPages = [
-    { startPage: 'Heavy_industry', endPage: 'Air pollution' }, //sunday
+    { startPage: 'Heavy industry', endPage: 'Air pollution' }, //sunday
     { startPage: 'Biological agent', endPage: 'DNA' }, //monday
     { startPage: 'Molecule', endPage: 'Sigma bond' }, //tuesday
     { startPage: 'International Science Council', endPage: 'New Zealand' }, //wednesday
@@ -41,6 +40,10 @@ const job = new CronJob(
 //endpoints for daily puzzle
 app.get('/getDailyPages', (req, res) => {
     res.json(weeklyPages[dayOfWeek]);
+})
+
+app.get('/getRandomPage', (req, res) => {
+    res.json({ page: randomPages[(Math.floor(Math.random() * randomPages.length))] });
 })
 
 //socketio server mounted on nodejs HTTP server
@@ -98,19 +101,19 @@ io.on('connection', (socket) => {
             const secondPlayer = waiting.get(waitingPlayer);
             waiting.delete(waitingPlayer);
             const gameId = uuidv4();
-            links = await getLinksFromPage(encodeURI('77th British Academy Film Awards'));
+            const title = randomPages[(Math.floor(Math.random() * randomPages.length))];
+            links = await getLinksFromPage(title);
             linksSet = new Set(links);
             games.set(gameId, {
                 users: [{ username: data.username, socketId: socket.id }, { username: secondPlayer.username, socketId: secondPlayer.socketId }],
-                currentPage: '77th British Academy Film Awards',
+                currentPage: encodeURI(title),
                 timePerTurn: 20,
                 linksSet,
                 timerId: null,
             });
             io.to(socket.id).to(secondPlayer.socketId).emit('initiate-game', {
-                //if i want imgs and descr  i need to include those here
-                currentPage: '77th British Academy Film Awards',
-                connectedPages: ['77th%20British%20Academy%20Film%20Awards'],
+                currentPage: encodeURI(title),
+                connectedPages: [encodeURI(title)],
                 gameId: gameId,
                 gameTurn: 1,
                 playerTurn: 1,
@@ -135,12 +138,12 @@ io.on('connection', (socket) => {
     });
 
     socket.on('challenge-friend-by-link', async (data) => {
-        links = await getLinksFromPage(encodeURI(data.settings.startingPage));
+        links = await getLinksFromPage(data.settings.startingPage);
         linksSet = new Set(links);
         games.set(data.gameId, {
             users: [{ username: data.username, socketId: socket.id }],
-            currentPage: data.settings.startingPage,
-            timePerTurn: data.settings.timePerTurn,
+            currentPage: encodeURI(data.settings.startingPage),
+            timePerTurn: encodeURI(data.settings.timePerTurn),
             linksSet,
             timerId: null,
         });

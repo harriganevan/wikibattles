@@ -18,13 +18,13 @@ function Home() {
                 <Link to="/battle">
                     <div className='battle-button-container'>
                         <img src={battleSVG} className='home-svg' />
-                        <button type="button" className="btn btn-dark home-button">Battle</button>
+                        <button type="button" className="btn btn-dark home-button">BATTLE</button>
                     </div>
                 </Link>
                 <Link to="/daily">
                     <div className='battle-button-container'>
                         <img src={puzzleSVG} className='home-svg' />
-                        <button type="button" className="btn btn-dark home-button">Daily Puzzle</button>
+                        <button type="button" className="btn btn-dark home-button">DAILY PUZZLE</button>
                     </div>
                 </Link>
             </div>

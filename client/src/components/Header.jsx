@@ -43,11 +43,11 @@ function Header() {
                 <div className="modal-dialog">
                     <div className="modal-content">
                         <div className="modal-header">
-                            <h1 className="modal-title fs-5" id="headerModalLabel">WikiBattles</h1>
+                            <h1 className="modal-title fs-5" id="headerModalLabel">What is This Site?</h1>
                             <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div className="modal-body">
-                            <p>WikiBattles is a site.</p>
+                            <p>WikiBattles is a site to test your general knowledge.</p>
                             <p>more features coming.</p>
                             <p>questions, comments, bug reports?, email at email@email.com</p>
                         </div>
