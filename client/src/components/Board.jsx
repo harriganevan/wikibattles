@@ -147,15 +147,14 @@ function Board({ gameStartState, username }) {
                 : //when game is over
                 <>
                     <h2 className='win-lose-msg'>{gameState.playersData[playerName].playerNumber === gameState.playerTurn ? 'YOU LOSE' : 'YOU WIN'}</h2>
-                    <div className='flex-fill'>
-                        <p>pages:</p>
+                    <p>pages:</p>
+                    <div className='flex-fill end-pages'>
                         <div className='board-pages'>
                             {gameState.connectedPages.map(page =>
                                 <p key={page}>{decodeURI(page)}</p>
                             )}
                         </div>
                     </div>
-
                 </>}
         </>
     )

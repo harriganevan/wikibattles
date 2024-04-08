@@ -3,6 +3,7 @@ const { createServer } = require('node:http');
 const { Server } = require('socket.io');
 const cors = require('cors');
 const { getLinksFromPage } = require('./getLinksFromPage.js');
+const { getImgDescr } = require('./getImgDescr.js');
 const { randomPages } = require('./randomPages.js');
 const { CronJob } = require('cron');
 const { v4: uuidv4 } = require('uuid');
@@ -102,8 +103,12 @@ io.on('connection', (socket) => {
             waiting.delete(waitingPlayer);
             const gameId = uuidv4();
             const title = randomPages[(Math.floor(Math.random() * randomPages.length))];
-            links = await getLinksFromPage(title);
-            linksSet = new Set(links);
+            const links = await getLinksFromPage(title);
+            const linksSet = new Set(links);
+            //get thumbnail and description
+            const imgdescr = await getImgDescr(title);
+            console.log(imgdescr);
+            //make pages object {pagetitle, pageimg, pagedescr}
             games.set(gameId, {
                 users: [{ username: data.username, socketId: socket.id }, { username: secondPlayer.username, socketId: secondPlayer.socketId }],
                 currentPage: encodeURI(title),

@@ -61,6 +61,7 @@
   overflow: auto;
   max-width: 100%;
   align-items: center;
+  overflow-x: hidden;
 }
 
 .search-result-container {
@@ -353,6 +354,10 @@
 
 .win-lose-msg {
   margin-bottom: 0;
+}
+
+.end-pages {
+  overflow: auto;
 }
 
 /* search scrollbar */

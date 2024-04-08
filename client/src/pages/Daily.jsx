@@ -102,7 +102,7 @@ function Daily() {
                         const indexOfHash = e.currentTarget.href.indexOf('#');
                         const newHref = e.currentTarget.href.substring(indexOfHash);
                         const element = document.querySelector(newHref);
-                        element.scrollIntoView()
+                        element.scrollIntoView();
                     }
 
                     if (e.currentTarget.title) {
