@@ -3,7 +3,7 @@ import defaultPhoto from '../assets/default.svg'
 function SearchResultsSettings({makeGuess, result}) {
 
     return (
-        <li role="option" className="search-result-item" onClick={() => makeGuess(result.title)}>
+        <li role="option" className="search-result-item" onClick={() => makeGuess(result)}>
             <div className="search-result-content">
                 {result.thumbnail !== null ?
                     <span className="search-result-img" style={{ backgroundImage: 'url(' + result.thumbnail.url + ')' }} />

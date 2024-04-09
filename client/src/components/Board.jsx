@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import socket from '../socket';
 import defaultPhoto from '../assets/default.svg';
 import SearchResultBoard from './SearchResultBoard';
+import EndPage from './EndPage';
 
 function Board({ gameStartState, username }) {
 
@@ -77,10 +78,9 @@ function Board({ gameStartState, username }) {
 
     }, [countdown]);
 
-    const makeGuess = async (title) => {
-        //send entire result object so i can include title, descr, img 
+    const makeGuess = async (result) => {
         socket.emit('submit-page', {
-            guess: encodeURI(title),
+            guess: { title: encodeURI(result.title), thumbnail: result.thumbnail, description: result.description },
             gameState,
             username,
         })
@@ -150,8 +150,8 @@ function Board({ gameStartState, username }) {
                     <p>pages:</p>
                     <div className='flex-fill end-pages'>
                         <div className='board-pages'>
-                            {gameState.connectedPages.map(page =>
-                                <p key={page}>{decodeURI(page)}</p>
+                            {gameState.pageData.map(page =>
+                                <a href={`https://en.wikipedia.org/wiki/${page.title}`} target={"_blank"} className='end-tag' key={page.title}><EndPage page={page} /></a>
                             )}
                         </div>
                     </div>

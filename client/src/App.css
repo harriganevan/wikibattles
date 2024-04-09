@@ -360,6 +360,22 @@
   overflow: auto;
 }
 
+.board-pages {
+  text-align: left;
+}
+
+.end-tag:link {
+  text-decoration: inherit;
+  color: inherit;
+  cursor: auto;
+}
+
+.end-tag:visited {
+  text-decoration: inherit;
+  color: inherit;
+  cursor: auto;
+}
+
 /* search scrollbar */
 .battle-container ::-webkit-scrollbar {
   width: 10px;
@@ -388,6 +404,7 @@
   .battle-container {
     width: 100%;
   }
+
   .search-result-container {
     width: 100%;
   }
