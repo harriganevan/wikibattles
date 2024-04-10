@@ -116,7 +116,7 @@ io.on('connection', (socket) => {
             io.to(socket.id).to(secondPlayer.socketId).emit('initiate-game', {
                 currentPage: encodeURI(title),
                 connectedPages: [encodeURI(title)],
-                pageData: [{ title: title, thumbnail: imgdescr.thumbnail, description: imgdescr.description }],
+                pageData: [{ title: title, thumbnail: { url: imgdescr.thumbnail }, description: imgdescr.description }],
                 gameId: gameId,
                 gameTurn: 1,
                 playerTurn: 1,
@@ -149,7 +149,7 @@ io.on('connection', (socket) => {
             currentPage: encodeURI(data.settings.startingPage),
             timePerTurn: encodeURI(data.settings.timePerTurn),
             linksSet,
-            startingPageData: { title: data.settings.startingPage, thumbnail: imgdescr.thumbnail, description: imgdescr.description },
+            startingPageData: { title: data.settings.startingPage, thumbnail: { url: imgdescr.thumbnail }, description: imgdescr.description },
             timerId: null,
         });
         playersGame.set(socket.id, data.gameId);
@@ -216,16 +216,14 @@ io.on('connection', (socket) => {
                 io.to(data.gameState.gameId).emit('game-over');
                 games.delete(data.gameState.gameId);
             }, games.get(data.gameState.gameId).timePerTurn * 1000);
-
             gameState.connectedPages.push(data.guess.title);
-            gameState.pageData.push({ title: data.guess.title, thumbnail: data.guess.thumbnail.url, description: data.guess.description })
+            gameState.pageData.push({ title: data.guess.title, thumbnail: data.guess.thumbnail, description: data.guess.description })
             gameState.currentPage = data.guess.title;
             gameState.gameTurn += 1;
             gameState.playerTurn == 1 ? gameState.playerTurn = 2 : gameState.playerTurn = 1;
 
             io.to(data.gameState.gameId).emit('update-game', { gameState });
 
-            //update server game state with new linksSet
             const links = await getLinksFromPage(data.guess.title);
             const linksSet = new Set(links);
 

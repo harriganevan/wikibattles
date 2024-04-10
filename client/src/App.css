@@ -358,6 +358,7 @@
 
 .end-pages {
   overflow: auto;
+  max-width: 100%;
 }
 
 .board-pages {
@@ -368,12 +369,14 @@
   text-decoration: inherit;
   color: inherit;
   cursor: auto;
+  font-weight: inherit;
 }
 
 .end-tag:visited {
   text-decoration: inherit;
   color: inherit;
   cursor: auto;
+  font-weight: inherit;
 }
 
 /* search scrollbar */

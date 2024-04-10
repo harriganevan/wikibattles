@@ -5,8 +5,8 @@ function endPage({ page }) {
     return (
         <li role="option" className="search-result-item">
             <div className="search-result-content">
-                {page.thumbnail !== null ?
-                    <span className="search-result-img" style={{ backgroundImage: 'url(' + page.thumbnail + ')' }} />
+                {page.thumbnail.url !== null ?
+                    <span className="search-result-img" style={{ backgroundImage: 'url(' + page.thumbnail.url + ')' }} />
                     :
                     <span className="search-result-img-placeholder">
                         <span className="search-result-img-default" style={{ backgroundImage: 'url(' + defaultPhoto + ')' }} />
