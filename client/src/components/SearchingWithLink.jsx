@@ -30,6 +30,8 @@ function SearchingWithLink({ setPageState, gameIdFromLink, settings }) {
         function onGameNotFound() {
             console.log('game not found');
             setPageState('home');
+            //and remove gameid from url
+            //instead - use navigate to /battle
         }
 
         function onGameFull() {

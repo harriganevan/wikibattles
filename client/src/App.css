@@ -378,6 +378,9 @@
   cursor: auto;
   font-weight: inherit;
 }
+.winner {
+  color: rgb(179, 179, 33);
+}
 
 /* search scrollbar */
 .battle-container ::-webkit-scrollbar {

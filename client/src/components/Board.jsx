@@ -104,12 +104,12 @@ function Board({ gameStartState, username }) {
     return (
         <>
             <div className='board-header'>
-                <p className={'player-name-left' + (gameState.playerTurn == 1 ? ' bold' : '')}>
+                <p className={'player-name-left' + (!gameOver && gameState.playerTurn == 1 ? ' bold' : '') + (gameOver && gameState.playerTurn !== 1 ? ' winner' : '')}>
                     {Object.values(gameState.playersData).find(obj => obj.playerNumber == 1).username}
                     {gameState.playersData[playerName].playerNumber == 1 && ' (you)'}
                 </p>
                 <h2>{countdown}</h2>
-                <p className={'player-name-right' + (gameState.playerTurn == 2 ? ' bold' : '')}>
+                <p className={'player-name-right' + (!gameOver && gameState.playerTurn == 2 ? ' bold' : '') + (gameOver && gameState.playerTurn !== 2 ? ' winner' : '')}>
                     {Object.values(gameState.playersData).find(obj => obj.playerNumber == 2).username}
                     {gameState.playersData[playerName].playerNumber == 2 && ' (you)'}
                 </p>
