@@ -19,6 +19,7 @@ function Daily() {
 
     const [timer, setTimer] = useState(0);
     const [timerStart, setTimerStart] = useState(Date.now());
+    const [timerId, setTimerId] = useState(null);
 
     const [route, setRoute] = useState([]);
 
@@ -65,25 +66,22 @@ function Daily() {
         }
     }
 
+    function startTimer() {
+        if (!timerId) {
+            setTimerId(
+                setInterval(() => {
+                    let tempTime = Math.floor((Date.now() - timerStart) / 1000);
+                    setTimer(tempTime);
+                }, 200)
+            );
+        }
+    }
+
     useEffect(() => {
         socket.disconnect();
         getPages();
+        startTimer();
     }, []);
-
-    //for countup timer
-    useEffect(() => {
-
-        if (!gameOver) {
-
-            const interval = setInterval(() => {
-                let tempTime = Math.floor((Date.now() - timerStart) / 1000);
-                setTimer(tempTime);
-            }, 500);
-
-            return () => clearInterval(interval);
-        }
-
-    }, [timer]);
 
     //look into useLayourEffect
     useEffect(() => {
@@ -110,6 +108,7 @@ function Daily() {
                             setCount(count + 1);
                             setRoute([...route, e.currentTarget.title]);
                             setGameOver(true);
+                            clearInterval(timerId);
                         } else {
                             getPage(e.currentTarget.title);
                         }
