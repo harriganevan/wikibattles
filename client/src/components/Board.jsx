@@ -88,7 +88,6 @@ function Board({ gameStartState, username }) {
 
     const delayedFunction = async (value) => {
         if (value) {
-            console.log('delayed search:', value);
             const response = await fetch(`https://en.wikipedia.org/w/rest.php/v1/search/title?q=${value}&limit=5`);
             const searchResults = await response.json();
             setSearchResults(searchResults.pages);
@@ -98,7 +97,7 @@ function Board({ gameStartState, username }) {
     const handleChange = (e) => {
         clearTimeout(searchTimerId);
         setSearch(e.target.value);
-        setSearchTimerId(setTimeout(() => delayedFunction(e.target.value), 200));
+        setSearchTimerId(setTimeout(() => delayedFunction(e.target.value), 300));
     }
 
     return (
@@ -115,7 +114,7 @@ function Board({ gameStartState, username }) {
                 </p>
             </div>
 
-            <div className='board-state'>
+            <div className={(!gameOver && gameState.playersData[playerName].playerNumber == gameState.playerTurn ? 'board-state-blue' : 'board-state')}>
                 {gameOver ? <h2>GAME OVER</h2> :
                     gameState.playersData[playerName].playerNumber == gameState.playerTurn
                         ? <h2>YOUR TURN</h2>
