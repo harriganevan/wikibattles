@@ -3,6 +3,7 @@ import Board from './Board';
 import socket from '../socket';
 import { uniqueNamesGenerator, adjectives, animals } from 'unique-names-generator';
 import { v4 as uuidv4 } from 'uuid';
+import { useNavigate } from "react-router-dom";
 
 function SearchingWithLink({ setPageState, gameIdFromLink, settings }) {
 
@@ -15,6 +16,8 @@ function SearchingWithLink({ setPageState, gameIdFromLink, settings }) {
     const [gameState, setGameState] = useState(null);
 
     const [copied, setCopied] = useState(false);
+
+    const navigate = useNavigate();
 
     useEffect(() => {
 
@@ -29,9 +32,7 @@ function SearchingWithLink({ setPageState, gameIdFromLink, settings }) {
 
         function onGameNotFound() {
             console.log('game not found');
-            setPageState('home');
-            //and remove gameid from url
-            //instead - use navigate to /battle
+            navigate("/")
         }
 
         function onGameFull() {
