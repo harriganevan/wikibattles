@@ -88,7 +88,7 @@ function Board({ gameStartState, username }) {
 
     const delayedFunction = async (value) => {
         if (value) {
-            const response = await fetch(`https://en.wikipedia.org/w/rest.php/v1/search/title?q=${value}&limit=5`);
+            const response = await fetch(`https://en.wikipedia.org/w/rest.php/v1/search/title?q=${value}&limit=10`);
             const searchResults = await response.json();
             setSearchResults(searchResults.pages);
         }

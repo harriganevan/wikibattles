@@ -54,7 +54,7 @@ function ChallengeSettings({ setPageState, setSettings }) {
 
             <div className="time-per-turn">
                 <p className="time-per-turn-text">Time per turn: {timePerTurn} seconds</p>
-                <input type="range" min="5" max="900" value={timePerTurn} onChange={handleSliderChange} />
+                <input type="range" min="5" max="90" value={timePerTurn} onChange={handleSliderChange} />
             </div>
 
             <p className="starting-page-title">Starting page: {startingPage}</p>

@@ -24,6 +24,11 @@
   flex-grow: 1;
 }
 
+.daily-stat {
+  color: blue;
+  font-weight: bold;
+}
+
 .page-home {
   display: flex;
   flex-direction: column;
@@ -199,7 +204,8 @@
   text-decoration: inherit;
 }
 
-
+.daily-you-win,
+.daily-route p,
 .starting-page-title,
 .settings-title,
 .copied,
@@ -207,6 +213,11 @@
 .route-text {
   margin-bottom: 0;
   margin-block-end: 0;
+}
+
+.daily-you-win{
+  padding-top: .5rem;
+  padding-bottom: 1rem;
 }
 
 .home-title {
@@ -392,6 +403,12 @@
   color: rgb(0, 0, 0);
   font-weight: bold;
   text-shadow: 0 0 32px #e5ff00;
+}
+
+.daily-route {
+  display: flex;
+  flex-direction: column;
+  overflow: auto;
 }
 
 /* search scrollbar */

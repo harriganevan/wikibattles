@@ -8,8 +8,6 @@ import '../wiki.css';
 
 function Daily() {
 
-    // ADD A TIMER
-
     const [pageTitle, setPageTitle] = useState('');
     const [pageContent, setPageContent] = useState('');
     const [count, setCount] = useState(0);
@@ -83,7 +81,6 @@ function Daily() {
         startTimer();
     }, []);
 
-    //look into useLayourEffect
     useEffect(() => {
         const links = document.querySelectorAll(".mw-parser-output a");
 
@@ -135,19 +132,25 @@ function Daily() {
 
     return (
         <div className="page-daily">
+
             <h1 className="daily-title">Daily Puzzle</h1>
             <h2>{startPage} &rarr; {endPage}</h2>
-            <div className="daily-stats">
-                {/* <h2>{count >= 0 && count} clicks</h2> display this at the end for count of pages - just use routes.length */}
-                <h2>{timer} seconds</h2>
-            </div>
 
-            <p className="route-text">Route:&nbsp;</p>
-            <div className="route">
-                {route.map((page, i) =>
-                    <p key={page + i}>{page} {i != route.length - 1 && <>&rarr;</>}</p>
-                )}
-            </div>
+            {!gameOver &&
+                <>
+                    <div className="daily-stats">
+                        {/* <h2>{count >= 0 && count} clicks</h2> display this at the end for count of pages - just use routes.length */}
+                        <h2>{timer} seconds</h2>
+                    </div>
+                    <p className="route-text">Route:&nbsp;</p>
+                    <div className="route">
+                        {route.map((page, i) =>
+                            <p key={page + i}>{page} {i != route.length - 1 && <>&rarr;</>}</p>
+                        )}
+                    </div>
+                </>
+            }
+
             {!gameOver ? <button onClick={handleBackClick} type="button" className="btn btn-dark daily-back-btn">&larr; go back a page</button> : null}
 
             {!gameOver ? (
@@ -169,8 +172,7 @@ function Daily() {
             )
                 :
                 <>
-                    <p>you win</p>
-                    {/* <DailyWinBlock route={route} timer={timer} /> */}
+                    <DailyWinBlock route={route} timer={timer} startPage={startPage} endPage={endPage} />
                 </>}
 
             <button type="button" className="btn btn-primary daily-help" data-bs-toggle="modal" data-bs-target="#exampleModal">
