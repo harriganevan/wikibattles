@@ -81,52 +81,36 @@ function Daily() {
         startTimer();
     }, []);
 
-    useEffect(() => {
-        const links = document.querySelectorAll(".mw-parser-output a");
-
-        //this conditional is used to keep first load state true
-        //otherwise loading would be set false before api call for first page finishes
-        if (links.length > 0) {
-
-            links.forEach((link) => {
-                link.addEventListener('click', (e) => {
-
-                    e.preventDefault();
-
-                    if (e.currentTarget.href.startsWith('http://localhost:5173/daily#')) {
-                        const indexOfHash = e.currentTarget.href.indexOf('#');
-                        const newHref = e.currentTarget.href.substring(indexOfHash);
-                        const element = document.querySelector(newHref);
-                        element.scrollIntoView();
-                    }
-
-                    if (e.currentTarget.title) {
-                        if (e.currentTarget.title == endPage) {
-                            setCount(count + 1);
-                            setRoute([...route, e.currentTarget.title]);
-                            setGameOver(true);
-                            clearInterval(timerId);
-                        } else {
-                            getPage(e.currentTarget.title);
-                        }
-                        window.scrollTo({
-                            top: 0,
-                            left: 0,
-                            behavior: 'instant',
-                        });
-                    }
-
-                });
-            });
-
-        }
-
-    }, [loading]);
-
     function handleBackClick() {
         if (route.length > 1) {
-            const previous = route.pop();
+            route.pop();
             getBackPage(route[route.length - 1]);
+        }
+    }
+
+    function handlePageClick(e) {
+        e.preventDefault();
+        if (e.target.href && e.target.href.startsWith('http://localhost:5173/daily#')) {
+            const indexOfHash = e.currentTarget.href.indexOf('#');
+            const newHref = e.currentTarget.href.substring(indexOfHash);
+            const element = document.querySelector(newHref);
+            element.scrollIntoView();
+        }
+
+        if (e.target.title) {
+            if (e.target.title == endPage) {
+                setCount(count + 1);
+                setRoute([...route, e.target.title]);
+                setGameOver(true);
+                clearInterval(timerId);
+            } else {
+                getPage(e.target.title);
+            }
+            window.scrollTo({
+                top: 0,
+                left: 0,
+                behavior: 'instant',
+            });
         }
     }
 
@@ -160,7 +144,7 @@ function Daily() {
                             <div className="page-heading"><h1>{pageContent != '' && pageTitle}</h1></div>
                         </div>
                         <div className="content">
-                            <div dangerouslySetInnerHTML={{ __html: pageContent }} />
+                            <div dangerouslySetInnerHTML={{ __html: pageContent }} onClick={handlePageClick} />
                         </div>
                     </div>
                     :
