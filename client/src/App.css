@@ -415,20 +415,25 @@
   margin-top: 10rem;
 }
 
+.modal-footer {
+  justify-content: center;
+}
+
+.modal-footer-btn {
+  width: 40%;
+}
+
 /* search scrollbar */
-.battle-container ::-webkit-scrollbar {
+::-webkit-scrollbar {
   width: 10px;
 }
-
-.battle-container ::-webkit-scrollbar-track {
+::-webkit-scrollbar-track {
   background: #f1f1f1;
 }
-
-.battle-container ::-webkit-scrollbar-thumb {
+::-webkit-scrollbar-thumb {
   background: #555555;
 }
-
-.battle-container ::-webkit-scrollbar-thumb:hover {
+::-webkit-scrollbar-thumb:hover {
   background: #000000;
 }
 

@@ -94,9 +94,10 @@ function Daily() {
 
     function handlePageClick(e) {
         e.preventDefault();
-        if (e.target.href && e.target.href.startsWith('http://localhost:5173/daily#')) {
-            const indexOfHash = e.currentTarget.href.indexOf('#');
-            const newHref = e.currentTarget.href.substring(indexOfHash);
+
+        if (e.target.parentElement.href && e.target.parentElement.href.startsWith('http://localhost:5173/daily#')) {
+            const indexOfHash = e.target.parentElement.href.indexOf('#');
+            const newHref = e.target.parentElement.href.substring(indexOfHash);
             const element = document.querySelector(newHref);
             element.scrollIntoView();
         }
@@ -161,9 +162,9 @@ function Daily() {
                     <DailyWinBlock route={route} timer={timer} startPage={startPage} endPage={endPage} />
                 </>}
 
-            <button type="button" className="btn btn-primary daily-help" data-bs-toggle="modal" data-bs-target="#exampleModal">
+            {/* <button type="button" className="btn btn-primary daily-help" data-bs-toggle="modal" data-bs-target="#exampleModal">
                 How To Play
-            </button>
+            </button> */}
 
             <div ref={modal} className="modal fade" id="exampleModal" tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div className="modal-dialog modal-dialog-centered">
@@ -176,12 +177,11 @@ function Daily() {
                             <p>Task: get from one wikipedia page to another.</p>
                             <p>You can travel between pages by clicking <span className="blue">blue links</span>. You can only click links that lead
                                 to other wikipedia pages (you cannot click on links that lead to external sites)</p>
-                            <p>You can click the 'back' button to go back to your previous page. This does not count as a click,
-                                but will not remove a click either.
+                            <p>You can click the 'go back a page' button to go back to your previous page.
                             </p>
                         </div>
                         <div className="modal-footer">
-                            <button type="button" className="btn btn-primary" data-bs-dismiss="modal">Begin</button>
+                            <button type="button" className="btn btn-primary modal-footer-btn" data-bs-dismiss="modal">BEGIN</button>
                         </div>
                     </div>
                 </div>
