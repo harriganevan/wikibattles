@@ -2,6 +2,7 @@ import { Link } from "react-router-dom"
 import socket from "../socket"
 import { useEffect } from "react"
 import { useState } from "react"
+import { useRef } from "react"
 import { Button } from '@mui/material';
 import DailyWinBlock from "../components/DailyWinBlock";
 import '../wiki.css';
@@ -10,13 +11,11 @@ function Daily() {
 
     const [pageTitle, setPageTitle] = useState('');
     const [pageContent, setPageContent] = useState('');
-    const [count, setCount] = useState(0);
 
     const [startPage, setStartPage] = useState('');
     const [endPage, setEndPage] = useState('');
 
     const [timer, setTimer] = useState(0);
-    const [timerStart, setTimerStart] = useState(Date.now());
     const [timerId, setTimerId] = useState(null);
 
     const [route, setRoute] = useState([]);
@@ -25,6 +24,8 @@ function Daily() {
 
     const [gameOver, setGameOver] = useState(false);
 
+    const modal = useRef(null);
+
     const getPage = async (page) => {
         setLoading(true);
         const response = await fetch(`https://en.wikipedia.org/w/api.php?action=parse&prop=text&page=${page}&format=json&disableeditsection=1&redirects=true&useskin=minerva&origin=*`);
@@ -32,7 +33,6 @@ function Daily() {
         if (searchResults.parse && searchResults.parse.text) {
             setPageContent(searchResults.parse.text['*']);
             setPageTitle(page);
-            setCount(count + 1);
             setRoute([...route, page]);
         }
         setLoading(false);
@@ -64,11 +64,11 @@ function Daily() {
         }
     }
 
-    function startTimer() {
+    function startTimer(startTime) {
         if (!timerId) {
             setTimerId(
                 setInterval(() => {
-                    let tempTime = Math.floor((Date.now() - timerStart) / 1000);
+                    let tempTime = Math.floor((Date.now() - startTime) / 1000);
                     setTimer(tempTime);
                 }, 200)
             );
@@ -78,7 +78,8 @@ function Daily() {
     useEffect(() => {
         socket.disconnect();
         getPages();
-        startTimer();
+        var myModal = new bootstrap.Modal(modal.current, {});
+        myModal.show();
     }, []);
 
     function handleBackClick() {
@@ -99,7 +100,6 @@ function Daily() {
 
         if (e.target.title) {
             if (e.target.title == endPage) {
-                setCount(count + 1);
                 setRoute([...route, e.target.title]);
                 setGameOver(true);
                 clearInterval(timerId);
@@ -114,6 +114,10 @@ function Daily() {
         }
     }
 
+    function handleBeginClick() {
+        startTimer(Date.now());
+    }
+
     return (
         <div className="page-daily">
 
@@ -123,7 +127,6 @@ function Daily() {
             {!gameOver &&
                 <>
                     <div className="daily-stats">
-                        {/* <h2>{count >= 0 && count} clicks</h2> display this at the end for count of pages - just use routes.length */}
                         <h2>{timer} seconds</h2>
                     </div>
                     <p className="route-text">Route:&nbsp;</p>
@@ -163,12 +166,12 @@ function Daily() {
                 How To Play
             </button>
 
-            <div className="modal fade" id="exampleModal" tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                <div className="modal-dialog">
+            <div ref={modal} className="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabIndex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                <div className="modal-dialog modal-dialog-centered">
                     <div className="modal-content">
                         <div className="modal-header">
                             <h1 className="modal-title fs-5" id="exampleModalLabel">How To Play</h1>
-                            <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            <button type="button" onClick={handleBeginClick} className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div className="modal-body">
                             <p>Task: get from one wikipedia page to another.</p>
@@ -179,7 +182,7 @@ function Daily() {
                             </p>
                         </div>
                         <div className="modal-footer">
-                            <button type="button" className="btn btn-primary" data-bs-dismiss="modal">Close</button>
+                            <button type="button" onClick={handleBeginClick} className="btn btn-primary" data-bs-dismiss="modal">Begin</button>
                         </div>
                     </div>
                 </div>

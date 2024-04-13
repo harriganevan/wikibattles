@@ -411,6 +411,10 @@
   overflow: auto;
 }
 
+.modal-custom {
+  margin-top: 10rem;
+}
+
 /* search scrollbar */
 .battle-container ::-webkit-scrollbar {
   width: 10px;

@@ -48,8 +48,9 @@ function Header() {
                         </div>
                         <div className="modal-body">
                             <p>WikiBattles is a site to test your general knowledge.</p>
-                            <p>more features coming.</p>
-                            <p>questions, comments, bug reports?, email at email@email.com</p>
+                            <p>Complete the Daily Puzzle or Battle an opponent.</p>
+                            <p>More features will be coming soon including a new Battle mode and user accounts to track your stats!</p>
+                            <p>Questions, comments, bug reports? email at wikibattlesapp@gmail.com</p>
                         </div>
                         <div className="modal-footer">
                             <button type="button" className="btn btn-primary" data-bs-dismiss="modal">Close</button>
