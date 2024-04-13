@@ -80,6 +80,9 @@ function Daily() {
         getPages();
         var myModal = new bootstrap.Modal(modal.current, {});
         myModal.show();
+        modal.current.addEventListener('hidden.bs.modal', () => {
+            startTimer(Date.now());
+        })
     }, []);
 
     function handleBackClick() {
@@ -112,10 +115,6 @@ function Daily() {
                 behavior: 'instant',
             });
         }
-    }
-
-    function handleBeginClick() {
-        startTimer(Date.now());
     }
 
     return (
@@ -166,12 +165,12 @@ function Daily() {
                 How To Play
             </button>
 
-            <div ref={modal} className="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabIndex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+            <div ref={modal} className="modal fade" id="exampleModal" tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div className="modal-dialog modal-dialog-centered">
                     <div className="modal-content">
                         <div className="modal-header">
                             <h1 className="modal-title fs-5" id="exampleModalLabel">How To Play</h1>
-                            <button type="button" onClick={handleBeginClick} className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div className="modal-body">
                             <p>Task: get from one wikipedia page to another.</p>
@@ -182,13 +181,11 @@ function Daily() {
                             </p>
                         </div>
                         <div className="modal-footer">
-                            <button type="button" onClick={handleBeginClick} className="btn btn-primary" data-bs-dismiss="modal">Begin</button>
+                            <button type="button" className="btn btn-primary" data-bs-dismiss="modal">Begin</button>
                         </div>
                     </div>
                 </div>
             </div>
-
-
         </div>
     )
 }
