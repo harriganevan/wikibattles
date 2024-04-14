@@ -50,7 +50,7 @@ function Daily() {
     }
 
     const getPages = async () => {
-        const response = await fetch(`http://localhost:3000/getDailyPages`);
+        const response = await fetch(`https://wikibattles-api.onrender.com/getDailyPages`);
         const json = await response.json();
         if (response.ok) {
             setStartPage(json.startPage);

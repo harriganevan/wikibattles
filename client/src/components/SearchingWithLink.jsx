@@ -65,7 +65,7 @@ function SearchingWithLink({ setPageState, gameIdFromLink, settings }) {
     }
 
     const handleCopyClick = () => {
-        navigator.clipboard.writeText(`http://localhost:5173/battle/${gameId}`);
+        navigator.clipboard.writeText(`https://wikibattles.com/battle/${gameId}`);
         setCopied(true);
     }
 
