@@ -1,8 +1,6 @@
 import { useState } from 'react';
 import { useEffect } from 'react';
-import { Link } from 'react-router-dom';
 import socket from '../socket';
-import defaultPhoto from '../assets/default.svg';
 import SearchResultBoard from './SearchResultBoard';
 import EndPage from './EndPage';
 
