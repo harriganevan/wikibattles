@@ -1,4 +1,4 @@
-import defaultPhoto from '../assets/default.svg'
+// import defaultPhoto from '../assets/default.svg'
 
 function SearchResultsSettings({makeGuess, result}) {
 
@@ -9,7 +9,7 @@ function SearchResultsSettings({makeGuess, result}) {
                     <span className="search-result-img" style={{ backgroundImage: 'url(' + result.thumbnail.url + ')' }} />
                     :
                     <span className="search-result-img-placeholder">
-                        <span className="search-result-img-default" style={{ backgroundImage: 'url(' + defaultPhoto + ')' }} />
+                        <span className="search-result-img-default" style={{ backgroundImage: 'url(default.svg)' }} />
                     </span>
                 }
                 <span className="search-result-text">
