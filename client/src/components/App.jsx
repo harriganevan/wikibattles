@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, Navigate, HashRouter } from 'react-router-dom';
 import Header from './Header';
 import Battle from '../pages/Battle';
 import Home from '../pages/Home';
@@ -9,7 +9,7 @@ import '../App.css';
 function App() {
 
 	return (
-		<BrowserRouter>
+		<HashRouter>
 			<Header />
 			<Routes>
 				<Route
@@ -25,7 +25,7 @@ function App() {
 					element={<Daily />}
 				/>
 			</Routes>
-		</BrowserRouter>
+		</HashRouter>
 	);
 }
 
