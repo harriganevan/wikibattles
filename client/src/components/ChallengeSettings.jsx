@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react"
 import SearchResultSettings from "./SearchResultSettings";
-// import defaultPhoto from '../assets/default.svg';
 import settingsGear from '../assets/settings-gears.svg';
 
 function ChallengeSettings({ setPageState, setSettings }) {

@@ -7,7 +7,7 @@ function endPage({ page }) {
                     <span className="search-result-img" style={{ backgroundImage: 'url(' + page.thumbnail.url + ')' }} />
                     :
                     <span className="search-result-img-placeholder">
-                        <span className="search-result-img-default" style={{ backgroundImage: 'url(default.svg)' }} />
+                        <span className="search-result-img-default"/>
                     </span>
                 }
                 <span className="search-result-text">
