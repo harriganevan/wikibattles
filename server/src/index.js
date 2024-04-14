@@ -10,7 +10,6 @@ const { v4: uuidv4 } = require('uuid');
 
 const app = express();
 app.use(cors());
-
 const server = createServer(app);
 
 const weeklyPages = [
@@ -50,7 +49,7 @@ app.get('/getRandomPage', (req, res) => {
 //socketio server mounted on nodejs HTTP server
 const io = new Server(server, {
     cors: {
-        origin: 'http://localhost:5173',
+        origin: 'https://wikibattles.com',
         methods: ['GET', 'POST'],
     }
 });
@@ -238,5 +237,5 @@ io.on('connection', (socket) => {
 });
 
 server.listen(3000, () => {
-    console.log('server running at http://localhost:3000');
+    console.log('server running on port 3000');
 });
