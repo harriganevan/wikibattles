@@ -130,7 +130,7 @@
   width: 2.8571429em;
   height: 2.8571429em;
   color: grey;
-  background-image: url('default.svg');
+  background-image: url('/default.svg');
 }
 
 .search-result-text {
