@@ -3,7 +3,6 @@ import { useEffect } from 'react';
 import socket from '../socket';
 import battleSVG from '../assets/battle.svg';
 import puzzleSVG from '../assets/puzzle.svg';
-import genesis from '../assets/genesis.jpg';
 
 function Home() {
 
