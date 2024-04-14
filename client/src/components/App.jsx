@@ -9,7 +9,7 @@ import '../App.css';
 function App() {
 
 	return (
-		<HashRouter>
+		<BrowserRouter>
 			<Header />
 			<Routes>
 				<Route
@@ -25,7 +25,7 @@ function App() {
 					element={<Daily />}
 				/>
 			</Routes>
-		</HashRouter>
+		</BrowserRouter>
 	);
 }
 
