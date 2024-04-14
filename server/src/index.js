@@ -7,6 +7,7 @@ const { getImgDescr } = require('./getImgDescr.js');
 const { randomPages } = require('./randomPages.js');
 const { CronJob } = require('cron');
 const { v4: uuidv4 } = require('uuid');
+require('dotenv').config();
 
 const app = express();
 app.use(cors());
@@ -49,7 +50,7 @@ app.get('/getRandomPage', (req, res) => {
 //socketio server mounted on nodejs HTTP server
 const io = new Server(server, {
     cors: {
-        origin: 'https://wikibattles.com',
+        origin: process.env.ORIGIN,
         methods: ['GET', 'POST'],
     }
 });
@@ -77,7 +78,6 @@ io.of("/").adapter.on('leave-room', (room, id) => {
 });
 
 io.on('connection', (socket) => {
-    console.log('a user connected: ', socket.id);
     socket.on('disconnect', () => {
         //if that disconnected user was waiting for linked player join
         if (games.get(playersGame.get(socket.id)) && games.get(playersGame.get(socket.id)).users.length === 1) {
@@ -85,7 +85,6 @@ io.on('connection', (socket) => {
         }
         //if that disconnected user was searching for a game
         waiting.delete(socket.id);
-        console.log('user disconnected');
     });
 
     //lobby events ****************************************************
@@ -191,7 +190,6 @@ io.on('connection', (socket) => {
     //join / leave room events ***************************************************
     socket.on('join-game-room', (data) => {
         socket.join(data.gameId);
-        console.log(rooms);
     });
 
     //make this on disconnect?
@@ -229,7 +227,6 @@ io.on('connection', (socket) => {
             games.get(data.gameState.gameId).currentPage = data.guess.title;
             games.get(data.gameState.gameId).linksSet = linksSet;
 
-            console.log(games);
         } else {
             io.to(socket.id).emit('wrong');
         }

@@ -1,9 +1,7 @@
-import { Link } from "react-router-dom"
 import socket from "../socket"
 import { useEffect } from "react"
 import { useState } from "react"
 import { useRef } from "react"
-import { Button } from '@mui/material';
 import DailyWinBlock from "../components/DailyWinBlock";
 import '../wiki.css';
 
@@ -50,7 +48,7 @@ function Daily() {
     }
 
     const getPages = async () => {
-        const response = await fetch(`https://wikibattles-api.onrender.com/getDailyPages`);
+        const response = await fetch(`${import.meta.env.VITE_API_ENDPOINT}/getDailyPages`);
         const json = await response.json();
         if (response.ok) {
             setStartPage(json.startPage);
@@ -95,7 +93,7 @@ function Daily() {
     function handlePageClick(e) {
         e.preventDefault();
 
-        if (e.target.parentElement.href && e.target.parentElement.href.startsWith('https://wikibattles.com/daily#')) {
+        if (e.target.parentElement.href && e.target.parentElement.href.startsWith(`${import.meta.env.VITE_API_ENDPOINT}/daily#`)) {
             const indexOfHash = e.target.parentElement.href.indexOf('#');
             const newHref = e.target.parentElement.href.substring(indexOfHash);
             const element = document.querySelector(newHref);

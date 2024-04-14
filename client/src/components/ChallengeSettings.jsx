@@ -13,7 +13,7 @@ function ChallengeSettings({ setPageState, setSettings }) {
     const [startingPage, setStartingPage] = useState('');
 
     const getRandomPage = async () => {
-        const response = await fetch(`https://wikibattles-api.onrender.com/getRandomPage`);
+        const response = await fetch(`${import.meta.env.VITE_API_ENDPOINT}/getRandomPage`);
         const json = await response.json();
         if (response.ok) {
             setStartingPage(json.page);
