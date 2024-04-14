@@ -1,6 +1,6 @@
 import { io } from "socket.io-client";
 
-const socket = io('https://wikibattles-api.onrender.com/:3000', {
+const socket = io('https://wikibattles-api.onrender.com', {
     autoConnect: false,
 });
 
