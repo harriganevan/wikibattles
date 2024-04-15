@@ -64,7 +64,7 @@
   left: 0;
   z-index: 50;
   overflow: auto;
-  max-width: 100%;
+  width: 100%;
   align-items: center;
   overflow-x: hidden;
 }
@@ -462,5 +462,10 @@
 
   .button-group {
     width: 100%;
+  }
+
+  .copied {
+    top: 100%;
+    left: 0;
   }
 }
