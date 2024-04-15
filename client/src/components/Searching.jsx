@@ -19,7 +19,6 @@ function Searching({ setPageState }) {
         function onInitiateGame(data) {
             socket.emit('join-game-room', { gameId: data.gameId });
             console.log('game ready');
-            console.log(data);
             setGameState(data);
         }
 

@@ -33,7 +33,6 @@ function Board({ gameStartState, username }) {
             setStartedTime(Date.now() + (gameStartState.secondsPerTurn * 1000));
             setGameState(data.gameState);
             setCurrentPage(data.gameState.currentPage);
-            console.log(data);
         }
 
         function onGameOver() {

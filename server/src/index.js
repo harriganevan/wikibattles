@@ -187,6 +187,8 @@ io.on('connection', (socket) => {
         }
     });
 
+    //ready up events!!!!!!!!!!!
+
     //join / leave room events ***************************************************
     socket.on('join-game-room', (data) => {
         socket.join(data.gameId);
