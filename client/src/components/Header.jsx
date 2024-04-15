@@ -7,28 +7,28 @@ function Header() {
             <nav className="navbar navbar-expand-lg bg-body-tertiary" data-bs-theme="dark">
                 <div className="container-fluid">
                     <Link to="/" style={{ textDecoration: "none" }}>
-                        <span className="navbar-brand" >WikiBattles</span>
+                        <span className="navbar-brand">WikiBattles</span>
                     </Link>
                     <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                         <span className="navbar-toggler-icon"></span>
                     </button>
                     <div className="collapse navbar-collapse" id="navbarNav">
                         <ul className="navbar-nav me-auto mb-2 mb-lg-0">
-                            <li className="nav-item">
-                                <Link to="/" style={{ textDecoration: "none" }}>
+                            <Link to="/" style={{ textDecoration: "none" }}>
+                                <li className="nav-item" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                                     <button className='btn navbar-text nav-link active'>Home</button>
-                                </Link>
-                            </li>
-                            <li className="nav-item">
-                                <Link to="/daily" style={{ textDecoration: "none" }}>
+                                </li>
+                            </Link>
+                            <Link to="/daily" style={{ textDecoration: "none" }}>
+                                <li className="nav-item" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                                     <button className='btn navbar-text nav-link active'>Daily</button>
-                                </Link>
-                            </li>
-                            <li className="nav-item">
-                                <Link to="/battle" style={{ textDecoration: "none" }}>
+                                </li>
+                            </Link>
+                            <Link to="/battle" style={{ textDecoration: "none" }}>
+                                <li className="nav-item" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                                     <button className='btn navbar-text nav-link active'>Battle</button>
-                                </Link>
-                            </li>
+                                </li>
+                            </Link>
                         </ul>
                         <span>
                             <button className="header-help" type="button" data-bs-toggle="modal" data-bs-target="#headerModal">

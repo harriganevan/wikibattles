@@ -7,6 +7,8 @@ import { useNavigate } from "react-router-dom";
 
 function SearchingWithLink({ setPageState, gameIdFromLink, settings }) {
 
+    //if theres a gameIdFromLink - set loading state so it doesnt flash waitng
+
     const [gameId, setGameId] = useState(uuidv4());
     const [username, setUsername] = useState(uniqueNamesGenerator({
         dictionaries: [adjectives, animals],
