@@ -6,7 +6,7 @@ const getLinksFromPage = async (title) => {
 
     wikiLinks.query.pages[pageId].links.forEach((title) => {
         if (title.ns === 0) {
-            links.push(encodeURI(title.title));
+            links.push(encodeURIComponent(title.title));
         }
     });
 
@@ -18,7 +18,7 @@ const getLinksFromPage = async (title) => {
         const wikiLinks = await response.json();
         wikiLinks.query.pages[pageId].links.forEach((title) => {
             if (title.ns === 0) {
-                links.push(encodeURI(title.title));
+                links.push(encodeURIComponent(title.title));
             }
         });
         continuedLinks = wikiLinks;

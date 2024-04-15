@@ -106,14 +106,14 @@ io.on('connection', (socket) => {
             const imgdescr = await getImgDescr(title);
             games.set(gameId, {
                 users: [{ username: data.username, socketId: socket.id }, { username: secondPlayer.username, socketId: secondPlayer.socketId }],
-                currentPage: encodeURI(title),
+                currentPage: encodeURIComponent(title),
                 timePerTurn: 20,
                 linksSet,
                 timerId: null,
             });
             io.to(socket.id).to(secondPlayer.socketId).emit('initiate-game', {
-                currentPage: encodeURI(title),
-                connectedPages: [encodeURI(title)],
+                currentPage: encodeURIComponent(title),
+                connectedPages: [encodeURIComponent(title)],
                 pageData: [{ title: title, thumbnail: { url: imgdescr.thumbnail }, description: imgdescr.description }],
                 gameId: gameId,
                 gameTurn: 1,
@@ -146,8 +146,8 @@ io.on('connection', (socket) => {
         const imgdescr = await getImgDescr(data.settings.startingPage);
         games.set(data.gameId, {
             users: [{ username: data.username, socketId: socket.id }],
-            currentPage: encodeURI(data.settings.startingPage),
-            timePerTurn: encodeURI(data.settings.timePerTurn),
+            currentPage: encodeURIComponent(data.settings.startingPage),
+            timePerTurn: encodeURIComponent(data.settings.timePerTurn),
             linksSet,
             startingPageData: { title: data.settings.startingPage, thumbnail: { url: imgdescr.thumbnail }, description: imgdescr.description },
             timerId: null,

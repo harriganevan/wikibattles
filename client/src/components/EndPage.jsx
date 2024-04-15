@@ -11,7 +11,7 @@ function endPage({ page }) {
                     </span>
                 }
                 <span className="search-result-text">
-                    <span className="search-result-title">{decodeURI(page.title)}</span>
+                    <span className="search-result-title">{decodeURIComponent(page.title)}</span>
                     {page.description !== null ?
                         <span className="search-result-description">{page.description}</span>
                         : null}
