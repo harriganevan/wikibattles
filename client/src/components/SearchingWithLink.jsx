@@ -34,11 +34,6 @@ function SearchingWithLink({ setPageState, gameIdFromLink, settings }) {
             navigate("/")
         }
 
-        function onGameFull() {
-            console.log('game full');
-            setPageState('home');
-        }
-
         if (gameIdFromLink) {
             setGameId(gameIdFromLink);
             socket.emit('accept-challenge-by-link', { username, gameId: gameIdFromLink });
@@ -48,12 +43,10 @@ function SearchingWithLink({ setPageState, gameIdFromLink, settings }) {
 
         socket.on('initiate-game', onInitiateGame);
         socket.on('game-not-found', onGameNotFound);
-        socket.on('game-full', onGameFull);
 
         return () => {
             socket.off('initiate-game', onInitiateGame);
             socket.off('game-not-found', onGameNotFound);
-            socket.off('game-full', onGameFull);
         };
 
     }, []);
