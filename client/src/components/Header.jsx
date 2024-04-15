@@ -1,31 +1,34 @@
 import { Link } from "react-router-dom";
+import { useMediaQuery } from 'react-responsive'
 
 function Header() {
 
+    const isDesktop = useMediaQuery({ query: '(min-width: 768px)' });
+
     return (
         <>
-            <nav className="navbar navbar-expand-lg bg-body-tertiary" data-bs-theme="dark">
+            <nav className="navbar navbar-expand-md bg-body-tertiary" data-bs-theme="dark">
                 <div className="container-fluid">
                     <Link to="/" style={{ textDecoration: "none" }}>
                         <span className="navbar-brand">WikiBattles</span>
                     </Link>
-                    <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <button className="navbar-toggler" type="button" data-bs-toggle={!isDesktop ? "collapse" : false} data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                         <span className="navbar-toggler-icon"></span>
                     </button>
                     <div className="collapse navbar-collapse" id="navbarNav">
-                        <ul className="navbar-nav me-auto mb-2 mb-lg-0">
+                        <ul className="navbar-nav me-auto mb-2 mb-md-0">
                             <Link to="/" style={{ textDecoration: "none" }}>
-                                <li className="nav-item" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                                <li className="nav-item" data-bs-toggle={!isDesktop ? "collapse" : null} data-bs-target="#navbarNav">
                                     <button className='btn navbar-text nav-link active'>Home</button>
                                 </li>
                             </Link>
                             <Link to="/daily" style={{ textDecoration: "none" }}>
-                                <li className="nav-item" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                                <li className="nav-item" data-bs-toggle={!isDesktop ? "collapse" : null} data-bs-target="#navbarNav">
                                     <button className='btn navbar-text nav-link active'>Daily</button>
                                 </li>
                             </Link>
                             <Link to="/battle" style={{ textDecoration: "none" }}>
-                                <li className="nav-item" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                                <li className="nav-item" data-bs-toggle={!isDesktop ? "collapse" : null} data-bs-target="#navbarNav">
                                     <button className='btn navbar-text nav-link active'>Battle</button>
                                 </li>
                             </Link>

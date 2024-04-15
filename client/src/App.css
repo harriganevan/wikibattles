@@ -468,4 +468,9 @@
     top: 100%;
     left: 0;
   }
+
+  .daily-help {
+    top: 0;
+    right: 0;
+  }
 }
