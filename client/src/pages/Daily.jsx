@@ -93,7 +93,7 @@ function Daily() {
     function handlePageClick(e) {
         e.preventDefault();
 
-        if (e.target.parentElement.href && e.target.parentElement.href.startsWith(`${import.meta.env.VITE_API_ENDPOINT}/daily#`)) {
+        if (e.target.parentElement.href && e.target.parentElement.href.startsWith(`${import.meta.env.VITE_ORIGIN}/daily#`)) {
             const indexOfHash = e.target.parentElement.href.indexOf('#');
             const newHref = e.target.parentElement.href.substring(indexOfHash);
             const element = document.querySelector(newHref);
