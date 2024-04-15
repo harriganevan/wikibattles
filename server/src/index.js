@@ -135,6 +135,8 @@ io.on('connection', (socket) => {
                 io.to(gameId).emit('game-over');
                 games.delete(gameId);
             }, games.get(gameId).timePerTurn * 1000);
+
+            console.log(games); //////////////
         }
     });
 
@@ -151,6 +153,8 @@ io.on('connection', (socket) => {
             timerId: null,
         });
         playersGame.set(socket.id, data.gameId);
+
+        console.log(games);//////////////////////////
     });
 
     socket.on('accept-challenge-by-link', (data) => {
