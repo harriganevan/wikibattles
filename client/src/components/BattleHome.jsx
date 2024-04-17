@@ -20,9 +20,9 @@ function BattleHome({ setPageState }) {
                             <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div className="modal-body">
-                            <p>Given a starting page, take turns attempting to find a <span className="blue">link</span> in a Wikipedia page.
-                                A link is any Wikipedia page that can be travelled to from the current page. If a link is found,
-                                that will become the new current page.</p>
+                            <p>Given a starting page, take turns attempting to name a <span className="blue">link</span> in a Wikipedia page.
+                                A link is any Wikipedia page that can be travelled to from the current page. A link cannot be used twice.
+                                If a link is found, that will become the new current page.</p>
                             <p>The game ends when one player cannot find a link within the time limit.</p>
                             <p>Find a random opponent by clicing "FIND GAME" or challenge a friend by clicking "CHALLENGE A FRIEND"</p>
                             <p>Playing against a random opponent will give you a random starting page and 20 seconds per turn.

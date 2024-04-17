@@ -110,7 +110,9 @@ io.on('connection', (socket) => {
                 timePerTurn: 20,
                 linksSet,
                 timerId: null,
+                ready: {[data.username]: false, [secondPlayer]: false}
             });
+            //this would be moved to ready-up
             io.to(socket.id).to(secondPlayer.socketId).emit('initiate-game', {
                 currentPage: encodeURIComponent(title),
                 connectedPages: [encodeURIComponent(title)],
@@ -192,6 +194,10 @@ io.on('connection', (socket) => {
     });
 
     //ready up events!!!!!!!!!!!
+    //store ready status on backend game state!!!!!!!!
+    socket.on('ready-up', (data) => {
+
+    });
 
     //join / leave room events ***************************************************
     socket.on('join-game-room', (data) => {

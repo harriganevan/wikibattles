@@ -68,7 +68,7 @@ function Board({ gameStartState, username }) {
                     tempTime = 0;
                 }
                 setCountdown(tempTime);
-            }, 500);
+            }, 200);
 
             return () => clearInterval(interval);
         }
