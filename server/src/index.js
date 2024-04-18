@@ -79,12 +79,17 @@ io.of("/").adapter.on('leave-room', (room, id) => {
 
 io.on('connection', (socket) => {
     socket.on('disconnect', () => {
+        //add check to see if game 
+
         //if that disconnected user was waiting for linked player join
         if (games.get(playersGame.get(socket.id)) && games.get(playersGame.get(socket.id)).users.length === 1) {
             games.delete(playersGame.get(socket.id));
         }
         //if that disconnected user was searching for a game
         waiting.delete(socket.id);
+
+        //do something with ready up
+        //just cancel the game?
     });
 
     //lobby events ****************************************************
@@ -110,7 +115,7 @@ io.on('connection', (socket) => {
                 timePerTurn: 20,
                 linksSet,
                 timerId: null,
-                ready: { [data.username]: false, [secondPlayer]: false }
+                ready: { [data.username]: false, [secondPlayer.username]: false }
             });
             io.to(socket.id).to(secondPlayer.socketId).emit('initiate-game', {
                 currentPage: encodeURIComponent(title),
@@ -132,10 +137,10 @@ io.on('connection', (socket) => {
                 secondsPerTurn: 20
             });
 
+            //only called if both players leave
             games.get(gameId).timerId = setTimeout(() => {
-                io.to(gameId).emit('game-over');
                 games.delete(gameId);
-            }, games.get(gameId).timePerTurn * 1000);
+            }, 60000);
 
             console.log(games); //////////////
         }
@@ -184,10 +189,10 @@ io.on('connection', (socket) => {
                 secondsPerTurn: game.timePerTurn
             });
 
+            //only called if both players leave
             game.timerId = setTimeout(() => {
-                io.to(data.gameId).emit('game-over');
                 games.delete(data.gameId);
-            }, game.timePerTurn * 1000);
+            }, 60000);
         }
         else {
             io.to(socket.id).emit('game-not-found');
@@ -195,11 +200,29 @@ io.on('connection', (socket) => {
     });
 
     socket.on('ready-up', (data) => {
+
         const game = games.get(data.gameId);
-        game.ready[data.username] = true;
-        if (game.ready[game.users[0].username] && game.ready[game.users[1].username]) {
+
+        //if we add auto start timer the game will clear itself!!!!!!
+        const autoStart = setTimeout(() => {
             io.to(game.users[0].socketId).to(game.users[1].socketId).emit('ready', { gameId: data.gameId });
+            game.timerId = setTimeout(() => {
+                io.to(data.gameId).emit('game-over');
+                games.delete(data.gameId);
+            }, game.timePerTurn * 1000);
+        }, 30000);
+        
+        game.ready[data.username] = true;
+
+        if (game.ready[game.users[0].username] && game.ready[game.users[1].username]) {
+            clearTimeout(autoStart);
+            io.to(game.users[0].socketId).to(game.users[1].socketId).emit('ready', { gameId: data.gameId });
+            game.timerId = setTimeout(() => {
+                io.to(data.gameId).emit('game-over');
+                games.delete(data.gameId);
+            }, game.timePerTurn * 1000);
         }
+        console.log(game);
     });
 
     //join / leave room events ***************************************************
