@@ -115,7 +115,8 @@ io.on('connection', (socket) => {
                 timePerTurn: 20,
                 linksSet,
                 timerId: null,
-                ready: { [data.username]: false, [secondPlayer.username]: false }
+                ready: { [data.username]: false, [secondPlayer.username]: false },
+                readyTimerId: null
             });
             io.to(socket.id).to(secondPlayer.socketId).emit('initiate-game', {
                 currentPage: encodeURIComponent(title),
@@ -137,10 +138,13 @@ io.on('connection', (socket) => {
                 secondsPerTurn: 20
             });
 
-            //only called if both players leave
-            games.get(gameId).timerId = setTimeout(() => {
-                games.delete(gameId);
-            }, 60000);
+            games.get(gameId).readyTimerId = setTimeout(() => {
+                io.to(socket.id).to(secondPlayer.socketId).emit('ready', { gameId: gameId });
+                games.get(gameId).timerId = setTimeout(() => {
+                    io.to(gameId).emit('game-over');
+                    games.delete(gameId);
+                }, games.get(gameId).timePerTurn * 1000);
+            }, 30000);
 
             console.log(games); //////////////
         }
@@ -157,7 +161,8 @@ io.on('connection', (socket) => {
             linksSet,
             startingPageData: { title: data.settings.startingPage, thumbnail: { url: imgdescr.thumbnail }, description: imgdescr.description },
             timerId: null,
-            ready: { [data.username]: false }
+            ready: { [data.username]: false },
+            readyTimerId: null
         });
         playersGame.set(socket.id, data.gameId);
 
@@ -189,10 +194,14 @@ io.on('connection', (socket) => {
                 secondsPerTurn: game.timePerTurn
             });
 
-            //only called if both players leave
-            game.timerId = setTimeout(() => {
-                games.delete(data.gameId);
-            }, 60000);
+            game.readyTimerId = setTimeout(() => {
+                io.to(game.users[0].socketId).to(game.users[1].socketId).emit('ready', { gameId: data.gameId });
+                game.timerId = setTimeout(() => {
+                    io.to(data.gameId).emit('game-over');
+                    games.delete(data.gameId);
+                }, game.timePerTurn * 1000);
+            }, 30000);
+
         }
         else {
             io.to(socket.id).emit('game-not-found');
@@ -202,20 +211,11 @@ io.on('connection', (socket) => {
     socket.on('ready-up', (data) => {
 
         const game = games.get(data.gameId);
-
-        //if we add auto start timer the game will clear itself!!!!!!
-        const autoStart = setTimeout(() => {
-            io.to(game.users[0].socketId).to(game.users[1].socketId).emit('ready', { gameId: data.gameId });
-            game.timerId = setTimeout(() => {
-                io.to(data.gameId).emit('game-over');
-                games.delete(data.gameId);
-            }, game.timePerTurn * 1000);
-        }, 30000);
         
         game.ready[data.username] = true;
 
         if (game.ready[game.users[0].username] && game.ready[game.users[1].username]) {
-            clearTimeout(autoStart);
+            clearTimeout(game.readyTimerId);
             io.to(game.users[0].socketId).to(game.users[1].socketId).emit('ready', { gameId: data.gameId });
             game.timerId = setTimeout(() => {
                 io.to(data.gameId).emit('game-over');
