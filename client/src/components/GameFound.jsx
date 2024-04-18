@@ -1,18 +1,15 @@
-//render a ready up component
+import socket from '../socket';
 
-//says game found
+function GameFound({ gameId, username }) {
 
-//ready up button
-
-//30 seconds to ready up - otherwise match cancels - or starts match(easier) - backout button
-
-function GameFound() {
-
+    function handleReadyClick() {
+        socket.emit('ready-up', { gameId, username });
+    }
 
     return (
         <>
             <p>game found</p>
-            <button>ready up</button>
+            <button onClick={handleReadyClick}>ready up</button>
         </>
     )
 

@@ -110,9 +110,8 @@ io.on('connection', (socket) => {
                 timePerTurn: 20,
                 linksSet,
                 timerId: null,
-                ready: {[data.username]: false, [secondPlayer]: false}
+                ready: { [data.username]: false, [secondPlayer]: false }
             });
-            //this would be moved to ready-up
             io.to(socket.id).to(secondPlayer.socketId).emit('initiate-game', {
                 currentPage: encodeURIComponent(title),
                 connectedPages: [encodeURIComponent(title)],
@@ -153,6 +152,7 @@ io.on('connection', (socket) => {
             linksSet,
             startingPageData: { title: data.settings.startingPage, thumbnail: { url: imgdescr.thumbnail }, description: imgdescr.description },
             timerId: null,
+            ready: { [data.username]: false }
         });
         playersGame.set(socket.id, data.gameId);
 
@@ -163,6 +163,7 @@ io.on('connection', (socket) => {
         if (games.has(data.gameId) && games.get(data.gameId).users.length == 1) {
             const game = games.get(data.gameId);
             game.users.push({ username: data.username, socketId: socket.id });
+            game.ready[data.username] = false;
             io.to(game.users[0].socketId).to(game.users[1].socketId).emit('initiate-game', {
                 currentPage: game.currentPage,
                 connectedPages: [game.currentPage],
@@ -193,10 +194,12 @@ io.on('connection', (socket) => {
         }
     });
 
-    //ready up events!!!!!!!!!!!
-    //store ready status on backend game state!!!!!!!!
     socket.on('ready-up', (data) => {
-
+        const game = games.get(data.gameId);
+        game.ready[data.username] = true;
+        if (game.ready[game.users[0].username] && game.ready[game.users[1].username]) {
+            io.to(game.users[0].socketId).to(game.users[1].socketId).emit('ready', { gameId: data.gameId });
+        }
     });
 
     //join / leave room events ***************************************************
