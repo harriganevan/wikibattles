@@ -61,17 +61,15 @@ function Board({ gameStartState, username }) {
     //for countdown timer
     useEffect(() => {
 
-        if (countdown > 0) {
-            const interval = setInterval(() => {
-                let tempTime = Math.floor((startedTime - Date.now()) / 1000);
-                if (tempTime < 0) {
-                    tempTime = 0;
-                }
-                setCountdown(tempTime);
-            }, 200);
+        const interval = setInterval(() => {
+            let tempTime = Math.floor((startedTime - Date.now()) / 1000);
+            if (tempTime < 0) {
+                tempTime = 0;
+            }
+            setCountdown(tempTime);
+        }, 200);
 
-            return () => clearInterval(interval);
-        }
+        return () => clearInterval(interval);
 
     }, [countdown]);
 

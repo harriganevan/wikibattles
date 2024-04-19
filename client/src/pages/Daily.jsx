@@ -81,6 +81,11 @@ function Daily() {
         modal.current.addEventListener('hidden.bs.modal', () => {
             startTimer(Date.now());
         })
+        
+        return () => {
+            clearInterval(timerId);
+        };
+
     }, []);
 
     function handleBackClick() {
