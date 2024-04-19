@@ -129,7 +129,8 @@ function Board({ gameStartState, username }) {
                             {searchResults.length !== 0 ?
                                 <div className="search-menu flex-fill">
                                     <ul role="listbox" className="search-result-container">
-                                        {searchResults.map(result =>
+                                        {/* if result.title is current page then exclude it */}
+                                        {searchResults.filter((result) => result.title != decodeURIComponent(currentPage)).map(result =>
                                             <SearchResultBoard makeGuess={makeGuess} result={result} key={result.key} />
                                         )}
                                     </ul>
