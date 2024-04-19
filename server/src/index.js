@@ -14,13 +14,13 @@ app.use(cors());
 const server = createServer(app);
 
 const weeklyPages = [
-    { startPage: 'Heavy industry', endPage: 'Air pollution' }, //sunday
-    { startPage: 'Biological agent', endPage: 'DNA' }, //monday
-    { startPage: 'Molecule', endPage: 'Sigma bond' }, //tuesday
-    { startPage: 'International Science Council', endPage: 'New Zealand' }, //wednesday
-    { startPage: 'French Polynesia', endPage: 'France' }, //thursday
-    { startPage: 'Maxwell M. Kalman', endPage: 'Great Depression' }, //friday
-    { startPage: 'Ignaz Semmelweis', endPage: 'Mathematics' }, //saturday
+    { startPage: 'Fishing', endPage: 'Air pollution' }, //sunday
+    { startPage: 'YouTube', endPage: 'DNA' }, //monday
+    { startPage: 'Molecule', endPage: 'Butterfly' }, //tuesday
+    { startPage: 'International Science Council', endPage: 'Star Wars' }, //wednesday
+    { startPage: 'Airport', endPage: 'France' }, //thursday
+    { startPage: 'William Shakespeare', endPage: 'Electricity' }, //friday
+    { startPage: 'Rock music', endPage: 'Mathematics' }, //saturday
 ]
 
 //set day of week (0 = sunday, ..., 6 = saturday) when server starts/restarts
