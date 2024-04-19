@@ -91,7 +91,7 @@ function SearchingWithLink({ setPageState, gameIdFromLink, settings }) {
                             <button onClick={handleClickBack} type="button" className="btn btn-dark">&larr; BACK</button>
                         </div>
                     </div> :
-                    <div className="spinner-border text-info" role="status">
+                    <div className="spinner-border text-info game-link-load" role="status">
                         <span className="visually-hidden">Loading...</span>
                     </div>
             )}

@@ -79,17 +79,12 @@ io.of("/").adapter.on('leave-room', (room, id) => {
 
 io.on('connection', (socket) => {
     socket.on('disconnect', () => {
-        //add check to see if game 
-
         //if that disconnected user was waiting for linked player join
         if (games.get(playersGame.get(socket.id)) && games.get(playersGame.get(socket.id)).users.length === 1) {
             games.delete(playersGame.get(socket.id));
         }
         //if that disconnected user was searching for a game
         waiting.delete(socket.id);
-
-        //do something with ready up
-        //just cancel the game?
     });
 
     //lobby events ****************************************************

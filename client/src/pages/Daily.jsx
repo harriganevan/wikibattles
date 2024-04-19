@@ -160,10 +160,6 @@ function Daily() {
                     <DailyWinBlock route={route} timer={timer} startPage={startPage} endPage={endPage} />
                 </>}
 
-            {/* <button type="button" className="btn btn-primary daily-help" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                How To Play
-            </button> */}
-
             <div ref={modal} className="modal fade" id="exampleModal" tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div className="modal-dialog modal-dialog-centered">
                     <div className="modal-content">

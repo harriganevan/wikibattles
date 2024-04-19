@@ -425,6 +425,15 @@
   width: 40%;
 }
 
+.game-link-load,
+.game-found-container {
+  margin: auto;
+}
+
+.ready-message {
+  margin-top: 1rem
+}
+
 /* search scrollbar */
 ::-webkit-scrollbar {
   width: 10px;
