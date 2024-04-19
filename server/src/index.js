@@ -217,7 +217,7 @@ io.on('connection', (socket) => {
                 games.delete(data.gameId);
             }, game.timePerTurn * 1000);
         }
-        console.log(game);
+
     });
 
     //join / leave room events ***************************************************
