@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react"
-import SearchResultSettings from "./SearchResultSettings";
-import settingsGear from '../assets/settings-gears.svg';
+import SearchResultSettings from "../SearchResultSettings";
+import settingsGear from '../../assets/settings-gears.svg';
 
-function ChallengeSettings({ setPageState, setSettings }) {
+function DurationChallengeSettings({ setPageState, setSettings }) {
 
     const [search, setSearch] = useState('');
     const [timerId, setTimerId] = useState('');
@@ -43,7 +43,7 @@ function ChallengeSettings({ setPageState, setSettings }) {
 
     function onContinueClick() {
         setSettings({ timePerTurn: timePerTurn, startingPage: startingPage });
-        setPageState('searchingWithLink');
+        setPageState('duration-searchingWithLink');
     }
 
     return (
@@ -78,4 +78,4 @@ function ChallengeSettings({ setPageState, setSettings }) {
     )
 }
 
-export default ChallengeSettings
+export default DurationChallengeSettings

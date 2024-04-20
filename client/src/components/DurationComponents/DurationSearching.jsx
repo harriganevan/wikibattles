@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react';
-import Board from './Board';
-import socket from '../socket';
+import socket from '../../socket';
 import { uniqueNamesGenerator, adjectives, animals } from 'unique-names-generator';
-import GameFound from './GameFound';
+import DurationBoard from './DurationBoard';
+import DurationGameFound from './DurationGameFound';
 
-function Searching({ setPageState }) {
+function DurationSearching({ setPageState }) {
 
     const [username, setUsername] = useState(uniqueNamesGenerator({
         dictionaries: [adjectives, animals],
@@ -50,7 +50,7 @@ function Searching({ setPageState }) {
 
     return (
         <>
-            {gameState ? ( ready ? <Board gameStartState={gameState} username={username} /> : <GameFound gameId={gameId} username={username} />) : (
+            {gameState ? ( ready ? <DurationBoard gameStartState={gameState} username={username} /> : <DurationGameFound gameId={gameId} username={username} />) : (
                 <div className='searching-container'>
                     <div className='waiting'>
                         <p className='waiting-text'>searching...</p>
@@ -65,4 +65,4 @@ function Searching({ setPageState }) {
     )
 }
 
-export default Searching
+export default DurationSearching

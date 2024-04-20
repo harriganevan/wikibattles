@@ -1,12 +1,12 @@
 import { useEffect, useRef, useState } from 'react';
-import Board from './Board';
-import socket from '../socket';
+import Board from './DurationBoard';
+import socket from '../../socket';
 import { uniqueNamesGenerator, adjectives, animals } from 'unique-names-generator';
 import { v4 as uuidv4 } from 'uuid';
 import { useNavigate } from "react-router-dom";
-import GameFound from './GameFound';
+import DurationGameFound from './DurationGameFound';
 
-function SearchingWithLink({ setPageState, gameIdFromLink, settings }) {
+function DurationSearchingWithLink({ setPageState, gameIdFromLink, settings }) {
 
     const [loading, setLoading] = useState(false);
 
@@ -70,13 +70,13 @@ function SearchingWithLink({ setPageState, gameIdFromLink, settings }) {
     }
 
     const handleCopyClick = () => {
-        navigator.clipboard.writeText(`${import.meta.env.VITE_ORIGIN}/battle/${gameId}`);
+        navigator.clipboard.writeText(`${import.meta.env.VITE_ORIGIN}/battle/duration/${gameId}`);
         setCopied(true);
     }
 
     return (
         <>
-            {gameState ? ( ready ? <Board gameStartState={gameState} username={username} /> : <GameFound gameId={gameId} username={username} />) : (
+            {gameState ? ( ready ? <Board gameStartState={gameState} username={username} /> : <DurationGameFound gameId={gameId} username={username} />) : (
                 !loading ?
                     <div className='searching-container'>
                         <div className='waiting'>
@@ -99,4 +99,4 @@ function SearchingWithLink({ setPageState, gameIdFromLink, settings }) {
     )
 }
 
-export default SearchingWithLink
+export default DurationSearchingWithLink

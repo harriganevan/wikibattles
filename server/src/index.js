@@ -87,8 +87,6 @@ io.on('connection', (socket) => {
         waiting.delete(socket.id);
     });
 
-    //lobby events ****************************************************
-
     //event that puts player in queue
     socket.on('find-game', async (data) => {
         //if there isnt someone in queue - put player in queue
@@ -141,7 +139,7 @@ io.on('connection', (socket) => {
                 }, games.get(gameId).timePerTurn * 1000);
             }, 30000);
 
-            console.log(games); //////////////
+            console.log(games);
         }
     });
 
@@ -161,7 +159,7 @@ io.on('connection', (socket) => {
         });
         playersGame.set(socket.id, data.gameId);
 
-        console.log(games);//////////////////////////
+        console.log(games);
     });
 
     socket.on('accept-challenge-by-link', (data) => {
@@ -220,7 +218,7 @@ io.on('connection', (socket) => {
 
     });
 
-    //join / leave room events ***************************************************
+    //join / leave room events
     socket.on('join-game-room', (data) => {
         socket.join(data.gameId);
     });
@@ -234,7 +232,7 @@ io.on('connection', (socket) => {
         waiting.delete(data.socketId);
     });
 
-    //game events *******************************************************************
+    //game events
     socket.on('submit-page', async (data) => {
         const gameState = data.gameState;
         if (games.get(data.gameState.gameId).linksSet.has(data.guess.title) && !gameState.connectedPages.includes(data.guess.title)) {
@@ -264,6 +262,10 @@ io.on('connection', (socket) => {
             io.to(socket.id).emit('wrong');
         }
     });
+
+    //RACE EVENTS **************************************************************************************************
+
+
 });
 
 server.listen(3000, () => {

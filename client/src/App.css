@@ -434,6 +434,12 @@
   margin-top: 1rem
 }
 
+.battle-home-buttons-container{
+  margin: auto;
+  display: flex;
+  gap: 5rem;
+}
+
 /* search scrollbar */
 ::-webkit-scrollbar {
   width: 10px;

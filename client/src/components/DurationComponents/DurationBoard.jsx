@@ -1,10 +1,10 @@
 import { useState } from 'react';
 import { useEffect } from 'react';
-import socket from '../socket';
-import SearchResultBoard from './SearchResultBoard';
-import EndPage from './EndPage';
+import socket from '../../socket';
+import SearchResultBoard from '../SearchResultBoard';
+import DurationEndPage from './DurationEndPage';
 
-function Board({ gameStartState, username }) {
+function DurationBoard({ gameStartState, username }) {
 
     const [gameState, setGameState] = useState(gameStartState);
     const [playerName, setPlayerName] = useState(username);
@@ -146,7 +146,7 @@ function Board({ gameStartState, username }) {
                     <div className='flex-fill end-pages'>
                         <div className='board-pages'>
                             {gameState.pageData.map(page =>
-                                <a href={`https://en.wikipedia.org/wiki/${page.title}`} target={"_blank"} className='end-tag' key={page.title}><EndPage page={page} /></a>
+                                <a href={`https://en.wikipedia.org/wiki/${page.title}`} target={"_blank"} className='end-tag' key={page.title}><DurationEndPage page={page} /></a>
                             )}
                         </div>
                     </div>
@@ -155,4 +155,4 @@ function Board({ gameStartState, username }) {
     )
 }
 
-export default Board
+export default DurationBoard

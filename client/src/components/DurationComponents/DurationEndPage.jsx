@@ -1,4 +1,4 @@
-function EndPage({ page }) {
+function DurationEndPage({ page }) {
 
     return (
         <li role="option" className="search-result-item">
@@ -21,4 +21,4 @@ function EndPage({ page }) {
     )
 }
 
-export default EndPage
+export default DurationEndPage

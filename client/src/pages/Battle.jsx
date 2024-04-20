@@ -1,15 +1,18 @@
 import { useState } from 'react';
 import { useEffect } from 'react';
-import { useParams } from 'react-router-dom';
-import BattleHome from '../components/BattleHome';
-import ChallengeSettings from '../components/ChallengeSettings';
-import SearchingWithLink from '../components/SearchingWithLink';
+import { useParams, useNavigate } from 'react-router-dom';
 import socket from '../socket';
-import Searching from '../components/Searching';
+import BattleHome from '../components/BattleHome';
+import DurationChallengeSettings from '../components/DurationComponents/DurationChallengeSettings';
+import DurationSearchingWithLink from '../components/DurationComponents/DurationSearchingWithLink';
+import DurationSearching from '../components/DurationComponents/DurationSearching';
 
 function Battle() {
 
-    let { gameIdFromLink } = useParams();
+    const navigate = useNavigate();
+
+    let { gameMode, gameIdFromLink } = useParams();
+    console.log(gameMode, gameIdFromLink)
 
     const [pageState, setPageState] = useState('home');
     const [settings, setSettings] = useState({}); //used for challenge by link
@@ -18,8 +21,11 @@ function Battle() {
 
         socket.disconnect();
 
-        if(gameIdFromLink){
-            setPageState('searchingWithLink');
+        if(gameMode == 'duration' && gameIdFromLink){
+            setPageState('duration-searchingWithLink');
+        }
+        if((gameMode != 'duration' && gameMode != 'race') || gameIdFromLink === undefined){
+            navigate("/battle");
         }
 
         socket.connect();
@@ -30,9 +36,9 @@ function Battle() {
         <div className='page'>
             <div className='battle-container flex-fill'>
                 {pageState === 'home' && <BattleHome setPageState={setPageState} />}
-                {pageState === 'searching' && <Searching setPageState={setPageState} gameIdFromLink={gameIdFromLink} />}
-                {pageState === 'settings' && <ChallengeSettings setPageState={setPageState} setSettings={setSettings} />}
-                {pageState === 'searchingWithLink' && <SearchingWithLink setPageState={setPageState} gameIdFromLink={gameIdFromLink} settings={settings} />}
+                {pageState === 'duration-searching' && <DurationSearching setPageState={setPageState} gameIdFromLink={gameIdFromLink} />}
+                {pageState === 'duration-settings' && <DurationChallengeSettings setPageState={setPageState} setSettings={setSettings} />}
+                {pageState === 'duration-searchingWithLink' && <DurationSearchingWithLink setPageState={setPageState} gameIdFromLink={gameIdFromLink} settings={settings} />}
             </div>
         </div>
     )

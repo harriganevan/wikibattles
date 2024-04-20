@@ -3,11 +3,21 @@ function BattleHome({ setPageState }) {
     return (
         <>
             <h1 className='home-title'>Battle</h1>
-            <div className="battle-home-buttons">
-                <button onClick={() => setPageState('searching')} type="button" className="btn btn-dark home-button">FIND GAME</button>
-                <button onClick={() => setPageState('settings')} type="button" className="btn btn-dark home-button">CHALLENGE A FRIEND</button>
+
+            <div className="battle-home-buttons-container">
+                <div className="battle-home-buttons">
+                    <p>Duration</p>
+                    <button onClick={() => setPageState('duration-searching')} type="button" className="btn btn-dark home-button">FIND GAME</button>
+                    <button onClick={() => setPageState('duration-settings')} type="button" className="btn btn-dark home-button">CHALLENGE A FRIEND</button>
+                </div>
+
+                <div className="battle-home-buttons">
+                    <p>Race</p>
+                    <button disabled onClick={() => setPageState('race-searching')} type="button" className="btn btn-dark home-button">FIND GAME</button>
+                    <button disabled onClick={() => setPageState('race-settings')} type="button" className="btn btn-dark home-button">CHALLENGE A FRIEND</button>
+                </div>
             </div>
-            {/* help stuff */}
+
             <button type="button" className="btn btn-primary daily-help" data-bs-toggle="modal" data-bs-target="#exampleModal">
                 How To Play
             </button>

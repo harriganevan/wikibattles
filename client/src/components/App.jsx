@@ -17,7 +17,7 @@ function App() {
 					element={<Home />}
 				/>
 				<Route
-					path='/battle/:gameIdFromLink?'
+					path='/battle/:gameMode?/:gameIdFromLink?'
 					element={<Battle />}
 				/>
 				<Route

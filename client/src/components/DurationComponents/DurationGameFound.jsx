@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
-import socket from '../socket';
+import socket from '../../socket';
 
-function GameFound({ gameId, username }) {
+function DurationGameFound({ gameId, username }) {
 
     const startTime = Date.now() + 30000;
     const [timer, setTimer] = useState(30);
@@ -47,4 +47,4 @@ function GameFound({ gameId, username }) {
 
 }
 
-export default GameFound;
+export default DurationGameFound;
