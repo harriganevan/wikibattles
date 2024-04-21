@@ -13,6 +13,27 @@ const app = express();
 app.use(cors());
 const server = createServer(app);
 
+function shuffle(array) {
+
+    let arrayCopy = array;
+
+    let currentIndex = arrayCopy.length;
+
+    // While there remain elements to shuffle...
+    while (currentIndex != 0) {
+
+        // Pick a remaining element...
+        let randomIndex = Math.floor(Math.random() * currentIndex);
+        currentIndex--;
+
+        // And swap it with the current element.
+        [arrayCopy[currentIndex], arrayCopy[randomIndex]] = [
+            arrayCopy[randomIndex], arrayCopy[currentIndex]];
+    }
+
+    return arrayCopy;
+}
+
 const weeklyPages = [
     { startPage: 'Fishing', endPage: 'Air pollution' }, //sunday
     { startPage: 'YouTube', endPage: 'DNA' }, //monday
@@ -59,8 +80,6 @@ const io = new Server(server, {
 
 //{gameId: {users, currentPage, timePerTurn, linksSet, timerId}}
 const games = new Map();
-//{gameId: {users, startPage, endPage}}
-const raceGames = new Map();
 
 //used so i can delete a game if player disconnects
 //map socketId -> gameId
@@ -70,7 +89,14 @@ const playersGame = new Map();
 //queue for people searching for games
 //should only have 1 player in it at most at any time
 //map socketId -> username
-const waiting = new Map();
+const durationWaiting = new Map();
+const raceWaiting = new Map();
+
+//tracks players readying up for games
+const raceReady = new Map();
+
+//map gameId -> timerId
+const raceReadyTimers = new Map();
 
 //just for viewing rooms
 const rooms = io.of("/").adapter.rooms;
@@ -86,8 +112,14 @@ io.on('connection', (socket) => {
         if (games.get(playersGame.get(socket.id)) && games.get(playersGame.get(socket.id)).users.length === 1) {
             games.delete(playersGame.get(socket.id));
         }
+        if(raceReady.has(playersGame.get(socket.id))) {
+            raceReady.delete(playersGame.get(socket.id));
+        }
         //if that disconnected user was searching for a game
-        waiting.delete(socket.id);
+        durationWaiting.delete(socket.id);
+        raceWaiting.delete(socket.id);
+
+        playersGame.delete(socket.id);
     });
 
     //join / leave room events
@@ -100,13 +132,13 @@ io.on('connection', (socket) => {
     //event that puts player in queue
     socket.on('duration-find-game', async (data) => {
         //if there isnt someone in queue - put player in queue
-        if (waiting.size === 0) {
-            waiting.set(socket.id, { username: data.username, socketId: socket.id });
+        if (durationWaiting.size === 0) {
+            durationWaiting.set(socket.id, { username: data.username, socketId: socket.id });
             io.to(socket.id).emit('waiting');
         } else { // match found
-            const waitingPlayer = waiting.keys().next().value;
-            const secondPlayer = waiting.get(waitingPlayer);
-            waiting.delete(waitingPlayer);
+            const waitingPlayer = durationWaiting.keys().next().value;
+            const secondPlayer = durationWaiting.get(waitingPlayer);
+            durationWaiting.delete(waitingPlayer);
             const gameId = uuidv4();
             const title = randomPages[(Math.floor(Math.random() * randomPages.length))];
             const links = await getLinksFromPage(title);
@@ -214,7 +246,7 @@ io.on('connection', (socket) => {
     socket.on('duration-ready-up', (data) => {
 
         const game = games.get(data.gameId);
-        
+
         game.ready[data.username] = true;
 
         if (game.ready[game.users[0].username] && game.ready[game.users[1].username]) {
@@ -234,7 +266,7 @@ io.on('connection', (socket) => {
     });
 
     socket.on('duration-stop-search', (data) => {
-        waiting.delete(data.socketId);
+        durationWaiting.delete(data.socketId);
     });
 
     //game events
@@ -270,18 +302,59 @@ io.on('connection', (socket) => {
 
     //RACE EVENTS **************************************************************************************************
     socket.on('race-find-game', async (data) => {
+        //if there isnt someone in queue - put player in queue
+        if (raceWaiting.size === 0) {
+            raceWaiting.set(socket.id, { username: data.username, socketId: socket.id });
+            io.to(socket.id).emit('waiting');
+        } else { // match found
+            const waitingPlayer = raceWaiting.keys().next().value;
+            const secondPlayer = raceWaiting.get(waitingPlayer);
+            raceWaiting.delete(waitingPlayer);
+            const gameId = uuidv4();
+            const shuffled = shuffle(randomPages);
+            io.to(socket.id).to(secondPlayer.socketId).emit('initiate-game', {
+                startingPage: shuffled[0],
+                endingPage: shuffled[1],
+                gameId: gameId,
+            });
+
+            const raceTimerId = setTimeout(() => {
+                io.to(gameId).emit('ready');
+            }, 30000);
+            raceReadyTimers.set(gameId, raceTimerId);
+        }
+    });
+
+    socket.on('race-challenge-friend-by-link', async (data) => {
 
     });
 
-    socket.on('race-find-game', async (data) => {
+    socket.on('race-accept-challenge-by-link', async (data) => {
 
     });
 
+    socket.on('race-ready-up', async (data) => {
+        if(raceReady.has(data.gameId)){
+            clearTimeout(raceReadyTimers.get(data.gameId));
+            io.to(data.gameId).emit('ready');
+            raceReady.delete(data.gameId);
+        } else {
+            raceReady.set(data.gameId, data.username);
+            playersGame.set(socket.id, data.gameId);
+        }
+    });
 
-    socket.on('race-find-game', async (data) => {
+    socket.on('race-leave-game-room', async (data) => {
+        
+    });
+
+    socket.on('race-stop-search', async (data) => {
+        raceWaiting.delete(data.socketId);
+    });
+
+    socket.on('page-found', (data) => {
 
     });
- 
 
 });
 

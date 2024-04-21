@@ -6,6 +6,9 @@ import BattleHome from '../components/BattleHome';
 import DurationChallengeSettings from '../components/DurationComponents/DurationChallengeSettings';
 import DurationSearchingWithLink from '../components/DurationComponents/DurationSearchingWithLink';
 import DurationSearching from '../components/DurationComponents/DurationSearching';
+import RaceSearching from '../components/RaceComponents/RaceSearching';
+import RaceSearchingWithLink from '../components/RaceComponents/RaceSearchingWithLink';
+import RaceChallengeSettings from '../components/RaceComponents/RaceChallengeSettings';
 
 function Battle() {
 
@@ -45,8 +48,8 @@ function Battle() {
                 {pageState === 'duration-searchingWithLink' && <DurationSearchingWithLink setPageState={setPageState} gameIdFromLink={gameIdFromLink} settings={durationSettings} />}
 
                 {pageState === 'race-searching' && <RaceSearching setPageState={setPageState} />}
-                {pageState === 'race-settings' && <DurationChallengeSettings setPageState={setPageState} setSettings={setRaceSettings} />}
-                {pageState === 'race-searchingWithLink' && <DurationSearchingWithLink setPageState={setPageState} gameIdFromLink={gameIdFromLink} settings={raceSettings} />}
+                {pageState === 'race-settings' && <RaceChallengeSettings setPageState={setPageState} setSettings={setRaceSettings} />}
+                {pageState === 'race-searchingWithLink' && <RaceSearchingWithLink setPageState={setPageState} gameIdFromLink={gameIdFromLink} settings={raceSettings} />}
             </div>
         </div>
     )

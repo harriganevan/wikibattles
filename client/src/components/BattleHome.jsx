@@ -13,8 +13,8 @@ function BattleHome({ setPageState }) {
 
                 <div className="battle-home-buttons">
                     <p>Race</p>
-                    <button disabled onClick={() => setPageState('race-searching')} type="button" className="btn btn-dark home-button">FIND GAME</button>
-                    <button disabled onClick={() => setPageState('race-settings')} type="button" className="btn btn-dark home-button">CHALLENGE A FRIEND</button>
+                    <button onClick={() => setPageState('race-searching')} type="button" className="btn btn-dark home-button">FIND GAME</button>
+                    <button onClick={() => setPageState('race-settings')} type="button" className="btn btn-dark home-button">CHALLENGE A FRIEND</button>
                 </div>
             </div>
 

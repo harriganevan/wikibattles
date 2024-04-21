@@ -25,10 +25,11 @@ function RaceSearching({ setPageState }) {
         function onInitiateGame(data) {
             setGameState(data);
             setGameId(data.gameId);
+            console.log(data)
+            socket.emit('join-game-room', { gameId: data.gameId });
         }
 
         function onReady(data) {
-            socket.emit('join-game-room', { gameId: data.gameId });
             console.log('game ready');
             setReady(true);
         }
@@ -50,7 +51,7 @@ function RaceSearching({ setPageState }) {
 
     return (
         <>
-            {gameState ? ( ready ? <RaceBoard gameStartState={gameState} username={username} /> : <RaceGameFound gameId={gameId} username={username} />) : (
+            {gameState ? ( ready ? <RaceBoard gameState={gameState} username={username} /> : <RaceGameFound gameId={gameId} username={username} />) : (
                 <div className='searching-container'>
                     <div className='waiting'>
                         <p className='waiting-text'>searching...</p>
