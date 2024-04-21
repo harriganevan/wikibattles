@@ -56,8 +56,11 @@ const io = new Server(server, {
 });
 
 //games holds a game state meant for the backend
+
 //{gameId: {users, currentPage, timePerTurn, linksSet, timerId}}
 const games = new Map();
+//{gameId: {users, startPage, endPage}}
+const raceGames = new Map();
 
 //used so i can delete a game if player disconnects
 //map socketId -> gameId
@@ -87,8 +90,15 @@ io.on('connection', (socket) => {
         waiting.delete(socket.id);
     });
 
+    //join / leave room events
+    socket.on('join-game-room', (data) => {
+        socket.join(data.gameId);
+    });
+
+    //DURATION EVENTS **************************************************************************************************
+
     //event that puts player in queue
-    socket.on('find-game', async (data) => {
+    socket.on('duration-find-game', async (data) => {
         //if there isnt someone in queue - put player in queue
         if (waiting.size === 0) {
             waiting.set(socket.id, { username: data.username, socketId: socket.id });
@@ -143,7 +153,7 @@ io.on('connection', (socket) => {
         }
     });
 
-    socket.on('challenge-friend-by-link', async (data) => {
+    socket.on('duration-challenge-friend-by-link', async (data) => {
         const links = await getLinksFromPage(data.settings.startingPage);
         const linksSet = new Set(links);
         const imgdescr = await getImgDescr(data.settings.startingPage);
@@ -162,7 +172,7 @@ io.on('connection', (socket) => {
         console.log(games);
     });
 
-    socket.on('accept-challenge-by-link', (data) => {
+    socket.on('duration-accept-challenge-by-link', (data) => {
         if (games.has(data.gameId) && games.get(data.gameId).users.length == 1) {
             const game = games.get(data.gameId);
             game.users.push({ username: data.username, socketId: socket.id });
@@ -201,7 +211,7 @@ io.on('connection', (socket) => {
         }
     });
 
-    socket.on('ready-up', (data) => {
+    socket.on('duration-ready-up', (data) => {
 
         const game = games.get(data.gameId);
         
@@ -218,17 +228,12 @@ io.on('connection', (socket) => {
 
     });
 
-    //join / leave room events
-    socket.on('join-game-room', (data) => {
-        socket.join(data.gameId);
-    });
-
     //make this on disconnect?
-    socket.on('leave-game-room', (data) => {
+    socket.on('duration-leave-game-room', (data) => {
         games.delete(data.gameId);
     });
 
-    socket.on('stop-search', (data) => {
+    socket.on('duration-stop-search', (data) => {
         waiting.delete(data.socketId);
     });
 
@@ -264,7 +269,19 @@ io.on('connection', (socket) => {
     });
 
     //RACE EVENTS **************************************************************************************************
+    socket.on('race-find-game', async (data) => {
 
+    });
+
+    socket.on('race-find-game', async (data) => {
+
+    });
+
+
+    socket.on('race-find-game', async (data) => {
+
+    });
+ 
 
 });
 

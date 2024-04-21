@@ -32,7 +32,7 @@ function DurationGameFound({ gameId, username }) {
     }, [])
 
     function handleReadyClick(e) {
-        socket.emit('ready-up', { gameId, username });
+        socket.emit('duration-ready-up', { gameId, username });
         e.target.disabled = true;
         setReady(true);
     }

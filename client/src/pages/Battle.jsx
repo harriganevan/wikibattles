@@ -12,19 +12,22 @@ function Battle() {
     const navigate = useNavigate();
 
     let { gameMode, gameIdFromLink } = useParams();
-    console.log(gameMode, gameIdFromLink)
 
     const [pageState, setPageState] = useState('home');
-    const [settings, setSettings] = useState({}); //used for challenge by link
+    const [durationSettings, setDurationSettings] = useState({});
+    const [raceSettings, setRaceSettings] = useState({});
 
     useEffect(() => {
 
         socket.disconnect();
 
-        if(gameMode == 'duration' && gameIdFromLink){
+        if (gameMode == 'duration' && gameIdFromLink) {
             setPageState('duration-searchingWithLink');
         }
-        if((gameMode != 'duration' && gameMode != 'race') || gameIdFromLink === undefined){
+        if (gameMode == 'race' && gameIdFromLink) {
+            setPageState('race-searchingWithLink');
+        }
+        if ((gameMode != 'duration' && gameMode != 'race') || gameIdFromLink === undefined) { //bad urls
             navigate("/battle");
         }
 
@@ -36,9 +39,14 @@ function Battle() {
         <div className='page'>
             <div className='battle-container flex-fill'>
                 {pageState === 'home' && <BattleHome setPageState={setPageState} />}
-                {pageState === 'duration-searching' && <DurationSearching setPageState={setPageState} gameIdFromLink={gameIdFromLink} />}
-                {pageState === 'duration-settings' && <DurationChallengeSettings setPageState={setPageState} setSettings={setSettings} />}
-                {pageState === 'duration-searchingWithLink' && <DurationSearchingWithLink setPageState={setPageState} gameIdFromLink={gameIdFromLink} settings={settings} />}
+
+                {pageState === 'duration-searching' && <DurationSearching setPageState={setPageState} />}
+                {pageState === 'duration-settings' && <DurationChallengeSettings setPageState={setPageState} setSettings={setDurationSettings} />}
+                {pageState === 'duration-searchingWithLink' && <DurationSearchingWithLink setPageState={setPageState} gameIdFromLink={gameIdFromLink} settings={durationSettings} />}
+
+                {pageState === 'race-searching' && <RaceSearching setPageState={setPageState} />}
+                {pageState === 'race-settings' && <DurationChallengeSettings setPageState={setPageState} setSettings={setRaceSettings} />}
+                {pageState === 'race-searchingWithLink' && <DurationSearchingWithLink setPageState={setPageState} gameIdFromLink={gameIdFromLink} settings={raceSettings} />}
             </div>
         </div>
     )

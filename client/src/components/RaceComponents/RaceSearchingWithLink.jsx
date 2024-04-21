@@ -1,12 +1,12 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { uniqueNamesGenerator, adjectives, animals } from 'unique-names-generator';
 import { v4 as uuidv4 } from 'uuid';
 import { useNavigate } from "react-router-dom";
 import socket from '../../socket';
-import DurationBoard from './DurationBoard';
-import DurationGameFound from './DurationGameFound';
+import RaceBoard from './RaceBoard';
+import RaceGameFound from './RaceGameFound';
 
-function DurationSearchingWithLink({ setPageState, gameIdFromLink, settings }) {
+function RaceSearchingWithLink({ setPageState, gameIdFromLink, settings }) {
 
     const [loading, setLoading] = useState(false);
 
@@ -31,9 +31,9 @@ function DurationSearchingWithLink({ setPageState, gameIdFromLink, settings }) {
         if (gameIdFromLink) {
             setLoading(true);
             setGameId(gameIdFromLink);
-            socket.emit('duration-accept-challenge-by-link', { username, gameId: gameIdFromLink });
+            socket.emit('race-accept-challenge-by-link', { username, gameId: gameIdFromLink });
         } else {
-            socket.emit('duration-challenge-friend-by-link', { username, gameId, settings });
+            socket.emit('race-challenge-friend-by-link', { username, gameId, settings });
         }
 
         function onInitiateGame(data) {
@@ -65,18 +65,18 @@ function DurationSearchingWithLink({ setPageState, gameIdFromLink, settings }) {
     }, []);
 
     const handleClickBack = () => {
-        socket.emit('duration-leave-game-room', { gameId });
+        socket.emit('race-leave-game-room', { gameId });
         setPageState('home');
     }
 
     const handleCopyClick = () => {
-        navigator.clipboard.writeText(`${import.meta.env.VITE_ORIGIN}/battle/duration/${gameId}`);
+        navigator.clipboard.writeText(`${import.meta.env.VITE_ORIGIN}/battle/race/${gameId}`);
         setCopied(true);
     }
 
     return (
         <>
-            {gameState ? ( ready ? <DurationBoard gameStartState={gameState} username={username} /> : <DurationGameFound gameId={gameId} username={username} />) : (
+            {gameState ? ( ready ? <RaceBoard gameStartState={gameState} username={username} /> : <RaceGameFound gameId={gameId} username={username} />) : (
                 !loading ?
                     <div className='searching-container'>
                         <div className='waiting'>
@@ -99,4 +99,4 @@ function DurationSearchingWithLink({ setPageState, gameIdFromLink, settings }) {
     )
 }
 
-export default DurationSearchingWithLink
+export default RaceSearchingWithLink

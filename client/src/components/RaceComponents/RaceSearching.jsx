@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react';
-import { uniqueNamesGenerator, adjectives, animals } from 'unique-names-generator';
 import socket from '../../socket';
-import DurationBoard from './DurationBoard';
-import DurationGameFound from './DurationGameFound';
+import { uniqueNamesGenerator, adjectives, animals } from 'unique-names-generator';
+import RaceBoard from './RaceBoard';
+import RaceGameFound from './RaceGameFound';
 
-function DurationSearching({ setPageState }) {
+function RaceSearching({ setPageState }) {
 
     const [username, setUsername] = useState(uniqueNamesGenerator({
         dictionaries: [adjectives, animals],
@@ -20,7 +20,7 @@ function DurationSearching({ setPageState }) {
 
     useEffect(() => {
 
-        socket.emit('duration-find-game', { username });
+        socket.emit('race-find-game', { username });
 
         function onInitiateGame(data) {
             setGameState(data);
@@ -44,13 +44,13 @@ function DurationSearching({ setPageState }) {
     }, []);
 
     const handleClickBack = () => {
-        socket.emit('duration-stop-search', { socketId: socket.id });
+        socket.emit('race-stop-search', { socketId: socket.id });
         setPageState('home');
     }
 
     return (
         <>
-            {gameState ? ( ready ? <DurationBoard gameStartState={gameState} username={username} /> : <DurationGameFound gameId={gameId} username={username} />) : (
+            {gameState ? ( ready ? <RaceBoard gameStartState={gameState} username={username} /> : <RaceGameFound gameId={gameId} username={username} />) : (
                 <div className='searching-container'>
                     <div className='waiting'>
                         <p className='waiting-text'>searching...</p>
@@ -65,4 +65,4 @@ function DurationSearching({ setPageState }) {
     )
 }
 
-export default DurationSearching
+export default RaceSearching
