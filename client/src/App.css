@@ -38,6 +38,7 @@
   flex-grow: 1;
 }
 
+.home-container,
 .battle-container {
   display: flex;
   flex-direction: column;
@@ -45,6 +46,13 @@
   gap: 1rem;
   width: 650px;
   max-height: calc(100vh - 59.1875px);
+}
+
+.race-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
 }
 
 .time-per-turn {
@@ -217,7 +225,7 @@
   margin-block-end: 0;
 }
 
-.daily-you-win{
+.daily-you-win {
   padding-top: .5rem;
   padding-bottom: 1rem;
 }
@@ -261,7 +269,7 @@
   margin-bottom: 1rem;
 }
 
-.board-header {
+.duration-board-header {
   display: flex;
   align-items: center;
   width: 100%;
@@ -272,9 +280,22 @@
   box-shadow: 1px 2px 8px 0px #000000;
 }
 
-.board-header p,
-.board-header h2 {
+.race-board-header p,
+.race-board-header h2,
+.duration-board-header p,
+.duration-board-header h2 {
   margin-block-end: 0;
+}
+
+.race-board-header {
+  display: flex;
+  align-items: center;
+  width: 650px;
+  justify-content: space-between;
+  margin-top: 1rem;
+  padding: .7rem;
+  border: 2px solid black;
+  box-shadow: 1px 2px 8px 0px #000000;
 }
 
 .battle-home-buttons {
@@ -328,7 +349,7 @@
   margin-bottom: 0;
 }
 
-.board-header h2 {
+.duration-board-header h2 {
   color: #dc3545;
 }
 
@@ -434,7 +455,7 @@
   margin-top: 1rem
 }
 
-.battle-home-buttons-container{
+.battle-home-buttons-container {
   margin: auto;
   display: flex;
   gap: 5rem;
@@ -444,12 +465,15 @@
 ::-webkit-scrollbar {
   width: 10px;
 }
+
 ::-webkit-scrollbar-track {
   background: #f1f1f1;
 }
+
 ::-webkit-scrollbar-thumb {
   background: #555555;
 }
+
 ::-webkit-scrollbar-thumb:hover {
   background: #000000;
 }
@@ -462,7 +486,8 @@
 }
 
 @media screen and (max-width: 650px) {
-  .battle-container {
+  .race-board-header,
+  .duration-battle-container {
     width: 100%;
   }
 

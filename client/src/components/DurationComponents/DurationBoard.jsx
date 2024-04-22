@@ -28,7 +28,6 @@ function DurationBoard({ gameStartState, username }) {
         }
 
         function onUpdateGame(data) {
-            //reset countdown timer
             setCountdown(gameStartState.secondsPerTurn);
             setStartedTime(Date.now() + (gameStartState.secondsPerTurn * 1000));
             setGameState(data.gameState);
@@ -67,11 +66,16 @@ function DurationBoard({ gameStartState, username }) {
                 tempTime = 0;
             }
             setCountdown(tempTime);
+            console.log('oopa')
         }, 200);
+
+        if(gameOver){
+            clearInterval(interval)
+        }
 
         return () => clearInterval(interval);
 
-    }, [countdown]);
+    }, [countdown, gameOver]);
 
     const makeGuess = async (result) => {
         socket.emit('submit-page', {
@@ -97,7 +101,7 @@ function DurationBoard({ gameStartState, username }) {
 
     return (
         <>
-            <div className='board-header'>
+            <div className='duration-board-header'>
                 <p className={'player-name-left' + (!gameOver && gameState.playerTurn == 1 ? ' bold' : '') + (gameOver && gameState.playerTurn !== 1 ? ' winner' : '')}>
                     {Object.values(gameState.playersData).find(obj => obj.playerNumber == 1).username}
                     {gameState.playersData[playerName].playerNumber == 1 && ' (you)'}

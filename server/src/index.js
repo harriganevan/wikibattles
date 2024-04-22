@@ -316,6 +316,7 @@ io.on('connection', (socket) => {
                 startingPage: shuffled[0],
                 endingPage: shuffled[1],
                 gameId: gameId,
+                users: [data.username, secondPlayer.username]
             });
 
             const raceTimerId = setTimeout(() => {
@@ -353,7 +354,7 @@ io.on('connection', (socket) => {
     });
 
     socket.on('page-found', (data) => {
-
+        io.to(data.gameId).emit('game-over', {winner: data.username});
     });
 
 });

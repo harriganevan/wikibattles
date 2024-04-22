@@ -62,28 +62,26 @@ function Daily() {
         }
     }
 
-    function startTimer(startTime) {
-        if (!timerId) {
-            setTimerId(
-                setInterval(() => {
-                    let tempTime = Math.floor((Date.now() - startTime) / 1000);
-                    setTimer(tempTime);
-                }, 200)
-            );
-        }
-    }
-
     useEffect(() => {
         socket.disconnect();
+
         getPages();
+
         var myModal = new bootstrap.Modal(modal.current, {});
         myModal.show();
+
+        let timerIdCreate;
         modal.current.addEventListener('hidden.bs.modal', () => {
-            startTimer(Date.now());
+            const startTime = Date.now();
+            timerIdCreate = setInterval(() => {
+                setTimer(Math.floor((Date.now() - startTime) / 1000));
+            }, 200);
+
+            setTimerId(timerIdCreate);
         })
         
         return () => {
-            clearInterval(timerId);
+            clearInterval(timerIdCreate);
         };
 
     }, []);
