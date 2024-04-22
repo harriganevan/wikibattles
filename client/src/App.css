@@ -39,7 +39,7 @@
 }
 
 .home-container,
-.battle-container {
+.duration-container {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -53,6 +53,7 @@
   flex-direction: column;
   align-items: center;
   width: 100%;
+  gap: 1rem;
 }
 
 .time-per-turn {
@@ -213,9 +214,19 @@
   text-decoration: inherit;
 }
 
+.race-win-stats,
+.race-route p,
+.race-container,
+.race-board-header p,
+.race-board-header h2,
+.duration-board-header p,
+.duration-board-header h2,
+.race-over h2,
 .header-email-info p,
 .daily-you-win,
+.race-end-route p,
 .daily-route p,
+.page-title,
 .starting-page-title,
 .settings-title,
 .copied,
@@ -278,13 +289,6 @@
   padding: .7rem;
   border: 2px solid black;
   box-shadow: 1px 2px 8px 0px #000000;
-}
-
-.race-board-header p,
-.race-board-header h2,
-.duration-board-header p,
-.duration-board-header h2 {
-  margin-block-end: 0;
 }
 
 .race-board-header {
@@ -428,6 +432,7 @@
   text-shadow: 0 0 32px #e5ff00;
 }
 
+.race-end-route,
 .daily-route {
   display: flex;
   flex-direction: column;
@@ -461,6 +466,24 @@
   gap: 5rem;
 }
 
+.race-over {
+  padding: .5rem;
+  width: 500px;
+  border: 2px solid black;
+  border-radius: 50px;
+}
+
+.race-route-wrapper {
+  width: 80%;
+}
+.race-route {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  max-height: 20vh;
+  overflow: auto;
+}
+
 /* search scrollbar */
 ::-webkit-scrollbar {
   width: 10px;
@@ -487,7 +510,7 @@
 
 @media screen and (max-width: 650px) {
   .race-board-header,
-  .duration-battle-container {
+  .duration-container {
     width: 100%;
   }
 
@@ -513,5 +536,9 @@
   .daily-help {
     top: 0;
     right: 0;
+  }
+
+  .race-over {
+    width: 100%;
   }
 }

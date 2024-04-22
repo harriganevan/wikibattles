@@ -70,12 +70,14 @@ function RaceChallengeSettings({ setPageState, setSettings }) {
             <h2 className="settings-title">BATTLE SETTINGS <img src={settingsGear} className="battle-settings-svg" /></h2>
 
             <div>
-                <p className="starting-page-title">Starting page: <span className="blue">{startingPage}</span></p>
+                <p className="page-title">Starting page: <span className="blue">{startingPage}</span></p>
                 <input onChange={handleStartSearchChange} onFocus={() => setPageStatus('start')} value={searchStart} placeholder="search for page" />
             </div>
 
-            <p className="starting-page-title">Ending page: <span className="blue">{endingPage}</span></p>
-            <input onChange={handleEndSearchChange} onFocus={() => setPageStatus('end')} value={searchEnd} placeholder="search for page" />
+            <div>
+                <p className="page-title">Ending page: <span className="blue">{endingPage}</span></p>
+                <input onChange={handleEndSearchChange} onFocus={() => setPageStatus('end')} value={searchEnd} placeholder="search for page" />
+            </div>
 
             <div className="search-menu flex-fill">
                 {searchResults.length !== 0 ? (

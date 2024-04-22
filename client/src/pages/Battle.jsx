@@ -40,7 +40,7 @@ function Battle() {
 
     return (
         <div className='page'>
-            <div className={(pageState.startsWith('duration') ? 'battle-container ' : '') + (pageState.startsWith('race') ? 'race-container ' : '') + (pageState === 'home' ? 'home-container ' : '') + 'flex-fill'}>
+            <div className={(pageState.startsWith('duration') ? 'duration-container ' : '') + (pageState.startsWith('race') ? 'race-container ' : '') + (pageState === 'home' ? 'home-container ' : '') + 'flex-fill'}>
                 {pageState === 'home' && <BattleHome setPageState={setPageState} />}
 
                 {pageState === 'duration-searching' && <DurationSearching setPageState={setPageState} />}

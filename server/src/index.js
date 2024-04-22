@@ -83,6 +83,9 @@ const io = new Server(server, {
 //{gameId: {users, currentPage, timePerTurn, linksSet, timerId}}
 const games = new Map();
 
+//placeholder - may use this
+const raceGames = new Map();
+
 //NEED SOMETHING FOR RACE LINK WAITING
 const raceLinkWaiting = new Map();
 
@@ -371,7 +374,7 @@ io.on('connection', (socket) => {
     });
 
     socket.on('race-leave-game-room', async (data) => {
-
+        raceLinkWaiting.delete(data.gameId);
     });
 
     socket.on('race-stop-search', async (data) => {

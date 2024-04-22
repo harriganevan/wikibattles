@@ -15,9 +15,11 @@ function RaceBoard({ gameState, username }) {
 
     const [route, setRoute] = useState([gameState.startingPage]);
 
-    const [loading, setLoading] = useState(false); //used for placeholders
+    const [loading, setLoading] = useState(false);
 
     const [timer, setTimer] = useState(0);
+
+    const [winner, setWinner] = useState(null);
 
     const getPage = async (page) => {
         setLoading(true);
@@ -50,10 +52,10 @@ function RaceBoard({ gameState, username }) {
         timerIdCreate = setInterval(() => {
             setTimer(Math.floor((Date.now() - startTime) / 1000));
         }, 200);
-        // setTimerId(timerIdCreate);
 
         function onGameOver(data) {
             setGameOver(true);
+            setWinner(data.winner);
             clearInterval(timerIdCreate);
             console.log('game over');
         }
@@ -83,7 +85,7 @@ function RaceBoard({ gameState, username }) {
     function handlePageClick(e) {
         e.preventDefault();
 
-        if (e.target.parentElement.href && e.target.parentElement.href.startsWith(`${import.meta.env.VITE_ORIGIN}/battle#`)) {
+        if (e.target.parentElement.href && e.target.parentElement.href.startsWith(`${import.meta.env.VITE_ORIGIN}/race#`)) {
             const indexOfHash = e.target.parentElement.href.indexOf('#');
             const newHref = e.target.parentElement.href.substring(indexOfHash);
             const element = document.querySelector(newHref);
@@ -115,16 +117,20 @@ function RaceBoard({ gameState, username }) {
 
             <h2>{startPage} &rarr; {endPage}</h2>
 
-            <p className="route-text">Route:&nbsp;</p>
-            <div className="route">
-                {route.map((page, i) =>
-                    <p key={page + i}>{page} {i != route.length - 1 && <>&rarr;</>}</p>
-                )}
-            </div>
+            {!gameOver ?
+                <div className='race-route-wrapper'>
+                    <p className="route-text">Route:&nbsp;</p>
+                    <div className="race-route">
+                        {route.map((page, i) =>
+                            <p key={page + i}>{page} {i != route.length - 1 && <>&rarr;</>}</p>
+                        )}
+                    </div>
+                </div>
+                : null}
 
-            {!gameOver ? <button onClick={handleBackClick} type="button" className="btn btn-dark daily-back-btn">&larr; go back a page</button> : null}
+            {!gameOver ? <button onClick={handleBackClick} type="button" className="btn btn-dark">&larr; go back a page</button> : null}
 
-            {!gameOver ? (
+            {!gameOver ?
                 !loading ?
                     <div className="wiki-wrapper">
                         <div className="pre-content heading-holder">
@@ -140,10 +146,24 @@ function RaceBoard({ gameState, username }) {
                             <span className="visually-hidden">Loading...</span>
                         </div>
                     </>
-            )
                 :
                 <>
-                    <p>done</p>
+                    <div className='race-over'>
+                        <h2>GAME OVER</h2>
+                    </div>
+                    {winner == username ?
+                        <>
+                            <p className='race-win-stats'>You got from {startPage} to {endPage} in <span className="daily-stat">{timer}</span> seconds, travelling through <span className="daily-stat">{route.length - 1}</span> pages, and following this path:</p>
+                            <div className="race-end-route flex-fill">
+                                {route.map((page, i) =>
+                                    <div key={page + i}>
+                                        <p >{page}</p>
+                                        {i != route.length - 1 && <>&darr;</>}
+                                    </div >
+                                )}
+                            </div>
+                        </> :
+                        <p>You lost . Your oppenent got from {startPage} to {endPage} faster than you could.</p>}
                 </>}
         </>
     )
