@@ -1,7 +1,7 @@
-function SearchResultsSettings({makeGuess, result}) {
+function DurationSearchResultsSettings({setStartingPage, result}) {
 
     return (
-        <li role="option" className="search-result-item" onClick={() => makeGuess(result)}>
+        <li role="option" className="search-result-item" onClick={() => setStartingPage(result.title)}>
             <div className="search-result-content">
                 {result.thumbnail !== null ?
                     <span className="search-result-img" style={{ backgroundImage: 'url(' + result.thumbnail.url + ')' }} />
@@ -21,4 +21,4 @@ function SearchResultsSettings({makeGuess, result}) {
     )
 }
 
-export default SearchResultsSettings
+export default DurationSearchResultsSettings

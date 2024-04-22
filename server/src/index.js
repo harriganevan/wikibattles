@@ -14,23 +14,17 @@ app.use(cors());
 const server = createServer(app);
 
 function shuffle(array) {
-
     let arrayCopy = array;
-
     let currentIndex = arrayCopy.length;
-
     // While there remain elements to shuffle...
     while (currentIndex != 0) {
-
         // Pick a remaining element...
         let randomIndex = Math.floor(Math.random() * currentIndex);
         currentIndex--;
-
         // And swap it with the current element.
         [arrayCopy[currentIndex], arrayCopy[randomIndex]] = [
             arrayCopy[randomIndex], arrayCopy[currentIndex]];
     }
-
     return arrayCopy;
 }
 
@@ -62,11 +56,19 @@ const job = new CronJob(
 //endpoints for daily puzzle
 app.get('/getDailyPages', (req, res) => {
     res.json(weeklyPages[dayOfWeek]);
-})
+});
 
 app.get('/getRandomPage', (req, res) => {
     res.json({ page: randomPages[(Math.floor(Math.random() * randomPages.length))] });
-})
+});
+
+app.get('/getRandomPages', (req, res) => {
+    const shuffled = shuffle(randomPages);
+    res.json({
+        startingPage: shuffled[0],
+        endingPage: shuffled[1]
+    });
+});
 
 //socketio server mounted on nodejs HTTP server
 const io = new Server(server, {
@@ -81,9 +83,12 @@ const io = new Server(server, {
 //{gameId: {users, currentPage, timePerTurn, linksSet, timerId}}
 const games = new Map();
 
+//NEED SOMETHING FOR RACE LINK WAITING
+const raceLinkWaiting = new Map();
+
 //used so i can delete a game if player disconnects
 //map socketId -> gameId
-//*currently only used for when someone waiting for linked player to join disconnects*
+//*currently only used for when someone waiting for linked player to join disconnects and race ready up*
 const playersGame = new Map();
 
 //queue for people searching for games
@@ -98,9 +103,6 @@ const raceReady = new Map();
 //map gameId -> timerId
 const raceReadyTimers = new Map();
 
-//just for viewing rooms
-const rooms = io.of("/").adapter.rooms;
-
 //if a player in a room disconnects
 io.of("/").adapter.on('leave-room', (room, id) => {
     io.to(room).emit('player-left', { id });
@@ -112,7 +114,10 @@ io.on('connection', (socket) => {
         if (games.get(playersGame.get(socket.id)) && games.get(playersGame.get(socket.id)).users.length === 1) {
             games.delete(playersGame.get(socket.id));
         }
-        if(raceReady.has(playersGame.get(socket.id))) {
+        if (raceLinkWaiting.has(playersGame.get(socket.id))){
+            raceLinkWaiting.delete(playersGame.get(socket.id));
+        }
+        if (raceReady.has(playersGame.get(socket.id))) {
             raceReady.delete(playersGame.get(socket.id));
         }
         //if that disconnected user was searching for a game
@@ -327,15 +332,32 @@ io.on('connection', (socket) => {
     });
 
     socket.on('race-challenge-friend-by-link', async (data) => {
-
+        raceLinkWaiting.set(data.gameId, {
+            startingPage: data.settings.startingPage,
+            endingPage: data.settings.endingPage,
+            socketId: socket.id,
+            username: data.username
+        });
+        playersGame.set(socket.id, data.gameId);
     });
 
     socket.on('race-accept-challenge-by-link', async (data) => {
-
+        if (raceLinkWaiting.has(data.gameId)) {
+            io.to(raceLinkWaiting.get(data.gameId).socketId).to(socket.id).emit('initiate-game', {
+                startingPage: raceLinkWaiting.get(data.gameId).startingPage,
+                endingPage: raceLinkWaiting.get(data.gameId).endingPage,
+                gameId: data.gameId,
+                users: [data.username, raceLinkWaiting.get(data.gameId).username]
+            });
+            raceLinkWaiting.delete(data.gameId);
+        }
+        else {
+            io.to(socket.id).emit('game-not-found');
+        }
     });
 
     socket.on('race-ready-up', async (data) => {
-        if(raceReady.has(data.gameId)){
+        if (raceReady.has(data.gameId)) {
             clearTimeout(raceReadyTimers.get(data.gameId));
             io.to(data.gameId).emit('ready');
             raceReady.delete(data.gameId);
@@ -343,10 +365,13 @@ io.on('connection', (socket) => {
             raceReady.set(data.gameId, data.username);
             playersGame.set(socket.id, data.gameId);
         }
+        console.log(raceLinkWaiting);
+        console.log(raceReady);
+        console.log(raceWaiting);
     });
 
     socket.on('race-leave-game-room', async (data) => {
-        
+
     });
 
     socket.on('race-stop-search', async (data) => {
@@ -354,7 +379,7 @@ io.on('connection', (socket) => {
     });
 
     socket.on('page-found', (data) => {
-        io.to(data.gameId).emit('game-over', {winner: data.username});
+        io.to(data.gameId).emit('game-over', { winner: data.username });
     });
 
 });

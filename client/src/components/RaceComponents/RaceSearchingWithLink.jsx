@@ -38,7 +38,9 @@ function RaceSearchingWithLink({ setPageState, gameIdFromLink, settings }) {
 
         function onInitiateGame(data) {
             setLoading(false);
+            console.log(data)
             setGameState(data);
+            socket.emit('join-game-room', { gameId: data.gameId });
         }
 
         function onGameNotFound() {
@@ -47,7 +49,6 @@ function RaceSearchingWithLink({ setPageState, gameIdFromLink, settings }) {
         }
 
         function onReady(data) {
-            socket.emit('join-game-room', { gameId: data.gameId });
             console.log('game ready');
             setReady(true);
         }
@@ -76,7 +77,7 @@ function RaceSearchingWithLink({ setPageState, gameIdFromLink, settings }) {
 
     return (
         <>
-            {gameState ? ( ready ? <RaceBoard gameStartState={gameState} username={username} /> : <RaceGameFound gameId={gameId} username={username} />) : (
+            {gameState ? ( ready ? <RaceBoard gameState={gameState} username={username} /> : <RaceGameFound gameId={gameId} username={username} />) : (
                 !loading ?
                     <div className='searching-container'>
                         <div className='waiting'>

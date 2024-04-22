@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { useEffect } from 'react';
 import socket from '../../socket';
-import SearchResultBoard from '../SearchResultBoard';
 import RaceEndPage from './RaceEndPage';
 
 function RaceBoard({ gameState, username }) {
@@ -19,9 +18,6 @@ function RaceBoard({ gameState, username }) {
     const [loading, setLoading] = useState(false); //used for placeholders
 
     const [timer, setTimer] = useState(0);
-    const [timerId, setTimerId] = useState(null);
-
-    const startTime = Date.now();
 
     const getPage = async (page) => {
         setLoading(true);
@@ -54,7 +50,7 @@ function RaceBoard({ gameState, username }) {
         timerIdCreate = setInterval(() => {
             setTimer(Math.floor((Date.now() - startTime) / 1000));
         }, 200);
-        setTimerId(timerIdCreate);
+        // setTimerId(timerIdCreate);
 
         function onGameOver(data) {
             setGameOver(true);

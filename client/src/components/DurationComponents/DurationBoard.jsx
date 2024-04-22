@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useEffect } from 'react';
 import socket from '../../socket';
-import SearchResultBoard from '../SearchResultBoard';
+import DurationSearchResultBoard from './DurationSearchResultBoard';
 import DurationEndPage from './DurationEndPage';
 
 function DurationBoard({ gameStartState, username }) {
@@ -66,7 +66,6 @@ function DurationBoard({ gameStartState, username }) {
                 tempTime = 0;
             }
             setCountdown(tempTime);
-            console.log('oopa')
         }, 200);
 
         if(gameOver){
@@ -133,9 +132,8 @@ function DurationBoard({ gameStartState, username }) {
                             {searchResults.length !== 0 ?
                                 <div className="search-menu flex-fill">
                                     <ul role="listbox" className="search-result-container">
-                                        {/* if result.title is current page then exclude it */}
                                         {searchResults.filter((result) => result.title != decodeURIComponent(currentPage)).map(result =>
-                                            <SearchResultBoard makeGuess={makeGuess} result={result} key={result.key} />
+                                            <DurationSearchResultBoard makeGuess={makeGuess} result={result} key={result.key} />
                                         )}
                                     </ul>
                                 </div>

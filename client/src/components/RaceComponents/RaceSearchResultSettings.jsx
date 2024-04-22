@@ -1,7 +1,7 @@
-function SearchResultsSettings({setStartingPage, result}) {
+function RaceSearchResultSettings({onSearchResultClick, result}) {
 
     return (
-        <li role="option" className="search-result-item" onClick={() => setStartingPage(result.title)}>
+        <li role="option" className="search-result-item" onClick={() => onSearchResultClick(result.title)}>
             <div className="search-result-content">
                 {result.thumbnail !== null ?
                     <span className="search-result-img" style={{ backgroundImage: 'url(' + result.thumbnail.url + ')' }} />
@@ -21,4 +21,4 @@ function SearchResultsSettings({setStartingPage, result}) {
     )
 }
 
-export default SearchResultsSettings
+export default RaceSearchResultSettings

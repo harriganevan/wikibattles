@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import SearchResultSettings from "../SearchResultSettings";
+import DurationSearchResultSettings from "./DurationSearchResultSettings";
 import settingsGear from '../../assets/settings-gears.svg';
 
 function DurationChallengeSettings({ setPageState, setSettings }) {
@@ -63,7 +63,7 @@ function DurationChallengeSettings({ setPageState, setSettings }) {
                 {searchResults.length !== 0 ? (
                     <ul role="listbox" className="search-result-container">
                         {searchResults.map(result =>
-                            <SearchResultSettings setStartingPage={setStartingPage} result={result} key={result.key} />
+                            <DurationSearchResultSettings setStartingPage={setStartingPage} result={result} key={result.key} />
                         )}
                     </ul>
                 )
