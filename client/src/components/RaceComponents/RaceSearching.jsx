@@ -25,7 +25,6 @@ function RaceSearching({ setPageState }) {
         function onInitiateGame(data) {
             setGameState(data);
             setGameId(data.gameId);
-            console.log(data)
             socket.emit('join-game-room', { gameId: data.gameId });
         }
 

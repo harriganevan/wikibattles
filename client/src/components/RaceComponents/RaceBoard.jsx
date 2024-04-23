@@ -109,9 +109,9 @@ function RaceBoard({ gameState, username }) {
     return (
         <>
             <div className='race-board-header'>
-                <p className='player-name-left bold'>{username} (you)</p>
+                <p className={'player-name-left' + (username == winner ? ' winner' : '')}>{username} (you)</p>
                 <h2>{timer}</h2>
-                <p className='player-name-right'>{gameState.users[0] == username ? gameState.users[1] : gameState.users[0]}</p>
+                <p className={'player-name-right' + ((gameState.users[0] == username ? gameState.users[1] : gameState.users[0]) == winner ? ' winner' : '')}>{gameState.users[0] == username ? gameState.users[1] : gameState.users[0]}</p>
             </div>
 
             <h2>{startPage} &rarr; {endPage}</h2>
@@ -152,7 +152,7 @@ function RaceBoard({ gameState, username }) {
                     </div>
                     {winner == username ?
                         <>
-                            <p className='race-win-stats'>You got from {startPage} to {endPage} in <span className="daily-stat">{timer}</span> seconds, travelling through <span className="daily-stat">{route.length - 1}</span> pages, and following this path:</p>
+                            <p className='race-win-stats'>You win! You got from {startPage} to {endPage} in <span className="daily-stat">{timer}</span> seconds, travelling through <span className="daily-stat">{route.length - 1}</span> pages, and following this path:</p>
                             <div className="race-end-route flex-fill">
                                 {route.map((page, i) =>
                                     <div key={page + i}>

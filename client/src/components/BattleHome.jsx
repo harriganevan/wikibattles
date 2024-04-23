@@ -6,13 +6,13 @@ function BattleHome({ setPageState }) {
 
             <div className="battle-home-buttons-container">
                 <div className="battle-home-buttons">
-                    <p>Duration</p>
+                    <h4>Duration</h4>
                     <button onClick={() => setPageState('duration-searching')} type="button" className="btn btn-dark home-button">FIND GAME</button>
                     <button onClick={() => setPageState('duration-settings')} type="button" className="btn btn-dark home-button">CHALLENGE A FRIEND</button>
                 </div>
 
                 <div className="battle-home-buttons">
-                    <p>Race</p>
+                    <h4>Race</h4>
                     <button onClick={() => setPageState('race-searching')} type="button" className="btn btn-dark home-button">FIND GAME</button>
                     <button onClick={() => setPageState('race-settings')} type="button" className="btn btn-dark home-button">CHALLENGE A FRIEND</button>
                 </div>

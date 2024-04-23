@@ -53,21 +53,21 @@ const job = new CronJob(
     'America/New_York' // timeZone
 );
 
-const job2 = new CronJob(
-    '0 * * * * *', // tick every day at midnight
-    async function () {
-        console.log(games);
-        console.log(raceLinkWaiting);
-        console.log(playersGame);
-        console.log(durationWaiting);
-        console.log(raceReadyTimers);
-        console.log(raceReady);
-        console.log(rooms);
-    }, // onTick
-    null, // onComplete
-    true, // start
-    'America/New_York' // timeZone
-);
+// const job2 = new CronJob(
+//     '0 * * * * *', // tick every day at midnight
+//     async function () {
+//         console.log(games);
+//         console.log(raceLinkWaiting);
+//         console.log(playersGame);
+//         console.log(durationWaiting);
+//         console.log(raceReadyTimers);
+//         console.log(raceReady);
+//         console.log(rooms);
+//     }, // onTick
+//     null, // onComplete
+//     true, // start
+//     'America/New_York' // timeZone
+// );
 
 //endpoints for daily puzzle
 app.get('/getDailyPages', (req, res) => {

@@ -52,7 +52,7 @@ function Header() {
                         <div className="modal-body">
                             <p>WikiBattles is a site to test your general knowledge.</p>
                             <p>Complete the Daily Puzzle or Battle an opponent.</p>
-                            <p>More features will be coming soon including a new Battle mode and user accounts to track your stats!</p>
+                            <p>More features will be coming soon including UI improvements and user accounts to track your stats!</p>
                             <div className="header-email-info">
                                 <p>Questions, comments, bug reports? </p>
                                 <p>Email: wikibattlesapp@gmail.com</p>
