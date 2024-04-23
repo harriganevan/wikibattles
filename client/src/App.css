@@ -534,10 +534,6 @@
   .battle-home-buttons-container {
     gap: .25rem;
   }
-
-  .home-button {
-    width: 190px;
-  }
 }
 
 @media screen and (max-width: 600px) {
