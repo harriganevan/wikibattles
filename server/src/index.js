@@ -53,6 +53,22 @@ const job = new CronJob(
     'America/New_York' // timeZone
 );
 
+const job2 = new CronJob(
+    '0 * * * * *', // tick every day at midnight
+    async function () {
+        console.log(games);
+        console.log(raceLinkWaiting);
+        console.log(playersGame);
+        console.log(durationWaiting);
+        console.log(raceReadyTimers);
+        console.log(raceReady);
+        console.log(rooms);
+    }, // onTick
+    null, // onComplete
+    true, // start
+    'America/New_York' // timeZone
+);
+
 //endpoints for daily puzzle
 app.get('/getDailyPages', (req, res) => {
     res.json(weeklyPages[dayOfWeek]);
@@ -78,6 +94,8 @@ const io = new Server(server, {
     }
 });
 
+const rooms = io.of("/").adapter.rooms;
+
 //games holds a game state meant for the backend
 
 //{gameId: {users, currentPage, timePerTurn, linksSet, timerId}}
@@ -92,6 +110,7 @@ const raceLinkWaiting = new Map();
 //used so i can delete a game if player disconnects
 //map socketId -> gameId
 //*currently only used for when someone waiting for linked player to join disconnects and race ready up*
+//is used in race ready up because there is no backend gamestate to auto start/delete game state with timer
 const playersGame = new Map();
 
 //queue for people searching for games
@@ -188,8 +207,6 @@ io.on('connection', (socket) => {
                     games.delete(gameId);
                 }, games.get(gameId).timePerTurn * 1000);
             }, 30000);
-
-            console.log(games);
         }
     });
 
@@ -208,8 +225,6 @@ io.on('connection', (socket) => {
             readyTimerId: null
         });
         playersGame.set(socket.id, data.gameId);
-
-        console.log(games);
     });
 
     socket.on('duration-accept-challenge-by-link', (data) => {
@@ -329,6 +344,7 @@ io.on('connection', (socket) => {
 
             const raceTimerId = setTimeout(() => {
                 io.to(gameId).emit('ready');
+                raceReadyTimers.delete(gameId);
             }, 30000);
             raceReadyTimers.set(gameId, raceTimerId);
         }
@@ -353,6 +369,12 @@ io.on('connection', (socket) => {
                 users: [data.username, raceLinkWaiting.get(data.gameId).username]
             });
             raceLinkWaiting.delete(data.gameId);
+
+            const raceTimerId = setTimeout(() => {
+                io.to(data.gameId).emit('ready');
+                raceReadyTimers.delete(data.gameId);
+            }, 30000);
+            raceReadyTimers.set(data.gameId, raceTimerId);
         }
         else {
             io.to(socket.id).emit('game-not-found');
@@ -364,13 +386,11 @@ io.on('connection', (socket) => {
             clearTimeout(raceReadyTimers.get(data.gameId));
             io.to(data.gameId).emit('ready');
             raceReady.delete(data.gameId);
+            raceReadyTimers.delete(data.gameId);
         } else {
             raceReady.set(data.gameId, data.username);
             playersGame.set(socket.id, data.gameId);
         }
-        console.log(raceLinkWaiting);
-        console.log(raceReady);
-        console.log(raceWaiting);
     });
 
     socket.on('race-leave-game-room', async (data) => {
