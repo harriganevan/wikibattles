@@ -55,7 +55,7 @@ function DurationChallengeSettings({ setPageState, setSettings }) {
                 <input type="range" min="5" max="90" value={timePerTurn} onChange={handleSliderChange} />
             </div>
 
-            <p className="starting-page-title">Starting page: {startingPage}</p>
+            <p className="starting-page-title">Starting page: <span className="blue">{startingPage}</span></p>
 
             <input onChange={handleSearchChange} value={search} placeholder="search for page" />
 
@@ -74,6 +74,8 @@ function DurationChallengeSettings({ setPageState, setSettings }) {
                     <button onClick={onContinueClick} type="button" className="btn btn-dark battle-button">CONTINUE &rarr;</button>
                 </div>
             </div>
+
+            <div className="footer"></div>
         </>
     )
 }
