@@ -1,3 +1,6 @@
+import checkeredFlag from '../assets/checkered-flag.svg';
+import timer from '../assets/timer.svg';
+
 function BattleHome({ setPageState }) {
 
     return (
@@ -6,19 +9,18 @@ function BattleHome({ setPageState }) {
 
             <div className="battle-home-buttons-container">
                 <div className="battle-home-buttons">
-                    <h4>Duration</h4>
-                    <button onClick={() => setPageState('duration-searching')} type="button" className="btn btn-dark home-button">FIND GAME</button>
-                    <button onClick={() => setPageState('duration-settings')} type="button" className="btn btn-dark home-button">CHALLENGE A FRIEND</button>
-                    <button type="button" className="btn btn-primary game-mode-btn" data-bs-toggle="modal" data-bs-target="#DurationModal">
-                        How To Play
-                    </button>
-                </div>
-
-                <div className="battle-home-buttons">
-                    <h4>Race</h4>
+                    <h4>Race <img src={checkeredFlag} className="checkered-flag-svg" /></h4>
                     <button onClick={() => setPageState('race-searching')} type="button" className="btn btn-dark home-button">FIND GAME</button>
                     <button onClick={() => setPageState('race-settings')} type="button" className="btn btn-dark home-button">CHALLENGE A FRIEND</button>
                     <button type="button" className="btn btn-primary game-mode-btn" data-bs-toggle="modal" data-bs-target="#RaceModal">
+                        How To Play
+                    </button>
+                </div>
+                <div className="battle-home-buttons">
+                    <h4>Duration <img src={timer} className="timer-svg" /></h4>
+                    <button onClick={() => setPageState('duration-searching')} type="button" className="btn btn-dark home-button">FIND GAME</button>
+                    <button onClick={() => setPageState('duration-settings')} type="button" className="btn btn-dark home-button">CHALLENGE A FRIEND</button>
+                    <button type="button" className="btn btn-primary game-mode-btn" data-bs-toggle="modal" data-bs-target="#DurationModal">
                         How To Play
                     </button>
                 </div>

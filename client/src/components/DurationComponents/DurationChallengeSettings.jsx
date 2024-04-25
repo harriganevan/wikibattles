@@ -51,7 +51,7 @@ function DurationChallengeSettings({ setPageState, setSettings }) {
             <h2 className="settings-title">BATTLE SETTINGS <img src={settingsGear} className="battle-settings-svg" /></h2>
 
             <div className="time-per-turn">
-                <p className="time-per-turn-text">Time per turn: {timePerTurn} seconds</p>
+                <p className="time-per-turn-text">Time per turn: <span className="time-per-turn-number">{timePerTurn}</span> seconds</p>
                 <input type="range" min="5" max="90" value={timePerTurn} onChange={handleSliderChange} />
             </div>
 

@@ -364,6 +364,11 @@
   color: #dc3545;
 }
 
+.time-per-turn-number {
+  display: inline;
+  color: #dc3545;
+}
+
 .header-help {
   border-radius: 50%;
   border: 0;
@@ -382,6 +387,11 @@
 
 .battle-settings-svg {
   width: 35px;
+}
+
+.timer-svg,
+.checkered-flag-svg {
+  width: 30px;
 }
 
 .searching-container {
