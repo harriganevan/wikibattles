@@ -281,7 +281,7 @@ io.on('connection', (socket) => {
     //game events
     socket.on('submit-page', async (data) => {
         const gameState = data.gameState;
-        if (games.get(data.gameState.gameId).linksSet.has(data.guess.title) && !gameState.connectedPages.includes(data.guess.title)) {
+        if (games.has(data.gameState.gameId) && games.get(data.gameState.gameId).linksSet.has(data.guess.title) && !gameState.connectedPages.includes(data.guess.title)) {
 
             //clear timer
             clearTimeout(games.get(data.gameState.gameId).timerId);
