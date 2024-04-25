@@ -17,7 +17,7 @@ function RaceBoard({ gameState, username }) {
 
     const [loading, setLoading] = useState(false);
 
-    const [timer, setTimer] = useState(0);
+    const [time, setTime] = useState("00:00");
 
     const [winner, setWinner] = useState(null);
 
@@ -50,7 +50,9 @@ function RaceBoard({ gameState, username }) {
         let timerIdCreate;
         const startTime = Date.now();
         timerIdCreate = setInterval(() => {
-            setTimer(Math.floor((Date.now() - startTime) / 1000));
+            let currentTime = Math.floor((Date.now() - startTime));
+            console.log('oopie')
+            setTime(Math.floor((currentTime / 1000 / 60) % 60).toString().padStart(2, "0")+":"+Math.floor((currentTime / 1000) % 60).toString().padStart(2, "0"));
         }, 200);
 
         function onGameOver(data) {
@@ -110,7 +112,7 @@ function RaceBoard({ gameState, username }) {
         <>
             <div className='race-board-header'>
                 <p className={'player-name-left' + (username == winner ? ' winner' : '')}>{username} (you)</p>
-                <h2>{timer}</h2>
+                <h2>{time}</h2>
                 <p className={'player-name-right' + ((gameState.users[0] == username ? gameState.users[1] : gameState.users[0]) == winner ? ' winner' : '')}>{gameState.users[0] == username ? gameState.users[1] : gameState.users[0]}</p>
             </div>
 
@@ -152,7 +154,7 @@ function RaceBoard({ gameState, username }) {
                     </div>
                     {winner == username ?
                         <>
-                            <p className='race-win-stats'>You win! You got from {startPage} to {endPage} in <span className="daily-stat">{timer}</span> seconds, travelling through <span className="daily-stat">{route.length - 1}</span> pages, and following this path:</p>
+                            <p className='race-win-stats'>You win! You got from {startPage} to {endPage} in <span className="daily-stat">{time}</span>, travelling through <span className="daily-stat">{route.length - 1}</span> pages, and following this path:</p>
                             <div className="race-end-route flex-fill">
                                 {route.map((page, i) =>
                                     <div key={page + i}>

@@ -38,7 +38,6 @@ function RaceSearchingWithLink({ setPageState, gameIdFromLink, settings }) {
 
         function onInitiateGame(data) {
             setLoading(false);
-            console.log(data)
             setGameState(data);
             socket.emit('join-game-room', { gameId: data.gameId });
         }

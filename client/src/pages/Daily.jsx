@@ -13,7 +13,7 @@ function Daily() {
     const [startPage, setStartPage] = useState('');
     const [endPage, setEndPage] = useState('');
 
-    const [timer, setTimer] = useState(0);
+    const [time, setTime] = useState("00:00");
     const [timerId, setTimerId] = useState(null);
 
     const [route, setRoute] = useState([]);
@@ -62,6 +62,8 @@ function Daily() {
         }
     }
 
+
+
     useEffect(() => {
         socket.disconnect();
 
@@ -74,7 +76,9 @@ function Daily() {
         modal.current.addEventListener('hidden.bs.modal', () => {
             const startTime = Date.now();
             timerIdCreate = setInterval(() => {
-                setTimer(Math.floor((Date.now() - startTime) / 1000));
+                let currentTime = Math.floor((Date.now() - startTime));
+                console.log('oopie')
+                setTime(Math.floor((currentTime / 1000 / 60) % 60).toString().padStart(2, "0")+":"+Math.floor((currentTime / 1000) % 60).toString().padStart(2, "0"));
             }, 200);
 
             setTimerId(timerIdCreate);
@@ -128,7 +132,7 @@ function Daily() {
             {!gameOver &&
                 <>
                     <div className="daily-stats">
-                        <h2>{timer} seconds</h2>
+                        <h2>{time}</h2>
                     </div>
                     <p className="route-text">Route:&nbsp;</p>
                     <div className="route">
@@ -160,7 +164,7 @@ function Daily() {
             )
                 :
                 <>
-                    <DailyWinBlock route={route} timer={timer} startPage={startPage} endPage={endPage} />
+                    <DailyWinBlock route={route} timer={time} startPage={startPage} endPage={endPage} />
                 </>}
 
             <div ref={modal} className="modal fade" id="exampleModal" tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
