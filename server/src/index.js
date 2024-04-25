@@ -53,6 +53,8 @@ const job = new CronJob(
     'America/New_York' // timeZone
 );
 
+//daily pages could just pick 2 random pages from randomPages.js
+
 //endpoints for daily puzzle
 app.get('/getDailyPages', (req, res) => {
     res.json(weeklyPages[dayOfWeek]);

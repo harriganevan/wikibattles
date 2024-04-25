@@ -518,6 +518,10 @@
     flex-direction: column;
   }
 
+  .search-menu {
+    padding-bottom: 200px;
+  }
+
 }
 
 @media screen and (max-width: 650px) {
