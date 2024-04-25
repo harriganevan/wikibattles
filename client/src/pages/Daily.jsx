@@ -77,7 +77,6 @@ function Daily() {
             const startTime = Date.now();
             timerIdCreate = setInterval(() => {
                 let currentTime = Math.floor((Date.now() - startTime));
-                console.log('oopie')
                 setTime(Math.floor((currentTime / 1000 / 60) % 60).toString().padStart(2, "0")+":"+Math.floor((currentTime / 1000) % 60).toString().padStart(2, "0"));
             }, 200);
 
