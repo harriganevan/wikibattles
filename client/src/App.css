@@ -47,6 +47,7 @@
   gap: 1rem;
   width: 650px;
   max-height: calc(100vh - 59.1875px);
+  max-height: calc(100dvh - 59.1875px);
 }
 
 .race-container {
@@ -56,6 +57,7 @@
   width: 100%;
   gap: 1rem;
   max-height: calc(100vh - 59.1875px);
+  max-height: calc(100dvh - 59.1875px);
 }
 
 .time-per-turn {
@@ -519,9 +521,9 @@
     flex-direction: column;
   }
 
-  .search-menu {
+  /* .search-menu {
     padding-bottom: 200px;
-  }
+  } */
 
 }
 
