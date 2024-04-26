@@ -23,6 +23,7 @@ function RaceBoard({ gameState, username }) {
     const [winner, setWinner] = useState(null);
 
     const [opponentsRoute, setOpponentsRoute] = useState(null);
+    const [opponentsRouteView, setOpponentsRouteView] = useState(false);
 
     const getPage = async (page) => {
         setLoading(true);
@@ -56,7 +57,7 @@ function RaceBoard({ gameState, username }) {
         const startTime = Date.now();
         timerIdCreate = setInterval(() => {
             let currentTime = Math.floor((Date.now() - startTime));
-            setTime(Math.floor((currentTime / 1000 / 60) % 60).toString().padStart(2, "0")+":"+Math.floor((currentTime / 1000) % 60).toString().padStart(2, "0"));
+            setTime(Math.floor((currentTime / 1000 / 60) % 60).toString().padStart(2, "0") + ":" + Math.floor((currentTime / 1000) % 60).toString().padStart(2, "0"));
         }, 200);
 
         function onGameOver(data) {
@@ -64,7 +65,7 @@ function RaceBoard({ gameState, username }) {
             setWinner(data.winner);
             clearInterval(timerIdCreate);
             console.log('game over');
-            socket.emit('send-route', {gameId: gameState.gameId, route: routeRef.current});
+            socket.emit('send-route', { gameId: gameState.gameId, route: routeRef.current });
         }
 
         function onPlayerLeft() {
@@ -120,6 +121,10 @@ function RaceBoard({ gameState, username }) {
         }
     }
 
+    function handleRouteToggle() {
+        setOpponentsRouteView(!opponentsRouteView);
+    }
+
     return (
         <>
             <div className='race-board-header'>
@@ -164,19 +169,35 @@ function RaceBoard({ gameState, username }) {
                     <div className='race-over'>
                         <h2>GAME OVER</h2>
                     </div>
+
                     {winner == username ?
-                        <>
-                            <p className='race-win-stats'>You win! You got from {startPage} to {endPage} in <span className="daily-stat">{time}</span>, travelling through <span className="daily-stat">{route.length - 1}</span> pages, and following this path:</p>
-                            <div className="race-end-route flex-fill">
-                                {route.map((page, i) =>
-                                    <div key={page + i}>
-                                        <p >{page}</p>
-                                        {i != route.length - 1 && <>&darr;</>}
-                                    </div >
-                                )}
-                            </div>
-                        </> :
-                        <p>You lost . Your oppenent got from {startPage} to {endPage} faster than you could.</p>}
+                        <p className='race-win-stats'>You win! You got from {startPage} to {endPage} in <span className="daily-stat">{time}</span>, travelling through <span className="daily-stat">{route.length - 1}</span> pages.</p>
+                        :
+                        <p>You lost . Your oppenent got from {startPage} to {endPage} faster than you could.</p>
+                    }
+
+                    <div className="form-check form-switch toggle-container">
+                        <label className="form-check-label opponent-route-toggle" htmlFor="flexSwitchCheckDefault">opponent route</label>
+                        <input className="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault" onChange={handleRouteToggle} />
+                        <label className="form-check-label your-route-toggle" htmlFor="flexSwitchCheckDefault">your route</label>
+                    </div>
+
+                    <div className="race-end-route flex-fill">
+                        {opponentsRouteView ?
+                            (route.map((page, i) =>
+                                <div key={page + i}>
+                                    <p >{page}</p>
+                                    {i != route.length - 1 && <>&darr;</>}
+                                </div >
+                            )) :
+                            (opponentsRoute !== null ? (opponentsRoute.map((page, i) =>
+                                <div key={page + i}>
+                                    <p >{page}</p>
+                                    {i != opponentsRoute.length - 1 && <>&darr;</>}
+                                </div >
+                            )) : <p>opponent left before game over</p>)
+                        }
+                    </div>
                 </>}
         </>
     )

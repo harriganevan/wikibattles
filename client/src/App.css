@@ -493,6 +493,7 @@
 .race-route-wrapper {
   width: 80%;
 }
+
 .race-route {
   display: flex;
   flex-wrap: wrap;
@@ -507,6 +508,31 @@
 
 .footer {
   height: 5vh;
+}
+
+.toggle-container {
+  display: flex;
+  gap: 1rem;
+  width: 300px;
+}
+
+.form-check-input {
+  margin-left: 0 !important;
+}
+
+.form-switch,
+.form-check {
+  padding-left: 0 !important;
+}
+
+.opponent-route-toggle {
+  text-align: right;
+  flex: 1 1;
+}
+
+.your-route-toggle {
+  text-align: left;
+  flex: 1 1;
 }
 
 /* search scrollbar */
@@ -538,6 +564,7 @@
 }
 
 @media screen and (max-width: 650px) {
+
   .home-container,
   .race-board-header,
   .duration-container {
