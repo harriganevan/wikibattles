@@ -50,6 +50,10 @@
   max-height: calc(100dvh - 59.1875px);
 }
 
+.duration-container {
+  padding-bottom: 5vh;
+}
+
 .race-container {
   display: flex;
   flex-direction: column;
