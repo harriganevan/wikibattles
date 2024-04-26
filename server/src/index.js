@@ -122,7 +122,7 @@ io.on('connection', (socket) => {
         if (games.get(playersGame.get(socket.id)) && games.get(playersGame.get(socket.id)).users.length === 1) {
             games.delete(playersGame.get(socket.id));
         }
-        if (raceLinkWaiting.has(playersGame.get(socket.id))){
+        if (raceLinkWaiting.has(playersGame.get(socket.id))) {
             raceLinkWaiting.delete(playersGame.get(socket.id));
         }
         if (raceReady.has(playersGame.get(socket.id))) {
@@ -389,7 +389,12 @@ io.on('connection', (socket) => {
 
     socket.on('page-found', (data) => {
         io.to(data.gameId).emit('game-over', { winner: data.username });
+        //do some get opponents routes?
     });
+
+    socket.on('send-route', (data) => {
+        socket.to(data.gameId).emit('receive-route', { route: data.route });
+    })
 
 });
 

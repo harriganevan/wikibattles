@@ -3,30 +3,22 @@ import socket from '../../socket';
 
 function RaceGameFound({ gameId, username }) {
 
-    const startTime = Date.now() + 30000;
     const [timer, setTimer] = useState(30);
-    const [timerId, setTimerId] = useState(null);
-
     const [ready, setReady] = useState(false);
 
-    function startTimer() {
-        if (!timerId) {
-            setTimerId(
-                setInterval(() => {
-                    let tempTime = Math.floor((startTime - Date.now()) / 1000);
-                    if(tempTime >= 0) {
-                        setTimer(tempTime);
-                    }
-                }, 200)
-            );
-        }
-    }
-
     useEffect(() => {
-        startTimer();
+
+        const startedTime = Date.now() + 30000;
+        const interval = setInterval(() => {
+            let tempTime = Math.floor((startedTime - Date.now()) / 1000);
+            if (tempTime < 0) {
+                tempTime = 0;
+            }
+            setTimer(tempTime);
+        }, 200)
 
         return () => {
-            clearInterval(timerId);
+            clearInterval(interval);
         };
 
     }, [])

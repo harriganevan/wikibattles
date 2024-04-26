@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { useEffect } from 'react';
 import socket from '../../socket';
 import RaceEndPage from './RaceEndPage';
@@ -14,12 +14,15 @@ function RaceBoard({ gameState, username }) {
     const [pageContent, setPageContent] = useState('');
 
     const [route, setRoute] = useState([gameState.startingPage]);
+    const routeRef = useRef([gameState.startingPage]);
 
     const [loading, setLoading] = useState(false);
 
     const [time, setTime] = useState("00:00");
 
     const [winner, setWinner] = useState(null);
+
+    const [opponentsRoute, setOpponentsRoute] = useState(null);
 
     const getPage = async (page) => {
         setLoading(true);
@@ -29,6 +32,7 @@ function RaceBoard({ gameState, username }) {
             setPageContent(searchResults.parse.text['*']);
             setPageTitle(page);
             setRoute([...route, page]);
+            routeRef.current.push(page);
         }
         setLoading(false);
     }
@@ -43,6 +47,7 @@ function RaceBoard({ gameState, username }) {
         }
         setLoading(false);
     }
+
     useEffect(() => {
 
         getBackPage(startPage);
@@ -59,18 +64,25 @@ function RaceBoard({ gameState, username }) {
             setWinner(data.winner);
             clearInterval(timerIdCreate);
             console.log('game over');
+            socket.emit('send-route', {gameId: gameState.gameId, route: routeRef.current});
         }
 
         function onPlayerLeft() {
             console.log('player left');
         }
 
+        function onReceiveRoute(data) {
+            setOpponentsRoute(data.route);
+        }
+
         socket.on('game-over', onGameOver);
         socket.on('player-left', onPlayerLeft);
+        socket.on('receive-route', onReceiveRoute);
 
         return () => {
             socket.off('game-over', onGameOver);
             socket.off('player-left', onPlayerLeft);
+            socket.off('receive-route', onReceiveRoute);
             clearInterval(timerIdCreate);
         };
 
@@ -95,7 +107,8 @@ function RaceBoard({ gameState, username }) {
         if (e.target.title) {
             if (e.target.title == endPage) {
                 socket.emit('page-found', { gameId: gameState.gameId, username: username });
-                setRoute([...route, e.target.title]);
+                setRoute([...route, e.target.title]); //whats the point
+                routeRef.current.push(e.target.title);
             } else {
                 getPage(e.target.title);
             }
