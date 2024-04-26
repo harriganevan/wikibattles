@@ -177,13 +177,16 @@ function RaceBoard({ gameState, username }) {
                     }
 
                     <div className="form-check form-switch toggle-container">
-                        <label className="form-check-label opponent-route-toggle" htmlFor="flexSwitchCheckDefault">opponent route</label>
-                        <input className="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault" onChange={handleRouteToggle} />
-                        <label className="form-check-label your-route-toggle" htmlFor="flexSwitchCheckDefault">your route</label>
+                        <p className="opponent-route-toggle">Your route</p>
+                        <label className="switch">
+                            <input defaultChecked={false} type="checkbox" onChange={handleRouteToggle} />
+                            <span className="slider round"></span>
+                        </label>
+                        <p className="your-route-toggle">Opponent route</p>
                     </div>
 
                     <div className="race-end-route flex-fill">
-                        {opponentsRouteView ?
+                        {!opponentsRouteView ?
                             (route.map((page, i) =>
                                 <div key={page + i}>
                                     <p >{page}</p>
