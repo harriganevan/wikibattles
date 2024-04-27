@@ -389,7 +389,6 @@ io.on('connection', (socket) => {
 
     socket.on('page-found', (data) => {
         io.to(data.gameId).emit('game-over', { winner: data.username });
-        //do some get opponents routes?
     });
 
     socket.on('send-route', (data) => {
