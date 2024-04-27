@@ -466,7 +466,7 @@ sup.reference {
     max-width: 100% !important;
 }
 
-.mw-parser-output .tmulti .trow {
+.wiki-wrapper .mw-parser-output .tmulti .trow {
     display: flex;
     flex-direction: row;
     clear: left;
@@ -475,7 +475,7 @@ sup.reference {
     box-sizing: border-box;
 }
 
-.mw-parser-output .tmulti .thumbcaption {
+.wiki-wrapper .mw-parser-output .tmulti .thumbcaption {
     background-color: transparent;
 }
 
@@ -487,6 +487,29 @@ sup.reference {
     line-height: 1.5;
     padding: 0 !important;
     color: #54595d;
+}
+
+.wiki-wrapper .wikitable {
+    background-color: #f8f9fa;
+    color: #202122;
+    margin: 1em 0;
+    border: 1px solid #a2a9b1;
+    border-collapse: collapse;
+}
+
+.wiki-wrapper .wikitable>tr>th,
+.wiki-wrapper .wikitable>*>tr>th {
+    background-color: #eaecf0;
+    color: #202122;
+    text-align: center;
+}
+
+.wiki-wrapper .wikitable>tr>th,
+.wiki-wrapper .wikitable>tr>td,
+.wiki-wrapper .wikitable>*>tr>th,
+.wiki-wrapper .wikitable>*>tr>td {
+    border: 1px solid #a2a9b1;
+    padding: 0.2em 0.4em;
 }
 
 @media screen and (min-width: 720px) {
@@ -559,6 +582,7 @@ sup.reference {
     .wiki-wrapper .content figure[typeof~="mw:File/Thumb"] {
         max-width: 704px;
     }
+    
 }
 
 @media screen and (min-width: 1000px) {
@@ -578,5 +602,21 @@ sup.reference {
         margin-right: auto;
         width: 90%;
         max-width: 993.3px;
+    }
+}
+
+@media (max-width: 720px) {
+    .wiki-wrapper .content table.wikitable {
+        border: 0;
+    }
+    .wiki-wrapper body.skin--responsive .wikitable {
+        float: none;
+        margin-left: 0;
+        margin-right: 0;
+    }
+    .wiki-wrapper .content table {
+        display: block;
+        width: 100% !important;
+        box-sizing: border-box;
     }
 }
