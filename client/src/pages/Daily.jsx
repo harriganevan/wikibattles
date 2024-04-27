@@ -3,7 +3,6 @@ import { useEffect } from "react"
 import { useState } from "react"
 import { useRef } from "react"
 import DailyWinBlock from "../components/DailyWinBlock";
-import '../wiki.css';
 
 function Daily() {
 
