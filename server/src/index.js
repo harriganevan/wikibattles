@@ -81,10 +81,7 @@ const io = new Server(server, {
     }
 });
 
-const rooms = io.of("/").adapter.rooms;
-
 //games holds a game state meant for the backend
-
 //{gameId: {users, currentPage, timePerTurn, linksSet, timerId}}
 const games = new Map();
 
