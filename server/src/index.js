@@ -8,6 +8,7 @@ const { randomPages } = require('./randomPages.js');
 const { CronJob } = require('cron');
 const { v4: uuidv4 } = require('uuid');
 require('dotenv').config();
+const fs = require('node:fs');
 
 const app = express();
 app.use(cors());
@@ -16,48 +17,48 @@ const server = createServer(app);
 function shuffle(array) {
     let arrayCopy = array;
     let currentIndex = arrayCopy.length;
-    // While there remain elements to shuffle...
     while (currentIndex != 0) {
-        // Pick a remaining element...
         let randomIndex = Math.floor(Math.random() * currentIndex);
         currentIndex--;
-        // And swap it with the current element.
         [arrayCopy[currentIndex], arrayCopy[randomIndex]] = [
             arrayCopy[randomIndex], arrayCopy[currentIndex]];
     }
     return arrayCopy;
 }
 
-const weeklyPages = [
-    { startPage: 'Fishing', endPage: 'Air pollution' }, //sunday
-    { startPage: 'YouTube', endPage: 'DNA' }, //monday
-    { startPage: 'Molecule', endPage: 'Butterfly' }, //tuesday
-    { startPage: 'International Science Council', endPage: 'Star Wars' }, //wednesday
-    { startPage: 'Airport', endPage: 'France' }, //thursday
-    { startPage: 'William Shakespeare', endPage: 'Electricity' }, //friday
-    { startPage: 'Rock music', endPage: 'Mathematics' }, //saturday
-]
+const dailyPages = { startPage: 'YouTube', endPage: 'DNA' }
 
-//set day of week (0 = sunday, ..., 6 = saturday) when server starts/restarts
-let dayOfWeek = new Date().getDay().toLocaleString("en-US", { timeZone: 'America/New_York' });
+fs.readFile('./src/daily.txt', 'utf8', (err, data) => {
+    if (err) {
+        console.error(err);
+        return;
+    }
+    dailyPages.startPage = data.substring(0, data.indexOf(','));
+    dailyPages.endPage = data.substring(data.indexOf(',') + 1);
+});
 
-//CronJob for executing funtion at midnight
-const job = new CronJob(
+const job2 = new CronJob(
     '0 0 0 * * *', // tick every day at midnight
     async function () {
-        dayOfWeek++;
-        dayOfWeek = (dayOfWeek % 7);
+        const newShuffle = shuffle(randomPages);
+        dailyPages.startPage = newShuffle[0];
+        dailyPages.endPage = newShuffle[1];
+        fs.writeFile('./src/daily.txt', newShuffle[0]+','+newShuffle[1], err => {
+            if (err) {
+                console.error(err);
+            } else {
+                console.log('new dailys written to file successfuly');
+            }
+        });
     }, // onTick
     null, // onComplete
     true, // start
     'America/New_York' // timeZone
 );
 
-//daily pages could just pick 2 random pages from randomPages.js
-
 //endpoints for daily puzzle
 app.get('/getDailyPages', (req, res) => {
-    res.json(weeklyPages[dayOfWeek]);
+    res.json(dailyPages);
 });
 
 app.get('/getRandomPage', (req, res) => {
@@ -86,9 +87,6 @@ const rooms = io.of("/").adapter.rooms;
 
 //{gameId: {users, currentPage, timePerTurn, linksSet, timerId}}
 const games = new Map();
-
-//placeholder - may use this
-const raceGames = new Map();
 
 //NEED SOMETHING FOR RACE LINK WAITING
 const raceLinkWaiting = new Map();

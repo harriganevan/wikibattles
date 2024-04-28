@@ -512,6 +512,35 @@ sup.reference {
     padding: 0.2em 0.4em;
 }
 
+.wiki-wrapper .content .center {
+    width: 100%;
+    text-align: center;
+}
+
+.wiki-wrapper ul.gallery.gallery.gallery {
+    margin: 2px;
+    padding: 2px;
+    display: block;
+}
+
+.wiki-wrapper li.gallerycaption {
+    font-weight: bold;
+    text-align: center;
+    display: block;
+    word-wrap: break-word;
+}
+
+.wiki-wrapper li.gallerybox {
+    vertical-align: top;
+    display: inline-block;
+}
+
+.wiki-wrapper .content .center>*,
+.wiki-wrapper .content .center .thumb {
+    margin-left: auto;
+    margin-right: auto;
+}
+
 @media screen and (min-width: 720px) {
 
     .wiki-wrapper #mw-content-text>form,
@@ -582,7 +611,7 @@ sup.reference {
     .wiki-wrapper .content figure[typeof~="mw:File/Thumb"] {
         max-width: 704px;
     }
-    
+
 }
 
 @media screen and (min-width: 1000px) {
@@ -609,11 +638,13 @@ sup.reference {
     .wiki-wrapper .content table.wikitable {
         border: 0;
     }
+
     .wiki-wrapper body.skin--responsive .wikitable {
         float: none;
         margin-left: 0;
         margin-right: 0;
     }
+
     .wiki-wrapper .content table {
         display: block;
         width: 100% !important;
