@@ -86,7 +86,6 @@
   width: 100%;
   align-items: center;
   overflow-x: hidden;
-  padding-bottom: 5vh;
 }
 
 .search-result-container {
@@ -621,13 +620,6 @@ input:checked+.slider:before {
   .home-buttons {
     flex-direction: column;
   }
-  
-  .search-menu,
-  .race-container,
-  .duration-container {
-    padding-bottom: 2vh;
-  }
-
 }
 
 @media screen and (max-width: 650px) {

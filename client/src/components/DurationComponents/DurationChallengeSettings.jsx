@@ -74,8 +74,6 @@ function DurationChallengeSettings({ setPageState, setSettings }) {
                     <button onClick={onContinueClick} type="button" className="btn btn-dark battle-button">CONTINUE &rarr;</button>
                 </div>
             </div>
-
-            <div className="footer"></div>
         </>
     )
 }
