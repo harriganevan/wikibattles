@@ -541,6 +541,16 @@ sup.reference {
     margin-right: auto;
 }
 
+.wiki-wrapper .content .mw-parser-output .infobox-header,
+.wiki-wrapper .content .mw-parser-output .infobox-subheader,
+.wiki-wrapper .content .mw-parser-output .infobox-above,
+.wiki-wrapper .content .mw-parser-output .infobox-title,
+.wiki-wrapper .content .mw-parser-output .infobox-image,
+.wiki-wrapper .content .mw-parser-output .infobox-full-data,
+.wiki-wrapper .content .mw-parser-output .infobox-below {
+    text-align: center;
+}
+
 @media screen and (min-width: 720px) {
 
     .wiki-wrapper #mw-content-text>form,

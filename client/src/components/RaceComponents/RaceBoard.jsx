@@ -173,7 +173,7 @@ function RaceBoard({ gameState, username }) {
                     {winner == username ?
                         <p className='race-win-stats'>You win! You got from {startPage} to {endPage} in <span className="daily-stat">{time}</span>, travelling through <span className="daily-stat">{route.length - 1}</span> pages.</p>
                         :
-                        <p>You lost . Your oppenent got from {startPage} to {endPage} faster than you could.</p>
+                        <p>You lost. Your oppenent got from {startPage} to {endPage} faster than you could.</p>
                     }
 
                     <div className="form-check form-switch toggle-container">
