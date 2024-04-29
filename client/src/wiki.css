@@ -551,6 +551,11 @@ sup.reference {
     text-align: center;
 }
 
+.wiki-wrapper .content .noresize {
+    max-width: 100%;
+    overflow-x: auto;
+}
+
 @media screen and (min-width: 720px) {
 
     .wiki-wrapper #mw-content-text>form,
