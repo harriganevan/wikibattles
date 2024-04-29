@@ -28,7 +28,7 @@ function shuffle(array) {
 
 const dailyPages = { startPage: 'YouTube', endPage: 'DNA' }
 
-fs.readFile('./src/daily.txt', 'utf8', (err, data) => {
+fs.readFile(process.env.DAILY_FILE, 'utf8', (err, data) => {
     if (err) {
         console.error(err);
         return;
@@ -43,7 +43,7 @@ const job2 = new CronJob(
         const newShuffle = shuffle(randomPages);
         dailyPages.startPage = newShuffle[0];
         dailyPages.endPage = newShuffle[1];
-        fs.writeFile('./src/daily.txt', newShuffle[0]+','+newShuffle[1], err => {
+        fs.writeFile(process.env.DAILY_FILE, newShuffle[0]+','+newShuffle[1], err => {
             if (err) {
                 console.error(err);
             } else {
