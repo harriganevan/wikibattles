@@ -35,7 +35,6 @@ fs.readFile(process.env.DAILY_FILE, 'utf8', (err, data) => {
     }
     dailyPages.startPage = data.substring(0, data.indexOf(','));
     dailyPages.endPage = data.substring(data.indexOf(',') + 1);
-    console.log(dailyPages)
 });
 
 const job = new CronJob(
