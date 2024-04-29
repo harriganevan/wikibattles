@@ -38,7 +38,7 @@ fs.readFile('./src/daily.txt', 'utf8', (err, data) => {
 });
 
 const job2 = new CronJob(
-    '0 0 0 * * *', // tick every day at midnight
+    '0 * * * * *', // tick every day at midnight
     async function () {
         const newShuffle = shuffle(randomPages);
         dailyPages.startPage = newShuffle[0];
