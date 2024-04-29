@@ -23,6 +23,7 @@
   align-items: center;
   position: relative;
   flex-grow: 1;
+  padding-bottom: 5vh;
 }
 
 .daily-stat {
