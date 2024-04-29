@@ -37,13 +37,13 @@ fs.readFile(process.env.DAILY_FILE, 'utf8', (err, data) => {
     dailyPages.endPage = data.substring(data.indexOf(',') + 1);
 });
 
-const job2 = new CronJob(
+const job = new CronJob(
     '0 0 0 * * *', // tick every day at midnight
     async function () {
         const newShuffle = shuffle(randomPages);
         dailyPages.startPage = newShuffle[0];
         dailyPages.endPage = newShuffle[1];
-        fs.writeFile(process.env.DAILY_FILE, newShuffle[0]+','+newShuffle[1], err => {
+        fs.writeFile(process.env.DAILY_FILE, newShuffle[0] + ',' + newShuffle[1], err => {
             if (err) {
                 console.error(err);
             } else {
