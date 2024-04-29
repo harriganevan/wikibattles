@@ -577,15 +577,15 @@
   transition: .4s;
 }
 
-input:checked + .slider {
+input:checked+.slider {
   background-color: #2196F3;
 }
 
-input:focus + .slider {
+input:focus+.slider {
   box-shadow: 0 0 1px #2196F3;
 }
 
-input:checked + .slider:before {
+input:checked+.slider:before {
   -webkit-transform: translateX(17px);
   -ms-transform: translateX(17px);
   transform: translateX(17px);
@@ -621,6 +621,13 @@ input:checked + .slider:before {
   .home-buttons {
     flex-direction: column;
   }
+  
+  .search-menu,
+  .race-container,
+  .duration-container {
+    padding-bottom: 2vh;
+  }
+
 }
 
 @media screen and (max-width: 650px) {
