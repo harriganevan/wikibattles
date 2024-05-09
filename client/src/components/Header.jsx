@@ -50,8 +50,8 @@ function Header() {
                             <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div className="modal-body">
-                            <p>WikiBattles is a site to test your general knowledge.</p>
-                            <p>Complete the Daily Puzzle or Battle an opponent.</p>
+                            <p>WikiBattles is a site that challenges your general knowledge.</p>
+                            <p>Complete the Daily Puzzle or Battle an opponent in a game mode built around Wikipedia.</p>
                             <p>More features will be coming soon including UI improvements and user accounts to track your stats!</p>
                             <div className="header-email-info">
                                 <p>Questions, comments, bug reports? </p>
